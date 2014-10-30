@@ -1,3 +1,7 @@
+/APP/Runtime
+*.swp
+*.swo
+
 # Object files
 *.o
 *.ko
