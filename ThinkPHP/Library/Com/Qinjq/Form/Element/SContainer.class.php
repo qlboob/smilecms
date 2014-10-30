@@ -137,8 +137,10 @@ class SContainer extends SElement{
 		}
 	}
 	
-	function setAllRender($render) {
-		$this->setRender($render);
-		$this->setChildRender($render);
+	function setAllRender($render,$config) {
+		$this->setRender($render,$config);
+		foreach ($this->element as $v){
+			$v->setRender($render,$config);
+		}
 	}
 }

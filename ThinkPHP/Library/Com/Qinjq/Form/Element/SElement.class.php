@@ -299,6 +299,16 @@ class SElement {
 		return implode(' ', $this->param['preInput']).$ret.implode(' ', $this->param['endInput']);
 	}
 	
+	function getPreLineHtml() {
+		$preLine = $this->param('preLine');
+		return implode(' ', $preLine);
+	}
+	function getEndLineHtml() {
+		$endLine = $this->param('endLine');
+		return implode(' ', $endLine);
+	}
+	
+	
 	
 	
 	
@@ -340,5 +350,18 @@ class SElement {
 			return sprintf('<?php echo %s(isset($%s)?$%s:%s) ?>',$filterFun,$echoVar,$echoVar,$defaultValue);
 		}
 		return sprintf('<?php if(isset($%s))echo %s($%s) ?>',$echoVar,$filterFun,$echoVar);
+	}
+	
+	function setRender($render,$config=array()) {
+		$className = 'Com\Qinjq\Form\Render\S'.ucfirst($render);
+		$render = new $className($config);
+		$render->setElement($this);
+		$this->render = $render;
+	}
+	
+	function render() {
+		if ($this->render) {
+			return (string)$this->render;
+		}
 	}
 }
