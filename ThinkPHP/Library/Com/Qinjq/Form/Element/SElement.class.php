@@ -21,6 +21,9 @@ class SElement {
 	protected $label;
 	
 	
+	protected $labelAttr = array();
+	
+	
 	/**
 	 * weight
 	 * @var integer
@@ -135,9 +138,11 @@ class SElement {
 	 * build attribute
 	 * @return string
 	 */
-	function buildAttr() {
+	function buildAttr($attr=null) {
 		$ret	=	'';
-		$attr	=	$this->attr;
+		if (null==$attr) {
+			$attr	=	$this->attr;
+		}
 		$id		=	$this->getId();
 		$noAttr	=	$this->param('noAttr');
 		if ($noAttr and is_string($noAttr)) {
@@ -216,13 +221,6 @@ class SElement {
 		return NULL;
 	}
 	
-	/**
-	 * get Label
-	 * @return string
-	 */
-	function getLabel() {
-		return $this->label;
-	}
 	
 	/**
 	 * get echo variable
@@ -262,6 +260,17 @@ class SElement {
 		}
 		$left	=	array_diff($attrClass, $cls);
 		$this->attr('class',implode(' ', $left));
+	}
+	function addLabelClass($cls) {
+		$existClass = empty($this->labelAttr['class'])?'':$this->labelAttr['class'];
+		$arrClass = explode(' ', $existClass);
+		$arrAddclass = explode(' ', $cls);
+		foreach ($arrAddclass as $v){
+			if (!in_array($v, $arrClass)) {
+				$arrClass[] = $v;
+			}
+		}
+		$this->labelAttr['class'] = implode(' ', $arrClass);
 	}
 	
 	function renderInput() {
@@ -317,17 +326,8 @@ class SElement {
 	 * @return string|NULL 
 	 */
 	function getLabelHtml() {
-		$label	=	$this->getLabel();
-		if ($label) {
-			$ret	=	'<label';
-			$id		=	$this->getId();
-			if ($id) {
-				$ret	.=	' for="'.$id.'"';
-			}
-			$ret	.=	'>'.$label.'</label>';
-			return $ret;
-		}
-		return NULL;
+		$attrStr = $this->buildAttr($this->labelAttr);
+		return "<label $attrStr>{$this->label}</label>";
 	}
 	
 	/**

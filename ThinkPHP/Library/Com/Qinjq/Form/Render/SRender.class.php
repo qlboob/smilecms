@@ -3,7 +3,16 @@
 namespace Com\Qinjq\Form\Render;
 
 abstract class SRender {
+	
+	
 	protected $element;
+	
+	function __construct($config) {
+		foreach ($config as $k=>$v){
+			$this->$k=$v;
+		}
+	}
+	
 	/**
 	 * 得到渲染后的内容
 	 */
