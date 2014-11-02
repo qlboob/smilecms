@@ -1,6 +1,7 @@
 <?php
 namespace Com\Qinjq\Form\Element;
 use Com\Qinjq\Form\Element\SContainer;
+use Think\Hook;
 class SForm extends SContainer{
 	
 	protected $tag	=	'form';
@@ -29,34 +30,34 @@ class SForm extends SContainer{
 	
 	function __toString(){
 		$formName = $this->attr('name');
-		$eventName = '%s,%s_'.$formName;
 		if ($this->phpCode) {
 			$phpcode	=	$this->phpCode;
 		}else {
-			dispatchEvent(str_replace('%s', 'form_pre_to_string', $eventName), (object)array('form'=>$this));
-			
+			$eventPram = array('form'=>$this);
+			Hook::listen('before_form_render',$eventPram);
 			$phpcode	=	$this->render();
-			dispatchEvent(str_replace('%s', 'form_after_render', $eventName), (object)array('form'=>$this,'phpCode'=>&$phpcode));
-			//设置缓存
-			SS(getFormCacheKey($this->formId),$phpcode);
+			$eventPram['phpCode'] = $phpcode;
+			Hook::listen('after_form_render', $eventPram);
 		}
-		
-		dispatchEvent(str_replace('%s', 'form_pre_to_html', $eventName), (object)array('form'=>$this));
 		$htmlContent	=	$this->toHtml($phpcode);
-		dispatchEvent(str_replace('%s', 'form_after_to_html', $eventName), (object)array('form'=>$this,'content'=>&$htmlContent));
-		
 		return $htmlContent;
 	}
 	
-	static function create($fromId){
+	static function create($formId){
 		$form = new self();
-		self::initForm($form,$formId);
+		$fns = self::configForm($form,$formId);
+		if ($fns) {
+			foreach ($fns as $fn) {
+				list($fnc,$args) = $fn;
+				call_user_func_array(array(&$form,$fnc), $args);
+			}
+		}
 		return $form;
 	}
 
-	private static function initForm($form,$formId,$formIds=array()){
+	private static function configForm($form,$formId,$formIds=array(),$fns= array()){
 		$formIds[] = $formId;
-		$formDbData = D('Form')->find($fromId);
+		$formDbData = D('Form')->find($formId);
 		if ( $formDbData['frm_parent'] ) {
 			//处理父表单的信息
 			$parentIds = sexplode($formDbData['frm_parent']);
@@ -64,18 +65,18 @@ class SForm extends SContainer{
 				if ( in_array($parentId,$formIds) ) {
 					continue;
 				}
-				self::initForm($form,$parentId,$formIds);
+				$fns = self::configForm($form,$parentId,$formIds,$fns);
 			}
 		}
 		#from表上信息
-		if ( $fromDbData['frm_table'] ) {
+		if ( $formDbData['frm_table'] ) {
 			$form->config('table',$formDbData['frm_table']);
 		}
 		if ( $formDbData['frm_attr'] ) {
-			$from->attr(unserialize($formDbData['frm_attr']));
+			$form->attr(unserialize($formDbData['frm_attr']));
 		}
 		if ( $formDbData['frm_param'] ) {
-			$from->param(unserialize($formDbData));
+			$form->param(unserialize($formDbData));
 		}
 
 		#加入字段信息
@@ -98,6 +99,18 @@ class SForm extends SContainer{
 				//TODO 添加验证器
 			}
 		}
+		
+		#加入渲染器
+		$renderData = D('Formrender')->find($formId);
+		if ($renderData) {
+			$renderConfig = array();
+			if ($renderData['fmr_param']) {
+				$renderConfig = unserialize($renderData['fmr_param']);
+			}
+			$fns[] = array('setAllRender',array($renderData['fmr_type'],$renderConfig));
+		}
+		
+		return $fns;
 	}
 	
 	/**

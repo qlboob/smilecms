@@ -1,0 +1,32 @@
+block content
+	.row
+		.col-xs-12
+			.box
+				.box-header
+					h3.box-title 表单列表
+					.box-tools
+						form method=get
+							.input-group.col-xs-4.pull-right
+								input.form-control.input-sm.pull-right name=search placeholder=关键字搜索
+								.input-group-btn
+									button.btn.btn-sm.btn-default
+										i.fa.fa-search
+				.box-body.table-responsive.no-padding
+					table.table.table-hover
+						tr
+							th ID
+							td 名称
+							td 数据表
+							td 父表单
+							td 操作
+						foreach $lists
+							tr
+								td {$v.frm_id}
+								td {$v.frm_title}
+								td {$v.frm_table}
+								td {$v.frm_parent}
+								td
+									a href={:U('Dev/Form/edit',array('id'=>$v['frm_id']))} data-toggle=tooltip title=编辑
+										i.glyphicon.glyphicon-edit
+
+include Layout/html

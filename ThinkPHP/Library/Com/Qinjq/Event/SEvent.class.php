@@ -25,7 +25,7 @@ class SEvent{
 	}
 	private function _call($tag,$params) {
 		$arrSiteIds = getSiteIds();
-		$evts = D('Event')->where(array('sit_id'=>array('in',$arrSiteIds),'evt_state'=>1,'evt_tag'=>$tag))->cache()->select();
+		$evts = D('Event')->where(array('sit_id'=>array('in',$arrSiteIds),'evt_status'=>1,'evt_tag'=>$tag))->cache()->select();
 		if ($evts) {
 			usort($evts, function ($a,$b){
 				if ($a['weight'] == $b['weight']) {

@@ -3,7 +3,8 @@
 namespace Com\Qinjq\Form\Render;
 
 abstract class SRender {
-	
+
+	protected $output = array('','');
 	
 	protected $element;
 	
@@ -23,5 +24,14 @@ abstract class SRender {
 	}
 	function setElement($element) {
 		$this->element = $element;
+	}
+	
+	protected function addOutPut($preStr,$endStr='') {
+		$this->output[0] .= $preStr;
+		$this->output[1] = $endStr.$this->output[1];
+	}
+	
+	protected function output($param) {
+		return implode('', $this->output);
 	}
 }

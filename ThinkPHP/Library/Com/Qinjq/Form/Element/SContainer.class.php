@@ -60,7 +60,7 @@ class SContainer extends SElement{
 		if (!isset($attr['name']) and isset($config['key'])) {
 			$attr['name']	=	$config['key'];
 		}
-		$clsName = 'Com\Qinjq\Form\Element\S'.$type;
+		$clsName = 'Com\Qinjq\Form\Element\S'.ucfirst($type);
 		$obj	=	new $clsName;
 		$obj->config($config);
 		$obj->attr($attr);
@@ -111,8 +111,8 @@ class SContainer extends SElement{
 	function renderChild() {
 		$ret	=	'';
 		usort($this->child, function($a,$b){
-			$aW = $a->weight;
-			$bW = $b->weight;
+			$aW = $a->config('weight');
+			$bW = $b->config('weight');
 			if ($aW==$bW) {
 				return 0;
 			}

@@ -90,7 +90,6 @@ class SElement {
 		//'defaultValue' => 0,
 		//'echoVar'=>'',
 		'filterFun'	=>	'htmlspecialchars',
-		'echoVar'	=>	'',
 		'preInput'	=>	array(),
 		'endInput'	=>	array(),
 		'preLine'	=>	array(),
@@ -142,14 +141,14 @@ class SElement {
 		$ret	=	'';
 		if (null==$attr) {
 			$attr	=	$this->attr;
+			$id		=	$this->getId();
+			if ($id) {
+				$attr['id']	=	$id;
+			}
 		}
-		$id		=	$this->getId();
 		$noAttr	=	$this->param('noAttr');
 		if ($noAttr and is_string($noAttr)) {
 			$noAttr = explode(',', $noAttr);
-		}
-		if ($id) {
-			$attr['id']	=	$id;
 		}
 		foreach ($attr as $key => $value) {
 			if ($key!=='' && $value!==''){
@@ -199,9 +198,13 @@ class SElement {
 	}
 	
 	function config($key,$value=NULL) {
-		if ($value===NULL) {
+		if (is_array($key)) {
+			foreach ($key as $k=>$v){
+				$this->config($k,$v);
+			}
+		}elseif ($value===NULL) {
 			return $this->$key;
-		}{
+		}else{
 			$this->$key = $value;
 		}
 	}
@@ -326,7 +329,12 @@ class SElement {
 	 * @return string|NULL 
 	 */
 	function getLabelHtml() {
-		$attrStr = $this->buildAttr($this->labelAttr);
+		$arrAttr = $this->labelAttr;
+		$id = $this->getId();
+		if ($id and !isset($arrAttr['for'])) {
+			$arrAttr['for'] = $id;
+		}
+		$attrStr = $this->buildAttr($arrAttr);
 		return "<label $attrStr>{$this->label}</label>";
 	}
 	
@@ -340,7 +348,7 @@ class SElement {
 			return $value;
 		}
 		$defaultValue = $this->param('defaultValue');
-		$echoVar = $this->param('echoVar');
+		$echoVar = $this->getEchoVar();
 		$filterFun = $this->param('filterFun');
 		if (NULL !== $defaultValue) {
 			if (substr($defaultValue, 0,1)!='$'){
@@ -352,8 +360,10 @@ class SElement {
 		return sprintf('<?php if(isset($%s))echo %s($%s) ?>',$echoVar,$filterFun,$echoVar);
 	}
 	
+	
+	
 	function setRender($render,$config=array()) {
-		$className = 'Com\Qinjq\Form\Render\S'.ucfirst($render);
+		$className = 'Com\Qinjq\Form\Render\S'.ucfirst($render).'Render';
 		$render = new $className($config);
 		$render->setElement($this);
 		$this->render = $render;
@@ -363,5 +373,11 @@ class SElement {
 		if ($this->render) {
 			return (string)$this->render;
 		}
+	}
+	
+	function addDecorater($type,$config) {
+		$className = 'Com\Qinjq\Form\Decorater\S'.ucfirst($type).'Decorater';
+		$decorater = new $className($config);
+		$decorater->run($this);
 	}
 }
