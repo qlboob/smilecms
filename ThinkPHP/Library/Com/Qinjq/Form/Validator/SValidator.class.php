@@ -1,0 +1,118 @@
+<?php
+
+namespace Com\Qinjq\Form\Validator;
+
+abstract class SValidator{
+	/**
+	 * @var string 错误信息
+	 */
+	protected $msg='';
+	
+	/**
+	 * @var 被验证显示的标题
+	 */
+	protected $title;
+	
+	/**
+	 * @var string 被验证的值
+	 */
+	protected $value;
+	
+	/**
+	 * @var 被验证的所有值
+	 */
+	protected $data;
+	
+	/**
+	 * @var array 参数
+	 */
+	protected $param = array();
+	
+	/**
+	 * 验证的字段
+	 * @var string
+	 */
+	protected $field;
+	
+	/**
+	 * @var bool 存在key才验证
+	 */
+	protected $existValidate = TRUE;
+	
+	/**
+	 * @var bool 空字符串不为空验证
+	 */
+	protected $notEmptyValidate = TRUE;
+	
+	function config($key,$value=NULL) {
+		if (is_array($key)) {
+			foreach ($key as $k => $v) {
+				$this->config($k,$v);
+			}
+		}elseif (NULL===$value){
+			return isset($this->$key)?$this->$key:NULL;
+		}else {
+			$this->$key = $value;
+		}
+	}
+	
+	function param($key,$value=NULL) {
+		if (is_array($key)) {
+			$this->param = array_merge($this->param,$key);
+		}elseif (NULL===$value){
+			return isset($this->param[$key])?$this->param[$key]:NULL;
+		}else {
+			$this->param[$key] = $value;
+		}
+	}
+	
+	/**
+	 * 设置被验证的表单数据
+	 * @param array $data
+	 */
+	function setData(array $data) {
+		isset($data[$this->field]) && $this->value=$data[$this->field];
+		$this->data = $data;
+	}
+	
+	/**
+	 * 外部调用验证
+	 * @return boolean
+	 */
+	function run() {
+		if ($this->existValidate and null===$this->value) {
+			$ret = TRUE;
+		}elseif ($this->notEmptyValidate and ''===$this->value){
+			$ret = TRUE;
+		}else {
+			$ret = $this->validate($this->value,$this->data);
+		}
+		return $ret;
+	}
+	
+	/**
+	 * 验证函数
+	 * @param mixed $value 被验证的值
+	 * @param array $data 表单所有数据
+	 */
+	abstract function validate($value,$data);
+	
+	/**
+	 * 得到错误信息
+	 * @return string
+	 */
+	function getError() {
+		if ($this->msg and FALSE===stripos($this->msg, '{$')) {
+			preg_replace_callback('#\{$(.+?)\}#', array($this,'replace'), $this->msg);
+		}
+		return $this->msg;
+	}
+	
+	function replace($matches) {
+		$key = $matches[1];
+		if (isset($this->$key)) {
+			return $this->$key;
+		}
+		return '';
+	}
+}

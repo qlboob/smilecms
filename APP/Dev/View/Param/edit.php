@@ -113,63 +113,30 @@
 				
 				<section class="content">
 					
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="box">
-				<div class="box-header">
-					<h3 class="box-title">表单列表</h3>
-					<div class="box-tools">
-						<form method="get">
-							<div class="input-group col-xs-4 pull-right">
-								<input class="form-control input-sm pull-right" name="searchStr" placeholder="关键字搜索" value="<?php echo htmlSpecialChars(I('get.searchStr',''));?>" />
-								<div class="input-group-btn">
-									<button class="btn btn-sm btn-default">
-										<i class="fa fa-search"></i>
-									</button>
-								</div>
-							</div>
-						</form>
+	<div class="box box-primary">
+		<div class="box-header">
+			<h3 class="box-title">参数编辑</h3>
+		</div>
+		<div class="box-body">
+			<form class="form-horizontal" method="post">
+				<?php foreach($lists as $k=>$v){?>
+					<div class="form-group">
+						<div class="col-sm-5">
+							<input class="form-control" name="param[key][]" value="<?php echo $k;?>" placeholder="输入参数的key值" />
+						</div>
+						<div class="col-sm-5">
+							<textarea class="form-control" name="param[value][]" placeholder="输入参数的value值"><?php echo $v;?> </textarea>
+						</div>
+					</div>
+				<?php }?>
+				<div class="form-group">
+					<div class="col-sm-offset-4">
+						<button class="btn btn-primary" type="submit">提交</button>
+						<button id="addLine" class="btn" type="button">增加参数
+</button>
 					</div>
 				</div>
-				<div class="box-body table-responsive no-padding">
-					<table class="table table-hover">
-						<tr>
-							<th>ID</th>
-							<td>名称</td>
-							<td>数据表</td>
-							<td>父表单</td>
-							<td>操作</td>
-						</tr>
-						<?php foreach($lists as $k=>$v){?>
-							<tr>
-								<td><?php echo $v["frm_id"];?></td>
-								<td><?php echo $v["frm_title"];?></td>
-								<td><?php echo $v["frm_table"];?></td>
-								<td><?php echo $v["frm_parent"];?></td>
-								<td>
-									<a href="<?php echo U('Dev/Form/edit',array('id'=>$v['frm_id']));?>" data-toggle="tooltip" title="编辑">
-										<i class="glyphicon glyphicon-edit"></i>
-									</a>
-									<a href="<?php echo U('Dev/Param/edit',array('id'=>$v['frm_id'],'table'=>'form'));?>" data-toggle="tooltip" title="参数设置">
-										<i class="glyphicon glyphicon-cog"></i>
-									</a>
-									<a href="<?php echo U('Dev/Form/add',array('frm_id'=>$v['frm_id']));?>" data-toggle="tooltip" title="创建子表单">
-										<i class="glyphicon glyphicon-share"></i>
-									</a>
-									<a href="<?php echo U('Dev/Formfield/index',array('frm_id'=>$v['frm_id']));?>" data-toggle="tooltip" title="字段列表">
-										<i class="glyphicon glyphicon-th-list"></i>
-									</a>
-									<a href="<?php echo U('Dev/Formfield/add',array('frm_id'=>$v['frm_id']));?>" data-toggle="tooltip" title="增加字段">
-										<i class="glyphicon glyphicon-plus-sign">
-
-										</i>
-									</a>
-								</td>
-							</tr>
-						<?php }?>
-					</table>
-				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 

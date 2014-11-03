@@ -53,13 +53,13 @@
 						</div>
 					</div>
 					<ul class="sidebar-menu">
-						<li class="active">
+						<li>
 							<a href="<?php echo U('Dev/Index/index');?>">
 								<i class="fa fa-dashboard"></i>
 								<span>首页</span>
 							</a>
 						</li>
-						<li class="treeview">
+						<li class="treeview active">
 							<a href="#">
 								<i class="fa fa-bar-chart-o"></i>
 								<span>核心</span>

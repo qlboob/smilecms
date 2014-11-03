@@ -37,6 +37,11 @@ class SDivRender extends SRender {
 	protected $labelClass='';
 	
 	/**
+	 * @var string 当label为空时label的类
+	 */
+	protected $emptyLabelClass='';
+	
+	/**
 	 * @var string 包裹input元素的div要增加的类
 	 */
 	protected $inputDivClass='';
@@ -64,7 +69,11 @@ class SDivRender extends SRender {
 			if ('hidden'==$ele->attr('type') or !$tag) {
 				$this->addOutPut($ele->getInputHtml());
 			}else {
-				$ele->addLabelClass($this->labelClass);
+				if ($ele->config('label')) {
+					$ele->addLabelClass($this->labelClass);
+				}else {
+					$ele->addLabelClass($this->emptyLabelClass);
+				}
 				if ('button'==$tag and $this->buttonClass) {
 					$ele->addClass($this->buttonClass);
 				}else {

@@ -1,0 +1,19 @@
+block content
+	.box.box-primary
+		.box-header
+			h3.box-title 参数编辑
+		.box-body
+			form.form-horizontal method=post
+				foreach $lists
+					.form-group
+						.col-sm-5
+							input.form-control name=param[key][] value={$k} placeholder=输入参数的key值
+						.col-sm-5
+							textarea.form-control name=param[value][] placeholder=输入参数的value值 {$v} 
+				.form-group
+					.col-sm-offset-4
+						button.btn.btn-primary type=submit 提交
+						button#addLine.btn type=button 增加参数
+
+include Layout/html
+

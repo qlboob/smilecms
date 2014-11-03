@@ -7,7 +7,7 @@ block content
 					.box-tools
 						form method=get
 							.input-group.col-xs-4.pull-right
-								input.form-control.input-sm.pull-right name=search placeholder=关键字搜索
+								input.form-control.input-sm.pull-right name=searchStr placeholder=关键字搜索 value={:htmlSpecialChars(I('get.searchStr',''))}
 								.input-group-btn
 									button.btn.btn-sm.btn-default
 										i.fa.fa-search
@@ -28,5 +28,13 @@ block content
 								td
 									a href={:U('Dev/Form/edit',array('id'=>$v['frm_id']))} data-toggle=tooltip title=编辑
 										i.glyphicon.glyphicon-edit
+									a href={:U('Dev/Param/edit',array('id'=>$v['frm_id'],'table'=>'form'))} data-toggle=tooltip title=参数设置
+										i.glyphicon.glyphicon-cog
+									a href={:U('Dev/Form/add',array('frm_id'=>$v['frm_id']))} data-toggle=tooltip title=创建子表单
+										i.glyphicon.glyphicon-share
+									a href={:U('Dev/Formfield/index',array('frm_id'=>$v['frm_id']))} data-toggle=tooltip title=字段列表
+										i.glyphicon.glyphicon-th-list
+									a href={:U('Dev/Formfield/add',array('frm_id'=>$v['frm_id']))} data-toggle=tooltip title=增加字段
+										i.glyphicon.glyphicon-plus-sign
 
 include Layout/html

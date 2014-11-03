@@ -108,7 +108,6 @@ class DevController extends Controller {
 			$this->assign('form',(string)$form);
 			$this->display('Default/add');
 		}else{
-			$this->validate ();
 			$table		=	$this->getTable();
 			$firstTable	=	array_shift($table);
 			$firstM	=	$this->_getDao($firstTable);
@@ -123,8 +122,8 @@ class DevController extends Controller {
 						$extendM->add();
 					}
 				}
-				$eventParam = array('id'=>$insertId,'model'=>isset($extendM)?$extendM:$firstM);
-				Hook::listen('after_insert', (object)$eventParam);
+				$eventParam = (object)array('id'=>$insertId,'model'=>isset($extendM)?$extendM:$firstM);
+				Hook::listen('after_insert', $eventParam);
 				$this->_aop('afterInsert',$eventParam);
 			}
 			$this->_aop('ok',$this->succssMsg);
@@ -157,15 +156,14 @@ class DevController extends Controller {
 			$this->assign('form',(string)$form);
 			$this->display('Default/add');
 		}else {
-			$this->validate ();
 			$table		=	$this->getTable();
 			foreach ($table as $tab) {
 				$model	=	$this->_getDao($tab);
 				$model->create();
 				$model->save();
 			}
-			$eventParam	=	array('model'=>$model,'id'=>$_REQUEST[$model->getPk()]);
-			Hook::listen('after_edit_update', (object)$eventParam);
+			$eventParam	=	(object)array('model'=>$model,'id'=>$_REQUEST[$model->getPk()]);
+			Hook::listen('after_edit_update', $eventParam);
 			$this->_aop('afterUpdate',$eventParam);
 			$this->_aop('ok',$this->succssMsg);
 		}
