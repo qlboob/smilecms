@@ -109,10 +109,21 @@ abstract class SValidator{
 	}
 	
 	function replace($matches) {
+		$ret = '';
 		$key = $matches[1];
-		if (isset($this->$key)) {
-			return $this->$key;
+		$arrKey = explode('.', $key);
+		$firstKey = array_shift($arrKey);
+		if (isset($this->$firstKey)) {
+			$ret = $this->$firstKey;
+			foreach ($arrKey as $k){
+				if (isset($ret[$k])) {
+					$ret = $ret[$k];
+				}else {
+					$ret='';
+					break;
+				}
+			}
 		}
-		return '';
+		return $ret;
 	}
 }

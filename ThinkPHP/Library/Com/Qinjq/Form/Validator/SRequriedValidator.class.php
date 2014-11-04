@@ -6,6 +6,7 @@ use Com\Qinjq\Form\Validator\SValidator;
 class SRequriedValidator extends SValidator{
 	
 	protected $notEmptyValidate=FALSE;
+	protected $msg = '{$title}必须填写';
 	public function validate($value, $data) {
 		return FALSE;
 	}
