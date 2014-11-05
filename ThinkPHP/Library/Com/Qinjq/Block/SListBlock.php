@@ -3,6 +3,7 @@
 namespace Com\Qinjq\Block;
 
 use Com\Qinjq\Block\SBlock;
+use Think\Page;
 class SListBlock extends SBlock{
 	
 	/**
@@ -11,11 +12,15 @@ class SListBlock extends SBlock{
 	 */
 	protected $where		=	array();
 	
+	protected $page;
+	
 	/**
 	 * 记录是否执行
 	 * @var array
 	*/
 	protected $init			=	array();
+	
+	protected $vars = array();
 	
 	function getData(){
 		//总记录数
@@ -63,10 +68,11 @@ class SListBlock extends SBlock{
 	 * @return string
 	 */
 	protected function getField() {
-		if (empty($this->blk_param['field'])) {
+		$field = $this->param('field');
+		if (empty($field)) {
 			return '*';
 		}
-		return trim(trim($this->blk_param['field'],' '),',');
+		return trim(trim($field,' '),',');
 	}
 	
 	/**
@@ -74,8 +80,9 @@ class SListBlock extends SBlock{
 	 */
 	protected function getOrder(){
 		$ret	=	'';
-		if($this->blk_param['order']){ // 如果用户设定了排序方式，用设定的方式
-			$orders	=	explode(',',$this->blk_param['order']);
+		$order	=	$this->param('order');
+		if($order){ // 如果用户设定了排序方式，用设定的方式
+			$orders	=	explode(',',$order);
 			$arr_order=	array();
 			foreach($orders as $order){
 				$oneOrder	=	explode(' ',$order);
@@ -91,7 +98,7 @@ class SListBlock extends SBlock{
 		}else{ //默认以主表的主键，倒序排列
 			$tableInfo	=	$this->getTableInfo();
 			$firstTab	=	array_shift($tableInfo);
-			$field		=	M($firstTab['table'])->getPk();
+			$field		=	D($firstTab['table'])->getPk();
 		}
 	
 		if($field){
@@ -113,7 +120,6 @@ class SListBlock extends SBlock{
 	 */
 	protected function getLimit($cnt=0) {
 		if (!$this->page) {
-			import ( "ORG.Util.Page" );
 			if(isset($_REQUEST['_pagesize'])){
 				$size	=	$_REQUEST['_pagesize'];
 			}else{
@@ -130,7 +136,7 @@ class SListBlock extends SBlock{
 	function getAsField($field){
 		$tables	=	$this->getTableInfo();
 		foreach($tables as $tab){
-			$fields	=	M($tab['table'])->getDbFields();
+			$fields	=	D($tab['table'])->getDbFields();
 			if(in_array($field,$fields,true)){
 				return $this->getJoinAs($tab).'.'.$field;
 			}
@@ -144,7 +150,7 @@ class SListBlock extends SBlock{
 	protected function getWhere() {
 		if (isset($this->init['getwhere']))return $this->where;
 		//可限定的字段
-		$whereFields	=	$this->blk_param['wherefield'];
+		$whereFields	=	$this->param('wherefield');
 		if ($whereFields) {
 			$whereFields	=	explode(',', $whereFields);
 			array_walk($whereFields,'trim');
@@ -162,10 +168,9 @@ class SListBlock extends SBlock{
 		//可搜索字段
 		if (isset($_REQUEST['_searchkey']) && $_REQUEST['_searchkey']!==''
 				&& isset($_REQUEST['_searchvalue']) && $_REQUEST['_searchvalue']!=='') {
-					$searchFields	=	$this->blk_param['searchfield'];
+					$searchFields	=	$this->param('searchfield');
 					if ($searchFields) {
-						$searchFields	=	explode(',', $searchFields);
-						array_walk($searchFields, 'trim');
+						$searchFields	=	sexplode($searchFields);
 						$searchFields	=	array_filter($searchFields,'strlen');
 					}else {
 						$searchFields	=	$this->getAllField();
@@ -176,11 +181,12 @@ class SListBlock extends SBlock{
 				}
 	
 				//附加查询
-				if (!empty($this->blk_param['additionwhere'])) {
+				$additionWhere = $this->param('additionwhere');
+				if (!empty($additionWhere)) {
 					if (isset($this->where['_string'])) {
-						$this->where['_string']	.=	" AND {$this->blk_param['additionwhere']}";
+						$this->where['_string']	.=	" AND {$additionWhere}";
 					}else {
-						$this->where['_string']	=	$this->blk_param['additionwhere'];
+						$this->where['_string']	=	$additionWhere;
 					}
 				}
 	
@@ -221,7 +227,7 @@ class SListBlock extends SBlock{
 		if(isset($table['as'])){
 			$ret	=	$table['as'];
 		}else{
-			$ret	=	M($table['table'])->getTableName();
+			$ret	=	D($table['table'])->getTableName();
 		}
 		return $ret;
 	}
@@ -234,15 +240,13 @@ class SListBlock extends SBlock{
 			return $this->init['gettableinfo'];
 		}
 		$this->init['gettableinfo']	=	array();
-		if(empty($this->param('tables'))){ //对没有填表名，自动加上表名
+		$paramTables = $this->param('tables');
+		if(empty($paramTables)){ //对没有填表名，自动加上表名
 			$this->init['gettableinfo']	=	array(
 					array('table'=>strtolower(CONTROLLER_NAME)),
 			);
-		}
-		$this->blk_param['tables']	=	trim($this->blk_param['tables']);
-		if(strpos($this->blk_param['tables'],',')){ //这里是多表联合查询 inner join 方式
-			$tables	=	explode(',',$this->blk_param['tables']);
-			array_walk($tables,'trim');
+		}elseif(FALSE !== strpos($paramTables,',')){ //这里是多表联合查询 inner join 方式
+			$tables	=	sexplode($paramTables);
 			foreach($tables as $tab){
 				$oneTab	=	explode(' ',$tab);
 				$oneTabInfo=	array();
@@ -252,8 +256,8 @@ class SListBlock extends SBlock{
 				}
 				$this->init['gettableinfo'][] = $oneTabInfo;
 			}
-		}elseif(strpos($this->blk_param['tables'],' ')){
-			$tables	=	preg_split('/\s+join\s+/i',$this->blk_param['tables'],-1, PREG_SPLIT_NO_EMPTY);
+		}elseif(FALSE !== strpos($paramTables,' ')){
+			$tables	=	preg_split('/\s+join\s+/i',$paramTables,-1, PREG_SPLIT_NO_EMPTY);
 			foreach($tables as $tab){
 				$oneTab	=	explode(' ',$tab);
 				$oneTabInfo=	array();
@@ -287,7 +291,7 @@ class SListBlock extends SBlock{
 	
 			}
 		}else{ //只填了一个表名
-			$this->init['gettableinfo'][]	=	array('table'=>trim($this->blk_param['tables']));
+			$this->init['gettableinfo'][]	=	array('table'=>trim($paramTables));
 		}
 		return $this->init['gettableinfo'];
 	}
@@ -312,10 +316,11 @@ class SListBlock extends SBlock{
 	
 	protected function getGroup() {
 		if (isset($this->init['getgroup']))return $this->init['getgroup'];
-		if (empty($this->blk_param['group'])){
+		$paramGroup = $this->param('gruop');
+		if (empty($paramGroup)){
 			$this->init['getgroup']	=	'';
 		}else {
-			$field	=	sexplode($this->blk_param['group']);
+			$field	=	sexplode($paramGroup);
 			array_walk($field,array($this,'getAsField'));
 			$this->init['getgroup']	=	implode(',', $field);
 		}
@@ -324,10 +329,11 @@ class SListBlock extends SBlock{
 	
 	protected function getHaving() {
 		if (isset($this->init['gethavine']))return $this->init['gethavine'];
-		if (empty($this->blk_param['having'])){
+		$paramHaving = $this->param('having');
+		if (empty($paramHaving)){
 			$this->init['gethaving']	=	'';
 		}else {
-			$this->init['gethaving']	=	$this->blk_param['having'];
+			$this->init['gethaving']	=	$paramHaving;
 		}
 		return $this->init['gethaving'];
 	}
@@ -341,13 +347,13 @@ class SListBlock extends SBlock{
 		}
 		$lastTable	=	$mainTable;
 		foreach($tables as $tab){
-			$joinModel	=	M($tab['table']);
+			$joinModel	=	D($tab['table']);
 			$joinAs		=	isset($tab['as'])?$tab['as']:'';
 			$joinType	=	isset($tab['type'])?$tab['type']:'INNER JOIN';
 			if(isset($tab['on'])){
 				$onTab	=	$tab['on'];
 			}else{
-				$lastModel=	M($lastTable['table']);
+				$lastModel=	D($lastTable['table']);
 				$lastFields=	$lastModel->getDbFields();
 				$joinFields=	$joinModel->getDbFields();
 				unset($lastFields['_autoinc'],
@@ -374,4 +380,14 @@ class SListBlock extends SBlock{
 		
 	}
 
+	function assign($name, $val = NULL) {
+		if (is_string($name)) {
+			if (NULL===$val) {
+				return $this->vars[$name];
+			}
+			$this->vars[$name]	=	$val;
+		}else {
+			$this->vars	=	array_merge($this->tpVar,$name);
+		}
+	}
 }
