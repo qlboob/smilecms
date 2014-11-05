@@ -185,7 +185,6 @@ class SElement {
 			foreach ($key as $k => $v) {
 				$this->param($k,$v);
 			}
-			$this->param = array_merge($this->param,$key);
 		}elseif (NULL === $value) {
 			return isset($this->param[$key])?$this->param[$key]:NULL;
 		}else {

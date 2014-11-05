@@ -3,7 +3,7 @@
 namespace Com\Qinjq\Block;
 
 abstract class SBlock {
-	protected $config = array();
+	protected $param = array();
 	
 	/**
 	 * 初始化
@@ -16,16 +16,38 @@ abstract class SBlock {
 	 * construct
 	 * @param array $param 区块参数
 	 */
-	function __construct($config=array()) {
-		if (!empty($config['blk_param'])) {
-			$config['blk_param'] = unserialize($config['blk_param']);
-		}
+	function __construct($param=array()) {
 		$this->_init();
 	}
 	
+	function config($key,$value=NULL) {
+		if (is_array($key)) {
+			foreach ($key as $k => $v) {
+				$this->config($k,$v);
+			}
+		}elseif (NULL===$value){
+			return isset($this->$key)?$this->$key:NULL;
+		}else {
+			$this->$key = $value;
+		}
+	}
+	
+	function param($key,$value=NULL) {
+		if (is_array($key)) {
+			foreach ($key as $k => $v) {
+				$this->param($k,$v);
+			}
+			$this->param = array_merge($this->param,$key);
+		}elseif (NULL === $value) {
+			return isset($this->param[$key])?$this->param[$key]:NULL;
+		}else {
+			$this->param[$key] = $value;
+		}
+	}
+	
 	function __get($key) {
-		if (isset($this->config[$key])) {
-			return $this->config[$key];
+		if (isset($this->param[$key])) {
+			return $this->param[$key];
 		}
 		return NULL;
 	}
