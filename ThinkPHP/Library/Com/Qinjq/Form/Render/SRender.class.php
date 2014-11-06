@@ -31,7 +31,7 @@ abstract class SRender {
 		$this->output[1] = $endStr.$this->output[1];
 	}
 	
-	protected function output($param) {
+	protected function output() {
 		return implode('', $this->output);
 	}
 }
