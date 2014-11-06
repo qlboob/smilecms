@@ -45,9 +45,12 @@ class SContainer extends SElement{
 	 */
 	function addChild($type,$config=array(),$attr=array(),$param=array()) {
 		$config['parent']	=	$this;
-		$element			=	$this->addElement($type,$config,$attr,$param);
+		$config['form']		=	$this->form;
+		$element			=	$this->form->addElement($type,$config,$attr,$param);
 		$key = $config['key'];
 		$this->child[$key]	=	$element;
+		$this->element[$key]=	$element;
+// 		$this->form->element[$key]=$element;
 		return $element;
 	}
 	/**

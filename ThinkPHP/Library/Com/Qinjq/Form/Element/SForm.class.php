@@ -26,7 +26,10 @@ class SForm extends SContainer{
 	 */
 	protected $tabel;	
 	
-	
+	function __construct() {
+		$this->form = $this;
+		parent::__construct();
+	}
 	
 	function __toString(){
 		$formName = $this->attr('name');
@@ -80,9 +83,11 @@ class SForm extends SContainer{
 		}
 
 		#加入字段信息
-		$formFieldDbData = D('Formfield')->where("frm_id=$formId and ffd_display=1")->select();
+		$formFieldDbData = D('Formfield')->where("frm_id=$formId and ffd_display=1")->getField('ffd_id,ffd_name,ffd_label,ffd_type,ffd_attr,ffd_param,ffd_weight,ffd_parent');
 		if ( $formFieldDbData ) {
-			foreach($formFieldDbData as $v){
+			self::initField($form, $formFieldDbData);
+			/*
+			foreach($formFieldDbData as $fieldId => $v){
 				$fieldConfig = array(
 					'label'=>$v['ffd_label'],
 					'weight'=>$v['ffd_weight'],
@@ -97,7 +102,7 @@ class SForm extends SContainer{
 				}
 				$form->addChild($v['ffd_type'],$fieldConfig,$fieldAttr,$fieldParam);
 				//TODO 添加验证器
-			}
+			}*/
 		}
 		
 		#加入渲染器
@@ -111,6 +116,40 @@ class SForm extends SContainer{
 		}
 		
 		return $fns;
+	}
+	
+	static function initField($form,&$formFieldDbData,$id=0) {
+		foreach($formFieldDbData as $fieldId => &$v){
+			if ($id and $fieldId!=$id) {
+				//指定渲染id
+				continue;
+			}
+			$parentId = $v['ffd_parent'];
+			if ($parentId>0) {
+				if(empty($formFieldDbData[$parentId]['ele'])){
+					self::initField($form, $formFieldDbData,$parentId);
+				}
+				$parentEle = $formFieldDbData[$parentId]['ele'];
+			}else {
+				$parentEle = $form;
+			}
+			$fieldConfig = array(
+				'label'=>$v['ffd_label'],
+				'weight'=>$v['ffd_weight'],
+				'key'	=>$v['ffd_name'],
+			);
+			$fieldParam = $fieldAttr = array();
+			if ( $v['ffd_attr'] ) {
+				$fieldAttr = unserialize($v['ffd_attr']);
+			}
+			if ( $v['ffd_param'] ) {
+				$fieldParam = unserialize($v['ffd_param']);
+			}
+			$ele = $parentEle->addChild($v['ffd_type'],$fieldConfig,$fieldAttr,$fieldParam);
+			$v['ele'] = $ele;
+			$ele->config('form',$form);
+			//TODO 添加验证器
+		}
 	}
 	
 	/**
