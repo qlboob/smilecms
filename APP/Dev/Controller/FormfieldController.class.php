@@ -6,8 +6,11 @@ class FormfieldController extends DevController{
 	
 	
     public function index(){
-    	$m = D('Formfield');
+    	/* $m = D('Formfield');
     	$data = $m->select();
-    	$this->display(array('lists'=>$data));
+    	$this->display(array('lists'=>$data)); */
+    	$block = new \Com\Qinjq\Block\SAdminListBlock();
+    	echo $block->getContent();
+    	
     }
 }

@@ -10,7 +10,7 @@ use Com\Qinjq\Block\SListBlock;
 class SAdminListBlock extends SListBlock{
 	
 	private function getTable($table='') {
-		$table||$table	=	parse_name(CTROLLER_NAME);
+		$table||$table	=	parse_name(CONTROLLER_NAME);
 		$ret	=	array($table);
 		while ($parentId=D('Model')->where("mdl_table='$table'")->getField('mdl_parent')) {
 			$table	=	D('Smodel')->where("mdl_id=$parentId")->getField('mdl_table');
@@ -35,7 +35,7 @@ class SAdminListBlock extends SListBlock{
 		->order('mdf_weight ASC ,mdf_id ASC')
 		->field('mdf_listtitle,mdf_id,mdf_name')
 		->select();
-		$pk = D($table[0])->getPk();
+		$pk = D(parse_name($table[0],1))->getPk();
 		$actionList	=	array();
 		foreach ($data as $v) {
 			if ($v['mdf_name']==$pk && $v['mdf_listtitle']) {
@@ -86,7 +86,7 @@ EOF;
 	function toHtml($tpl) {
 		ob_start();
 		extract($this->vars);
-		eval($tpl);
+		eval('?>'.$tpl);
 		return ob_get_clean();
 	}
 	
