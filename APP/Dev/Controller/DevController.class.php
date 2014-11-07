@@ -186,8 +186,11 @@ class DevController extends Controller {
 	}
 	
 	function index() {
-		SLayout::addBlock('adminmodellist');
-		$this->display();
+		$modelName = D('Model')->where(array('mdl_table'=>strtolower(CONTROLLER_NAME)))->getField('mdl_name');
+		$block = new \Com\Qinjq\Block\SAdminListBlock();
+		$block->param('tableClass','table table-hover');
+    	$block =  $block->getContent();
+		$this->display('Default/index',array('table'=>$block,'modelName'=>$modelName));
 	}
 	
 	protected function display($templateFile='',$charset='',$contentType='',$content='',$prefix='') {

@@ -1,3 +1,5 @@
+<?php $htmlHeadTitle = $modelName.'列表';?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -113,7 +115,30 @@
 				
 				<section class="content">
 					
-	<?php echo $form;?>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title"><?php echo htmlspecialchars($htmlHeadTitle);?></h3>
+					<div class="box-tools">
+						<form method="get">
+							<div class="input-group col-xs-4 pull-right">
+								<input class="form-control input-sm pull-right" name="searchStr" placeholder="关键字搜索" value="<?php echo htmlSpecialChars(I('get.searchStr',''));?>" />
+								<div class="input-group-btn">
+									<button class="btn btn-sm btn-default">
+										<i class="fa fa-search"></i>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="box-body table-responsive no-padding">
+					<?php echo $table;?>
+				</div>
+			</div>
+		</div>
+	</div>
 
 				</section>
 			</aside>

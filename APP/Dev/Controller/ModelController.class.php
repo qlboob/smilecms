@@ -2,7 +2,7 @@
 namespace Dev\Controller;
 use Dev\Controller\DevController;
 
-class FormfieldController extends DevController{
+class ModelController extends DevController{
 	
 	
 }

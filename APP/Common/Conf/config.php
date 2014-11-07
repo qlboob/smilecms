@@ -12,4 +12,5 @@ return array(
 		'TMPL_FILE_DEPR'        =>  '/', //模板文件CONTROLLER_NAME与ACTION_NAME之间的分割符
 		'TMPL_ENGINE_TYPE'      =>  'PHP',     // 默认模板引擎 以下设置仅对使用Think模板引擎有效
 		'SYS_DB_PREFIX'				=>	's_',
+		'DEFAULT_FILTER'		=>	'',
 );

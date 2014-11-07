@@ -1,0 +1,17 @@
+- $htmlHeadTitle = $modelName.'列表';
+block content
+	.row
+		.col-xs-12
+			.box
+				.box-header
+					h3.box-title {$htmlHeadTitle|}
+					.box-tools
+						form method=get
+							.input-group.col-xs-4.pull-right
+								input.form-control.input-sm.pull-right name=searchStr placeholder=关键字搜索 value={:htmlSpecialChars(I('get.searchStr',''))}
+								.input-group-btn
+									button.btn.btn-sm.btn-default
+										i.fa.fa-search
+				.box-body.table-responsive.no-padding
+					{$table}
+include Layout/html

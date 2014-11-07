@@ -30,7 +30,7 @@ block content
 										i.glyphicon.glyphicon-edit
 									a href={:U('Dev/Param/edit',array('id'=>$v['frm_id'],'table'=>'form'))} data-toggle=tooltip title=参数设置
 										i.glyphicon.glyphicon-cog
-									a href={:U('Dev/Form/add',array('frm_id'=>$v['frm_id']))} data-toggle=tooltip title=创建子表单
+									a href={:U('Dev/Form/add',array('frm_parent'=>$v['frm_id']))} data-toggle=tooltip title=创建子表单
 										i.glyphicon.glyphicon-share
 									a href={:U('Dev/Formfield/index',array('frm_id'=>$v['frm_id']))} data-toggle=tooltip title=字段列表
 										i.glyphicon.glyphicon-th-list

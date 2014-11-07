@@ -153,7 +153,7 @@
 									<a href="<?php echo U('Dev/Param/edit',array('id'=>$v['frm_id'],'table'=>'form'));?>" data-toggle="tooltip" title="参数设置">
 										<i class="glyphicon glyphicon-cog"></i>
 									</a>
-									<a href="<?php echo U('Dev/Form/add',array('frm_id'=>$v['frm_id']));?>" data-toggle="tooltip" title="创建子表单">
+									<a href="<?php echo U('Dev/Form/add',array('frm_parent'=>$v['frm_id']));?>" data-toggle="tooltip" title="创建子表单">
 										<i class="glyphicon glyphicon-share"></i>
 									</a>
 									<a href="<?php echo U('Dev/Formfield/index',array('frm_id'=>$v['frm_id']));?>" data-toggle="tooltip" title="字段列表">
