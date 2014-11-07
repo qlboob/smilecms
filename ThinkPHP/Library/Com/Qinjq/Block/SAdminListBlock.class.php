@@ -37,6 +37,7 @@ class SAdminListBlock extends SListBlock{
 		->select();
 		$pk = D(parse_name($table[0],1))->getPk();
 		$actionList	=	array();
+		$actionTh = null;
 		foreach ($data as $v) {
 			if ($v['mdf_name']==$pk && $v['mdf_listtitle']) {
 				/**
@@ -50,7 +51,14 @@ class SAdminListBlock extends SListBlock{
 				$pkTitle=	array_shift($lines);
 				if ($pkTitle) {
 					array_unshift($ths, $pkTitle);
-					array_unshift($ths, array_shift($lines));
+					if (count($lines)) {
+						$tds[]=$this->dealTd($pk, array_shift($lines));
+					}else {
+						$tds[]=$this->dealTd($pk, '');
+					}
+				}
+				if (count($lines)) {
+					$actionTh = array_shift($lines);
 				}
 				foreach ($lines as $line) {
 					$actionList[] = $this->dealTd($pk, $line);
@@ -61,7 +69,12 @@ class SAdminListBlock extends SListBlock{
 				$tds[]	=	$this->dealTd($v['mdf_name'], $td);
 			}
 		}
-		$tds[] = implode('', $actionList);
+		if ($actionList) {
+			$tds[] = implode('', $actionList);
+		}
+		if (NULL!==$actionTh) {
+			$ths[] = $actionTh;
+		}
 		$this->assign('pk',$pk);
 		$this->assign('param_show',$showCol);
 		$this->assign('param_action',$actionList);
@@ -79,6 +92,7 @@ class SAdminListBlock extends SListBlock{
 <table class="$tableClass"><thead><tr>$thTrStr</tr></thead><tbody><?php foreach(\$lists as \$v){?><tr>$tdTrStr</tr><?php }?></tbody></table>
 EOF;
 		$tpl = trim($tpl);
+		$this->getData();
 		return $this->toHtml($tpl);
 		
 	}

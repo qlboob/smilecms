@@ -56,7 +56,7 @@ class SListBlock extends SBlock{
 			$cloneModel->order($order);
 			}*/
 			$list	=	$cloneModel->select();
-			$this->assign('list',$list);
+			$this->assign('lists',$list);
 			$this->assign('page',$this->page->show());
 		}
 	
@@ -123,7 +123,7 @@ class SListBlock extends SBlock{
 			if(isset($_REQUEST['_pagesize'])){
 				$size	=	$_REQUEST['_pagesize'];
 			}else{
-				$size	=	'';
+				$size	=	20;
 			}
 			$this->page	=	new Page($cnt,$size);
 		}
@@ -307,7 +307,7 @@ class SListBlock extends SBlock{
 		$tableInfo	=	$this->getTableInfo();
 		$fields		=	array();
 		foreach ($tableInfo as $tab) {
-			$fields	=	array_merge($fields,M($tab['table'])->getDbFields());
+			$fields	=	array_merge($fields,D($tab['table'])->getDbFields());
 		}
 		unset($fields['_pk'],$fields['_type']);
 		$this->init['getallfield']	=	 array_unique($fields);
@@ -341,7 +341,7 @@ class SListBlock extends SBlock{
 	protected function getModel() {
 		$tables	=	$this->getTableInfo();
 		$mainTable=	array_shift($tables);
-		$model	=	M($mainTable['table']);
+		$model	=	D($mainTable['table']);
 		if(isset($mainTable['as'])){
 			$model->alias($mainTable['as']);
 		}
