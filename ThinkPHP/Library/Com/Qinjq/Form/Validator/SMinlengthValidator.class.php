@@ -4,10 +4,10 @@ use Com\Qinjq\Form\Validator\SMaxlengthValidator;
 class SMinlengthValidator extends SMaxlengthValidator{
 	
 	
-	protected $msg	=	'{title}的最小长度是{param}';
+	protected $msg	=	'{$title}的最小长度是{$target}';
 	function validate($value) {
 		$length = $this->strLeng($value);
-		return $this->param['minLength']<=$length;
+		return $this->target<=$length;
 	}
 
 

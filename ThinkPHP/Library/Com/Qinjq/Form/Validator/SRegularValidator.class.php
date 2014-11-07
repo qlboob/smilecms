@@ -7,15 +7,22 @@ class SRegularValidator  extends SValidator{
 	
 	
 	function validate($value) {
-		$regular = $this->param('regular');
+		$regular = $this->target;
 		foreach (array('!','#','/','~') as $v){
 			if (FALSE==strpos($regular, $v)) {
 				$regular = $v.$regular.$v;
+				break;
 			}
 		}
 		return preg_match($regular, $this->value);
 	}
 	
 
-	
+	function config($key,$value=NULL){
+		if ($value==='') {
+			return FALSE;
+		}else {
+			return parent::config($key,$value);
+		}
+	}
 }

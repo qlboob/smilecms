@@ -5,9 +5,9 @@ use Com\Qinjq\Form\Validator\SValidator;
 class SMinValidator extends SValidator{
 	
 	
-	protected $message	=	'{$title}的最小值是{$param.min}';
+	protected $message	=	'{$title}的最小值是{$target}';
 	function validate() {
-		return $this->param['min']<=$this->value;
+		return $this->target<=$this->value;
 	}
 
 

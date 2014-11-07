@@ -6,8 +6,6 @@ class SNumberValidator extends SRegularValidator{
 	
 	protected $message	=	'{value} 不是小数';
 	
-	protected $param	=	array(
-		'regular'	=>	'^[\-\+]?(([0-9]+)([\.,]([0-9]+))?|([\.,]([0-9]+))?)$',
-	);
+	protected $target	=	'^[\-\+]?(([0-9]+)([\.,]([0-9]+))?|([\.,]([0-9]+))?)$';
 	
 }

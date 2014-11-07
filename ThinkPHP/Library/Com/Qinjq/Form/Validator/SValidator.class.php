@@ -44,6 +44,8 @@ abstract class SValidator{
 	 */
 	protected $notEmptyValidate = TRUE;
 	
+	protected $target;
+	
 	function config($key,$value=NULL) {
 		if (is_array($key)) {
 			foreach ($key as $k => $v) {

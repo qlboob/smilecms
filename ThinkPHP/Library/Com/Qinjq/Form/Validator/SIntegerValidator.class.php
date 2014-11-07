@@ -8,8 +8,6 @@ class SIntegerValidator extends SRegularValidator{
 	
 	protected $msg = '{$value}不是整数';
 	
-	protected $param = array(
-		'regular'	=>	'^[\-\+]?([1-9]\d*|0)+$',
-	);
+	protected $target = 	'^[\-\+]?([1-9]\d*|0)+$';
 
 }

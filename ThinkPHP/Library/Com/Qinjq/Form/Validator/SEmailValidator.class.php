@@ -8,8 +8,6 @@ class SEmailValidator extends SRegularValidator{
 	
 	protected $msg = '{$title}不是正确的邮箱格式';
 	
-	protected $param = array(
-		'regular'	=>	'^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$',
-	);
+	protected $target = 	'^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$';
 
 }

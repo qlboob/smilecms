@@ -5,11 +5,11 @@ class SMaxlengthValidator extends SValidator{
 	
 	protected $name		=	'最长长度';
 	
-	protected $msg	=	'{$title}的最大长度是{$param.maxlength}';
+	protected $msg	=	'{$title}的最大长度是{$target}';
 	
 	function validate($value) {
 		$length = $this->strLeng($value);
-		return $this->param['maxLength']>=$length;
+		return $this->target>=$length;
 	}
 
 
