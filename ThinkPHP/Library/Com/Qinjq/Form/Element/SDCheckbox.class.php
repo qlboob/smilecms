@@ -1,5 +1,5 @@
 <?php
-namespace Com\Qinjq\Form\Element\SCheckbox;
+namespace Com\Qinjq\Form\Element;
 use Com\Qinjq\Form\Element\SCheckbox;
 
 class SDCheckbox extends SCheckbox{
@@ -7,7 +7,7 @@ class SDCheckbox extends SCheckbox{
 	
 	function renderInput() {
 		$ret	=	'<input name="'.$this->attr('name').'" type="hidden" value="0" />';
-		$ret	.=	parent::getInputHtml();
+		$ret	.=	parent::renderInput();
 		return $ret;
 	}
 }

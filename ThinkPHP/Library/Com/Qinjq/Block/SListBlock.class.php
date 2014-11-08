@@ -165,33 +165,47 @@ class SListBlock extends SBlock{
 			}
 		}
 	
-		//可搜索字段
-		if (isset($_REQUEST['_searchkey']) && $_REQUEST['_searchkey']!==''
+		$searchFields	=	$this->param('searchfield');
+		$searchStr		=	I('get.searchStr');
+		if ($searchFields) {
+			$searchFields = sexplode($searchFields);
+		}else {
+			$searchFields = $this->getAllField();
+		}
+		if ($searchStr) {
+			$condition = array(
+				'_logic'	=>	'OR',
+			);
+			foreach ($searchFields as $field){
+				$condition[$field] = array('LIKE','%'.$searchStr.'%');
+			}
+			$this->where['_complex']	=	$condition;
+		}elseif (isset($_REQUEST['_searchkey']) && $_REQUEST['_searchkey']!==''
 				&& isset($_REQUEST['_searchvalue']) && $_REQUEST['_searchvalue']!=='') {
-					$searchFields	=	$this->param('searchfield');
-					if ($searchFields) {
-						$searchFields	=	sexplode($searchFields);
-						$searchFields	=	array_filter($searchFields,'strlen');
-					}else {
-						$searchFields	=	$this->getAllField();
-					}
-					if (in_array($_REQUEST['_searchkey'], $searchFields)) {
-						$this->_addWhere($this->where,$_REQUEST['_searchkey'],$_REQUEST['_searchvalue'],'like');
-					}
-				}
+			//可搜索字段
+			if ($searchFields) {
+				$searchFields	=	sexplode($searchFields);
+				$searchFields	=	array_filter($searchFields,'strlen');
+			}else {
+				$searchFields	=	$this->getAllField();
+			}
+			if (in_array($_REQUEST['_searchkey'], $searchFields)) {
+				$this->_addWhere($this->where,$_REQUEST['_searchkey'],$_REQUEST['_searchvalue'],'like');
+			}
+		}
 	
-				//附加查询
-				$additionWhere = $this->param('additionwhere');
-				if (!empty($additionWhere)) {
-					if (isset($this->where['_string'])) {
-						$this->where['_string']	.=	" AND {$additionWhere}";
-					}else {
-						$this->where['_string']	=	$additionWhere;
-					}
-				}
-	
-				$this->init['getwhere'] = 1;
-				return $this->where;
+		//附加查询
+		$additionWhere = $this->param('additionwhere');
+		if (!empty($additionWhere)) {
+			if (isset($this->where['_string'])) {
+				$this->where['_string']	.=	" AND {$additionWhere}";
+			}else {
+				$this->where['_string']	=	$additionWhere;
+			}
+		}
+
+		$this->init['getwhere'] = 1;
+		return $this->where;
 	}
 	
 	protected function _addWhere(&$where,$field,$value,$opt='eq') {

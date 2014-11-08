@@ -122,7 +122,7 @@
 					<h3 class="box-title"><?php echo htmlspecialchars($htmlHeadTitle);?></h3>
 					<div class="box-tools">
 						<form method="get">
-							<div class="input-group col-xs-4 pull-right">
+							<div class="input-group col-xs-3 pull-right">
 								<input class="form-control input-sm pull-right" name="searchStr" placeholder="关键字搜索" value="<?php echo htmlSpecialChars(I('get.searchStr',''));?>" />
 								<div class="input-group-btn">
 									<button class="btn btn-sm btn-default">
