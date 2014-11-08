@@ -69,7 +69,7 @@ class DevController extends Controller {
 	 * @return Model
 	 */
 	protected function _getDao($table='') {
-		$table||$table	=	$this->getActionName();
+		$table||$table	=	CONTROLLER_NAME;
 		$table			=	parse_name($table,1);//这里统一用大写形式
 		if (!empty($this->model[$table])) {
 			$table	=	$this->model[$table];

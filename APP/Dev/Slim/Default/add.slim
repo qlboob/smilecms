@@ -1,7 +1,11 @@
+-
+	$htmlHeadTitle = 'add'==ACTION_NAME?'新增':'编辑';
+	$modelName = D('Model')->where(array('mdl_table'=>strtolower(CONTROLLER_NAME)))->getField('mdl_name');
+	$htmlHeadTitle.=$modelName;
 block content
 	.box.box-primary
 		.box-header
-			h3.box-title 表单
+			h3.box-title {$htmlHeadTitle|}
 		.box-body
 			{$form}
 include Layout/html

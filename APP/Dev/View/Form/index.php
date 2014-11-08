@@ -85,7 +85,7 @@
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U('Dev/Event/index');?>">
+									<a href="<?php echo U('Dev/Block/index');?>">
 										<i class="fa fa-angle-double-right"></i>
 										区块
 									</a>

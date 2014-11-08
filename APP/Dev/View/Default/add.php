@@ -1,3 +1,9 @@
+<?php 
+	$htmlHeadTitle = 'add'==ACTION_NAME?'新增':'编辑';
+	$modelName = D('Model')->where(array('mdl_table'=>strtolower(CONTROLLER_NAME)))->getField('mdl_name');
+	$htmlHeadTitle.=$modelName;
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -85,7 +91,7 @@
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U('Dev/Event/index');?>">
+									<a href="<?php echo U('Dev/Block/index');?>">
 										<i class="fa fa-angle-double-right"></i>
 										区块
 									</a>
@@ -115,7 +121,7 @@
 					
 	<div class="box box-primary">
 		<div class="box-header">
-			<h3 class="box-title">表单</h3>
+			<h3 class="box-title"><?php echo htmlspecialchars($htmlHeadTitle);?></h3>
 		</div>
 		<div class="box-body">
 			<?php echo $form;?>
