@@ -5,7 +5,7 @@ use Dev\Controller\DevController;
 class FormController extends DevController{
 	
 	
-    public function index(){
+    /*public function index(){
     	$m = D('Form');
     	$searchStr = I('get.searchStr');
     	if ($searchStr) {
@@ -20,5 +20,5 @@ class FormController extends DevController{
     	}
     	$data = $m->select();
     	$this->display(array('lists'=>$data));
-    }
+    }*/
 }
