@@ -54,7 +54,7 @@ class SBoxes extends SMultiple{
 				"'.$filterFun(\$v).'"//text
 		);
 		$ret		.=	'}}';
-		$ret		.=	sprintf('echo %s(\'%s\',%s);',$this->param('callback'),addcslashes($this->param('sep'), "'"),$container);
+		$ret		.=	sprintf('echo %s(\'%s\',%s);?>',$this->param('callback'),addcslashes($this->param('sep'), "'"),$container);
 		return $ret;
 	}
 }

@@ -379,4 +379,10 @@ class SElement {
 		$decorater = new $className($config);
 		$decorater->run($this);
 	}
+	
+	function addValidator($type,$config) {
+		$className = 'Com\Qinjq\Form\Validator\S'.ucfirst($type).'Validator';
+		$validator = new $className($config);
+		$this->validator[] = $validator;
+	}
 }

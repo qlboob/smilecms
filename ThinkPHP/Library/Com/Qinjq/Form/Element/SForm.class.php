@@ -149,6 +149,18 @@ class SForm extends SContainer{
 			$v['ele'] = $ele;
 			$ele->config('form',$form);
 			//TODO 添加验证器
+			$validatorDb = D('Formvalidator')->where(array('ffd_id'=>$v['ffd_id']))->select();
+			if ($validatorDb) {
+				foreach ($validatorDb as $validatorItem){
+					$validatorConfig = array(
+						'target'=> $validatorItem['fvd_target'],
+					);
+					if ($validatorItem['fvd_msg']) {
+						$validatorConfig['msg'] = $validatorItem['fvd_msg'];
+					}
+					$ele->addValidator($validatorItem['fvd_type'],$validatorConfig);
+				}
+			}
 		}
 	}
 	
@@ -160,7 +172,7 @@ class SForm extends SContainer{
 	private function toHtml($phpCode) {
 		ob_start();
 		extract($this->vars);
-		if (C('APP_DEBUG')) {
+		if (APP_DEBUG) {
 			$cachePath	=	TEMP_PATH.'/tpl.'.md5($phpCode).'.t.php';
 			if (!is_file($cachePath)) {
 				file_put_contents($cachePath, $phpCode);

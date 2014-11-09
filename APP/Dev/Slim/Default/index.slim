@@ -5,7 +5,7 @@ block content
 			.box
 				.box-header
 					h3.box-title {$htmlHeadTitle|}
-						a href={:U('Dev/'.CONTROLLER_NAME.'/add')} data-toggle=tooltip title=增加{$modelName}
+						a href={:U('Dev/'.CONTROLLER_NAME.'/add',$_GET)} data-toggle=tooltip title=增加{$modelName}
 							i.glyphicon.glyphicon-plus
 					.box-tools
 						form method=get

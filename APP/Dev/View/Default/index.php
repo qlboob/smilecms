@@ -120,7 +120,7 @@
 			<div class="box">
 				<div class="box-header">
 					<h3 class="box-title"><?php echo htmlspecialchars($htmlHeadTitle);?>
-						<a href="<?php echo U('Dev/'.CONTROLLER_NAME.'/add');?>" data-toggle="tooltip" title="增加<?php echo $modelName;?>">
+						<a href="<?php echo U('Dev/'.CONTROLLER_NAME.'/add',$_GET);?>" data-toggle="tooltip" title="增加<?php echo $modelName;?>">
 							<i class="glyphicon glyphicon-plus"></i>
 						</a></h3>
 					<div class="box-tools">

@@ -3,7 +3,7 @@
 namespace Com\Qinjq\Form\Validator;
 
 use Com\Qinjq\Form\Validator\SValidator;
-class SRequriedValidator extends SValidator{
+class SRequiredValidator extends SValidator{
 	
 	protected $notEmptyValidate=FALSE;
 	protected $msg = '{$title}必须填写';
