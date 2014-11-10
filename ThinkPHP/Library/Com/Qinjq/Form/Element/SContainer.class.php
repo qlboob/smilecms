@@ -127,10 +127,10 @@ class SContainer extends SElement{
 		return $ret;
 	}
 	
-	function setAllDefaultRender($render) {
-		$this->setDefaultRender($render);
+	function setAllDefaultRender($render,$config) {
+		$this->setDefaultRender($render,$config);
 		foreach ($this->element as $value) {
-			$value->setDefaultRender($render);
+			$value->setDefaultRender($render,$config);
 		}
 	}
 	

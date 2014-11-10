@@ -112,7 +112,7 @@ class SForm extends SContainer{
 			if ($renderData['fmr_param']) {
 				$renderConfig = unserialize($renderData['fmr_param']);
 			}
-			$fns[] = array('setAllRender',array($renderData['fmr_type'],$renderConfig));
+			$fns[] = array('setAllDefaultRender',array($renderData['fmr_type'],$renderConfig));
 		}
 		
 		return $fns;
