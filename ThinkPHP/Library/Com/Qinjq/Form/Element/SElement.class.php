@@ -120,6 +120,16 @@ class SElement {
 		}
 	}
 	
+	function labelAttr($key,$value=NULL) {
+		if (is_array($key)) {
+			$this->labelAttr	=	array_merge($this->labelAttr,$key);
+		}elseif ($value===NULL) {
+			return isset($this->labelAttr[$key])?$this->labelAttr[$key]:NULL;
+		}else {
+			$this->labelAttr[$key]	=	$value;
+		}
+	}
+	
 	/**
 	 * unset attribute
 	 * @param string|array $key
