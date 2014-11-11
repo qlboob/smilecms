@@ -16,6 +16,9 @@ class ModelfieldController extends DevController{
 			$post			=	I('post.');
 			$post['mdl_name']=	$post['ffd_name'];
 			
+			//增加表字段（更改数据库表结构）
+// 			$table		=	$modelM->where(array('mdl_id'=>$post['mdl_id']))->getField('mdl_table');
+			$modelData	=	$modelM->find($post['mdl_id']);
 		}
 	}
 }
