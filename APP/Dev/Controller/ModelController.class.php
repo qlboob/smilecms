@@ -47,9 +47,9 @@ class ModelController extends DevController{
 			//创建数据表
 			$tablePre = D('Site')->where(array('sit_id'=>$post['sit_id']))->getField('sit_table_pre');
 			$sql	=	"
-				CREATE TABLE `{$tablePre}{$post['mdl_table']}` {
+				CREATE TABLE `{$tablePre}{$post['mdl_table']}` (
 					`{$post['mdf_name']}` int unsigned NOT NULL {$autoInc} PRIMARY KEY
-				} DEFAULT CHARSET=utf8
+				) DEFAULT CHARSET=utf8
 			";
 			$modelModel->execute($sql);
 			$this->redirect('Dev/Modelfield/add',array('mdl_id'=>$post['mdl_id']));
