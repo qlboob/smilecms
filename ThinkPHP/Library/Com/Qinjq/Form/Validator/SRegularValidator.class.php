@@ -6,7 +6,7 @@ class SRegularValidator  extends SValidator{
 	protected $msg	=	'请输入正确的{$title}格式';
 	
 	
-	function validate($value) {
+	function validate($value,$data) {
 		$regular = $this->target;
 		foreach (array('!','#','/','~') as $v){
 			if (FALSE==strpos($regular, $v)) {

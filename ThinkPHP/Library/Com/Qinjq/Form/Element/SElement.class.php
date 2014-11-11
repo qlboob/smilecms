@@ -77,11 +77,15 @@ class SElement {
 	 */
 	protected $validator	=	array();
 	
+	protected $decorator	=	array();
+	
 	/**
 	 * the render object
 	 * @var Object
 	 */
 	protected $render;
+	
+	protected $defaultRender;
 	
 	/**
 	 * @var array 参数
@@ -378,16 +382,25 @@ class SElement {
 		$this->render = $render;
 	}
 	
+	function setDefaultRender($render,$config=array()) {
+		$className = 'Com\Qinjq\Form\Render\S'.ucfirst($render).'Render';
+		$render = new $className($config);
+		$render->setElement($this);
+		$this->defaultRender= $render;
+	}
+	
 	function render() {
-		if ($this->render) {
-			return (string)$this->render;
+		$render = $this->render;
+		$render = $render?$render:$this->defaultRender;
+		if ($render) {
+			return (string)$render;
 		}
 	}
 	
-	function addDecorater($type,$config) {
-		$className = 'Com\Qinjq\Form\Decorater\S'.ucfirst($type).'Decorater';
-		$decorater = new $className($config);
-		$decorater->run($this);
+	function addDecorator($type,$config) {
+		$className = 'Com\Qinjq\Form\Decorator\S'.ucfirst($type).'Decorator';
+		$decorator = new $className($config);
+		$this->decorator[] = $decorator;
 	}
 	
 	function addValidator($type,$config) {
