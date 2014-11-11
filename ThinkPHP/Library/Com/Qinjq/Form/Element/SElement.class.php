@@ -157,7 +157,7 @@ class SElement {
 			$attr	=	$this->attr;
 			$id		=	$this->getId();
 			if ($id) {
-				$attr['id']	=	$id;
+				//$attr['id']	=	$id;
 			}
 		}
 		$noAttr	=	$this->param('noAttr');
@@ -343,10 +343,10 @@ class SElement {
 	 */
 	function getLabelHtml() {
 		$arrAttr = $this->labelAttr;
-		$id = $this->getId();
+		/*$id = $this->getId();
 		if ($id and !isset($arrAttr['for'])) {
 			$arrAttr['for'] = $id;
-		}
+		}*/
 		$attrStr = $this->buildAttr($arrAttr);
 		return "<label $attrStr>{$this->label}</label>";
 	}
@@ -397,10 +397,22 @@ class SElement {
 		}
 	}
 	
-	function addDecorator($type,$config) {
+	function addDecorator($type,$param=array()) {
 		$className = 'Com\Qinjq\Form\Decorator\S'.ucfirst($type).'Decorator';
-		$decorator = new $className($config);
+		$decorator = new $className();
+		$decorator->param($param);
 		$this->decorator[] = $decorator;
+	}
+	
+	function decorate() {
+		foreach ($this->decorator as $decorator){
+			$decorator->run($this);
+		}
+		if ($this->child) {
+			foreach ($this->child as $v){
+				$v->decorate();
+			}
+		}
 	}
 	
 	function addValidator($type,$config) {

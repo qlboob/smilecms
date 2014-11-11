@@ -38,6 +38,7 @@ class SForm extends SContainer{
 		}else {
 			$eventPram = array('form'=>$this);
 			Hook::listen('before_form_render',$eventPram);
+			$this->decorate();//执行修饰器
 			$phpcode	=	$this->render();
 			$eventPram['phpCode'] = $phpcode;
 			Hook::listen('after_form_render', $eventPram);
@@ -115,6 +116,18 @@ class SForm extends SContainer{
 			$fns[] = array('setAllDefaultRender',array($renderData['fmr_type'],$renderConfig));
 		}
 		
+		#加入修饰器
+		$decoratorData = D('Formdecorator')->where(array('frm_id'=>$formId,'ffd_id'=>0))->select();
+		if ($decoratorData) {
+			foreach ($decoratorData as $v){
+					$param = array();
+					if ($v['fdr_param']) {
+						$param = unserialize($v['fdr_param']);
+					}
+					$form->addDecorator($v['fdr_type'],$param);
+				}
+		}
+		
 		return $fns;
 	}
 	
@@ -148,7 +161,7 @@ class SForm extends SContainer{
 			$ele = $parentEle->addChild($v['ffd_type'],$fieldConfig,$fieldAttr,$fieldParam);
 			$v['ele'] = $ele;
 			$ele->config('form',$form);
-			//TODO 添加验证器
+			//添加验证器
 			$validatorDb = D('Formvalidator')->where(array('ffd_id'=>$v['ffd_id']))->select();
 			if ($validatorDb) {
 				foreach ($validatorDb as $validatorItem){
@@ -158,7 +171,19 @@ class SForm extends SContainer{
 					if ($validatorItem['fvd_msg']) {
 						$validatorConfig['msg'] = $validatorItem['fvd_msg'];
 					}
+					//TODO 没有李增加参数信息
 					$ele->addValidator($validatorItem['fvd_type'],$validatorConfig);
+				}
+			}
+			//添加修饰器
+			$decoratorDb = D('Formdecorator')->where(array('ffd_id'=>$v['ffd_id']))->select();
+			if ($decoratorDb) {
+				foreach ($decoratorDb as $v){
+					$param = array();
+					if ($v['fdr_param']) {
+						$param = unserialize($v['fdr_param']);
+					}
+					$ele->addDecorator($v['fdr_type'],$param);
 				}
 			}
 		}

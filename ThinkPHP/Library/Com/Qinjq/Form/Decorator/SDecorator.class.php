@@ -25,9 +25,7 @@ abstract class SDecorator {
 		$this->element = $element;
 	}
 	
-	abstract function run($element) {
-		;
-	}
+	abstract function run($element);
 	
 	/**
 	 * 设置/得到 参数
