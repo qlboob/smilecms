@@ -31,11 +31,39 @@ class FormfieldController extends DevController{
 		$fromM = D('Form');
 		$fieldM	=	D('Formfield');
 		$id = I('get.id');
-		$formData = $fromM->find($id);
-		
 		if (IS_GET) {
+			$lists=$this->getFormField($id);
+			usort($lists, function($a,$b){
+				return $a['ffd_weight'] - $b['ffd_weight'];
+			});
+			$this->display(array('lists'=>$lists));
+		}else {
+			$maxLevel = 0;
+			$sorted = I('param.sorted');
+			$maxWeight = 50000;
+			$ret = array();
+			foreach ($sorted as $v){
+				$maxLevel = max($v['level'],$maxLevel);
+			}
 			
-		};
+			if (0==$maxLevel) {
+				$intval = ceil($maxWeight/(count($sorted)+1));
+				foreach ($sorted as $k => $v){
+					$updateData = array(
+						'ffd_id'=>$v['id'],
+						'ffd_weight'=> $intval*($k+1),
+					);
+					$fieldM->save($updateData);
+					$ret[] = $updateData;
+				}
+				echo json_encode($ret);
+			}elseif (I('param.change')){
+				#改父表单排序
+				
+			}else {
+				;
+			}
+		}
 	}
 	
 	private function getFormField($formId,$level=0) {
@@ -46,10 +74,11 @@ class FormfieldController extends DevController{
 		if ($formData['frm_parent']) {
 			$parentIds = sexplode($formData['frm_parent']);
 			foreach ($parentIds as $parentFormId){
-				
+				$parentFields = $this->getFormField($parentFormId,$level+1);
+				$ret = array_merge($ret,$parentFields);
 			}
 		}
-		$fieldList = $fieldM->where(array('frm_id'=>$formId))->select();
+		$fieldList = $fieldM->where(array('frm_id'=>$formId,'ffd_type'=>array('not in',array('Hidden','PresentHidden'),'ffd_parent'=>0)))->select();
 		if ($fieldList) {
 			foreach ($fieldList as &$field){
 				$field['level'] = $level;

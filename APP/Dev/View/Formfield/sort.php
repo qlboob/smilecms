@@ -1,3 +1,7 @@
+<?php $htmlHeadTitle = '字段排序';?>
+
+
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -24,6 +28,8 @@
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 		<![endif]-->
 		
+	<link href="<?php echo __ROOT__;?>/skin/jqueryui/jquery-ui.css" rel="stylesheet" type="text/css" />
+
 	</head>
 	<body class="skin-blue">
 		<header class="header">
@@ -114,6 +120,34 @@
 				
 				<section class="content">
 					
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title"><?php echo htmlspecialchars($htmlHeadTitle);?></h3>
+				</div>
+				<div class="box-body table-responsive no-padding">
+					<ul id="sortable" class="list-unstyled">
+						<?php foreach($lists as $k=>$v){?>
+							<?php if($v['level']>0){?>
+								<?php $hasParent = 1;?>
+							<?php }?>
+							<li class="ui-state-default" data-level="<?php echo $v["level"];?>" data-id="<?php echo $v["ffd_id"];?>" data-weight="<?php echo $v["ffd_weight"];?>"><?php echo $v["ffd_label"];?> <?php echo htmlspecialchars($v["ffd_name"]);?>[<?php echo $v["ffd_type"];?>]</li>
+						<?php }?>
+					</ul>
+					<div class="row">
+						<button id="dosort" class="btn btn-primary">排序</button>
+						<?php if(!empty($hasParent)){?>
+							<label>
+								<input type="checkbox" name="change" value="1" />修改父表单排序
+							</label>
+						<?php }?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 				</section>
 			</aside>
 		</div>
@@ -121,6 +155,25 @@
 		<script type="text/javaScript" src="<?php echo __ROOT__;?>/js/bootstrap.min.js"></script>
 		<script type="text/javaScript" src="<?php echo __ROOT__;?>/skin/adminlte/js/AdminLTE/app.js"></script>
 		
+	<script type="text/javaScript" src="<?php echo __ROOT__;?>/skin/jqueryui/jquery-ui.min.js"></script>
+	<script type="text/javascript">
+		$('#sortable').sortable();
+		$('#dosort').click(function(){
+			var ret = [];
+			$('#sortable li').each(function(){
+				ret.push({
+					id:$(this).attr('data-id'),
+					level:$(this).attr('data-level'),
+					weight:$(this).attr('data-weight')
+				});
+			});
+			$.post(this.href,{sorted:ret},function(data){
+				$.each(data,function(){
+					$('[data-id='+this.ffd_id+']').attr('data-weight',this.ffd_weight);
+				});
+			},'json');
+		});</script>
+
 
 	</body>
 </html>

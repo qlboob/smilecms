@@ -29,6 +29,7 @@
 		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 		<![endif]-->
+		
 	</head>
 	<body class="skin-blue">
 		<header class="header">
@@ -133,8 +134,8 @@
 		</div>
 		<script type="text/javaScript" src="<?php echo __ROOT__;?>/js/jquery.min.js"></script>
 		<script type="text/javaScript" src="<?php echo __ROOT__;?>/js/bootstrap.min.js"></script>
-		<script type="text/javaScript" src="<?php echo __ROOT__;?>/skin/adminlte/js/AdminLTE/app.js">
+		<script type="text/javaScript" src="<?php echo __ROOT__;?>/skin/adminlte/js/AdminLTE/app.js"></script>
+		
 
-		</script>
 	</body>
 </html>

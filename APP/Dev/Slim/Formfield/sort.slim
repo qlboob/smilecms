@@ -1,0 +1,40 @@
+- $htmlHeadTitle = '字段排序';
+block head
+	link href="{$Smile.const.__ROOT__}/skin/jqueryui/jquery-ui.css" rel=stylesheet type=text/css
+block content
+	.row
+		.col-xs-12
+			.box
+				.box-header
+					h3.box-title {$htmlHeadTitle|}
+				.box-body.table-responsive.no-padding
+					ul#sortable.list-unstyled
+						foreach $lists
+							if $v['level']>0
+								- $hasParent = 1;
+							li.ui-state-default data-level={$v.level} data-id={$v.ffd_id} data-weight={$v.ffd_weight} {$v.ffd_label} {$v.ffd_name|}[{$v.ffd_type}]
+					.row
+						button#dosort.btn.btn-primary 排序
+						if !empty($hasParent)
+							label
+								input type=checkbox name=change value=1 修改父表单排序
+block closure
+	script type=text/javaScript src={$Smile.const.__ROOT__}/skin/jqueryui/jquery-ui.min.js
+	:javascript
+		$('#sortable').sortable();
+		$('#dosort').click(function(){
+			var ret = [];
+			$('#sortable li').each(function(){
+				ret.push({
+					id:$(this).attr('data-id'),
+					level:$(this).attr('data-level'),
+					weight:$(this).attr('data-weight')
+				});
+			});
+			$.post(this.href,{sorted:ret},function(data){
+				$.each(data,function(){
+					$('[data-id='+this.ffd_id+']').attr('data-weight',this.ffd_weight);
+				});
+			},'json');
+		});
+include Layout/html
