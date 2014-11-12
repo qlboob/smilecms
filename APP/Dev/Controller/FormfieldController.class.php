@@ -26,4 +26,15 @@ class FormfieldController extends DevController{
 			$this->success('成功');
 		}
 	}
+	
+	function sort() {
+		$fromM = D('Form');
+		$fieldM	=	D('Formfield');
+		$id = I('get.id');
+		$formData = $fromM->find($id);
+		
+		if (IS_GET) {
+			
+		};
+	}
 }

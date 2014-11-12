@@ -13,10 +13,12 @@ class FormfieldModel extends SysModel{
 	
 	protected $validatorKey = 'validator';
 	
+	protected $paramKey	=	'param';
+	
 	//处理表单字段的表单
 	function addOrEditWithValidator($data) {
 		//处理以前的参数
-		$paramKey = 'param';
+		$paramKey = $this->paramKey;
 		if (!empty($data['ffd_id'])) {
 			$fieldParam = $this->where("ffd_id={$data['ffd_id']}")->getField('ffd_param');
 			if ($fieldParam) {
@@ -113,7 +115,7 @@ class FormfieldModel extends SysModel{
 	function getAssignData($id) {
 		$data = $this->find($id);
 		if ($data['ffd_param']) {
-			$data['ffd_param']	=	unserialize($data['ffd_param']);
+			$data[$this->paramKey]	=	unserialize($data['ffd_param']);
 		}
 		
 		$validators = D('Formvalidator')->where(array('ffd_id'=>$id))->select();
