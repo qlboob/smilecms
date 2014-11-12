@@ -37,4 +37,25 @@ class FormfieldController extends DevController{
 			
 		};
 	}
+	
+	private function getFormField($formId,$level=0) {
+		$ret = array();
+		$fromM = D('Form');
+		$fieldM	=	D('Formfield');
+		$formData = $fromM->find($formId);
+		if ($formData['frm_parent']) {
+			$parentIds = sexplode($formData['frm_parent']);
+			foreach ($parentIds as $parentFormId){
+				
+			}
+		}
+		$fieldList = $fieldM->where(array('frm_id'=>$formId))->select();
+		if ($fieldList) {
+			foreach ($fieldList as &$field){
+				$field['level'] = $level;
+			}
+			$ret = array_merge($ret,$fieldList);
+		}
+		return $ret;
+	}
 }
