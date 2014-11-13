@@ -46,23 +46,20 @@ class FormfieldController extends DevController{
 				$maxLevel = max($v['level'],$maxLevel);
 			}
 			
-			if (0==$maxLevel) {
-				$intval = ceil($maxWeight/(count($sorted)+1));
-				foreach ($sorted as $k => $v){
+			$level=I('param.change')?$maxLevel:0 ;
+			$intval = ceil($maxWeight/(count($sorted)+1));
+			$result = array();
+			$this->sortLevel(0, $maxWeight, $sorted, $result, $level);
+			foreach ($result as $k => $v){
+				if (isset($v['newWeight'])) {
 					$updateData = array(
 						'ffd_id'=>$v['id'],
-						'ffd_weight'=> $intval*($k+1),
+						'ffd_weight'=> $v['newWeight'],
 					);
 					$fieldM->save($updateData);
-					$ret[] = $updateData;
 				}
-				echo json_encode($ret);
-			}elseif (I('param.change')){
-				#改父表单排序
-				
-			}else {
-				;
 			}
+			echo json_encode($ret);
 		}
 	}
 	
@@ -86,5 +83,40 @@ class FormfieldController extends DevController{
 			$ret = array_merge($ret,$fieldList);
 		}
 		return $ret;
+	}
+	
+	private function sortLevel($minWeight,$maxWeight,&$sorted,&$ret,$level) {
+		$toSort = array();
+		foreach ($sorted as &$v){
+			if (isset($v['newWeight'])) {
+				continue;
+			}elseif ($level==$v['level']){
+				$toSort[] = &$v;
+			}elseif ($level < $v['level']){
+				if ($toSort) {
+					$intval = ceil(($v['weight']-$minWeight)/(count($toSort)+1));
+					foreach ($toSort as $i => &$item){
+						$newWeight = $minWeight + ($i+1)*$intval;
+						$item['newWeight']=$item['weight'] = $newWeight;
+						$ret[$v['id']] = $newWeight;
+					}
+					$this->sortLevel($v['weight'], $maxWeight, $sorted, $ret,$level);
+					return ;
+				}else {
+					$minWeight = $v['weight'];
+				}
+			}
+		}
+		if ($toSort) {
+			$intval = ceil(($maxWeight-$minWeight)/(count($toSort)+1));
+			foreach ($toSort as $i => &$item){
+				$newWeight = $minWeight + ($i+1)*$intval;
+				$item['newWeight']=$item['weight'] = $newWeight;
+				$ret[$v['id']] = $newWeight;
+			}
+		}
+		if ($level>0) {
+			$this->sortLevel($minWeight, $maxWeight, $sorted, $ret, $level-1);
+		}
 	}
 }
