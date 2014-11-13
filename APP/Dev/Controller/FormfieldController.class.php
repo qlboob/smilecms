@@ -48,9 +48,8 @@ class FormfieldController extends DevController{
 			
 			$level=I('param.change')?$maxLevel:0 ;
 			$intval = ceil($maxWeight/(count($sorted)+1));
-			$result = array();
-			$this->sortLevel(0, $maxWeight, $sorted, $result, $level);
-			foreach ($result as $k => $v){
+			$this->sortLevel(0, $maxWeight, $sorted, $ret, $level);
+			foreach ($ret as $v){
 				if (isset($v['newWeight'])) {
 					$updateData = array(
 						'ffd_id'=>$v['id'],
@@ -98,7 +97,7 @@ class FormfieldController extends DevController{
 					foreach ($toSort as $i => &$item){
 						$newWeight = $minWeight + ($i+1)*$intval;
 						$item['newWeight']=$item['weight'] = $newWeight;
-						$ret[$v['id']] = $newWeight;
+						$ret[$item['id']] = $item;
 					}
 					$this->sortLevel($v['weight'], $maxWeight, $sorted, $ret,$level);
 					return ;
@@ -112,7 +111,7 @@ class FormfieldController extends DevController{
 			foreach ($toSort as $i => &$item){
 				$newWeight = $minWeight + ($i+1)*$intval;
 				$item['newWeight']=$item['weight'] = $newWeight;
-				$ret[$v['id']] = $newWeight;
+				$ret[$v['id']] = $item;
 			}
 		}
 		if ($level>0) {
