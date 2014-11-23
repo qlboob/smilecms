@@ -2,10 +2,16 @@
 	$htmlHeadTitle = 'add'==ACTION_NAME?'新增':'编辑';
 	$modelName = D('Model')->where(array('mdl_table'=>strtolower(CONTROLLER_NAME)))->getField('mdl_name');
 	$htmlHeadTitle.=$modelName;
+block head
+	link rel=stylesheet type=text/css href={$Smile.const.__ROOT__}/skin/jqueryvalidationengine/css/validationEngine.jquery.css
 block content
 	.box.box-primary
 		.box-header
 			h3.box-title {$htmlHeadTitle|}
 		.box-body
 			{$form}
+block closure
+	script type=text/javaScript src={$Smile.const.__ROOT__}/skin/jqueryvalidationengine/js/languages/jquery.validationEngine-zh_CN.js
+	script type=text/javaScript src={$Smile.const.__ROOT__}/skin/jqueryvalidationengine/js/jquery.validationEngine.js
+	script type=text/javaScript src={$Smile.const.__ROOT__}/skin/jqueryvalidationengine/js/me.js
 include Layout/html

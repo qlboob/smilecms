@@ -13,15 +13,15 @@ class SEvent{
 			'sit_id'=>array('in',$siteIds), 
 		))->cache()->field('distinct evt_tag as tag')->select();
 		if ( $tags ) {
-			foreach($tags as $tag['evt_tag']){
-				Hook::add($tag,'Com\Qinjq\Event\SEventBehavior');
+			foreach($tags as $tag){
+				Hook::add($tag['tag'],'Com\Qinjq\Event\SEvent');
 			}
 		}
 		$this->_call(__FUNCTION__,$params);
 	}
 
 	function __call($tag,$params){
-		$this->_call($tag,$params);
+		$this->_call($tag,$params[0]);
 	}
 	private function _call($tag,$params) {
 		$arrSiteIds = getSiteIds();

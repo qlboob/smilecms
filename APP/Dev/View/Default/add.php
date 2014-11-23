@@ -4,6 +4,8 @@
 	$htmlHeadTitle.=$modelName;
 ?>
 
+
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -30,6 +32,8 @@
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 		<![endif]-->
 		
+	<link rel="stylesheet" type="text/css" href="<?php echo __ROOT__;?>/skin/jqueryvalidationengine/css/validationEngine.jquery.css" />
+
 	</head>
 	<body class="skin-blue">
 		<header class="header">
@@ -136,6 +140,10 @@
 		<script type="text/javaScript" src="<?php echo __ROOT__;?>/js/bootstrap.min.js"></script>
 		<script type="text/javaScript" src="<?php echo __ROOT__;?>/skin/adminlte/js/AdminLTE/app.js"></script>
 		
+	<script type="text/javaScript" src="<?php echo __ROOT__;?>/skin/jqueryvalidationengine/js/languages/jquery.validationEngine-zh_CN.js"></script>
+	<script type="text/javaScript" src="<?php echo __ROOT__;?>/skin/jqueryvalidationengine/js/jquery.validationEngine.js"></script>
+	<script type="text/javaScript" src="<?php echo __ROOT__;?>/skin/jqueryvalidationengine/js/me.js"></script>
+
 
 	</body>
 </html>

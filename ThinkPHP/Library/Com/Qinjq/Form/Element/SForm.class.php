@@ -26,19 +26,34 @@ class SForm extends SContainer{
 	 */
 	protected $tabel;	
 	
+	protected $validatorAdapter;
+	
 	function __construct() {
 		$this->form = $this;
 		parent::__construct();
 	}
 	
+	function setValidatorAdapter($type,$param) {
+		$cls = sprintf('Com\Qinjq\Form\Validatoradapter\S%sValidatoradapter',ucfirst($type));
+		$obj = new $cls;
+		$obj->param($param);
+		$this->validatorAdapter = $obj;
+	}
+	
+	function validatorAdapter() {
+		if ($this->validatorAdapter) {
+			$this->validatorAdapter->run($this);
+		};
+	}
+	
 	function __toString(){
-		$formName = $this->attr('name');
 		if ($this->phpCode) {
 			$phpcode	=	$this->phpCode;
 		}else {
 			$eventPram = array('form'=>$this);
 			Hook::listen('before_form_render',$eventPram);
 			$this->decorate();//执行修饰器
+			$this->validatorAdapter();
 			$phpcode	=	$this->render();
 			$eventPram['phpCode'] = $phpcode;
 			Hook::listen('after_form_render', $eventPram);
@@ -60,6 +75,9 @@ class SForm extends SContainer{
 	}
 
 	private static function configForm($form,$formId,$formIds=array(),$fns= array()){
+		if ( empty($formIds) ) {
+			$form->config( 'dbId',$formId );
+		}
 		$formIds[] = $formId;
 		$formDbData = D('Form')->find($formId);
 		if ( $formDbData['frm_parent'] ) {
@@ -87,23 +105,6 @@ class SForm extends SContainer{
 		$formFieldDbData = D('Formfield')->where("frm_id=$formId and ffd_display=1")->getField('ffd_id,ffd_name,ffd_label,ffd_type,ffd_attr,ffd_param,ffd_weight,ffd_parent');
 		if ( $formFieldDbData ) {
 			self::initField($form, $formFieldDbData);
-			/*
-			foreach($formFieldDbData as $fieldId => $v){
-				$fieldConfig = array(
-					'label'=>$v['ffd_label'],
-					'weight'=>$v['ffd_weight'],
-					'key'	=>$v['ffd_name'],
-				);
-				$fieldParam = $fieldAttr = array();
-				if ( $v['ffd_attr'] ) {
-					$fieldAttr = unserialize($v['ffd_attr']);
-				}
-				if ( $v['ffd_param'] ) {
-					$fieldParam = unserialize($v['ffd_param']);
-				}
-				$form->addChild($v['ffd_type'],$fieldConfig,$fieldAttr,$fieldParam);
-				//TODO 添加验证器
-			}*/
 		}
 		
 		#加入渲染器
@@ -116,6 +117,8 @@ class SForm extends SContainer{
 			$fns[] = array('setAllDefaultRender',array($renderData['fmr_type'],$renderConfig));
 		}
 		
+		//TODO 增加表单验证适配器
+		
 		#加入修饰器
 		$decoratorData = D('Formdecorator')->where(array('frm_id'=>$formId,'ffd_id'=>0))->select();
 		if ($decoratorData) {
@@ -126,6 +129,16 @@ class SForm extends SContainer{
 					}
 					$form->addDecorator($v['fdr_type'],$param);
 				}
+		}
+		
+		#增加表单验证适配器
+		$adapterData = D('Formvalidatoradapter')->find($formId);
+		if ($adapterData) {
+			$adapterParam = array();
+			if ($adapterParam['fva_param']) {
+				$adapterParam = unserialize($adapterParam['fva_param']);
+			}
+			$form->setValidatorAdapter($adapterData['fva_type'], $param);
 		}
 		
 		return $fns;
@@ -150,6 +163,7 @@ class SForm extends SContainer{
 				'label'=>$v['ffd_label'],
 				'weight'=>$v['ffd_weight'],
 				'key'	=>$v['ffd_name'],
+				'dbId'	=>$v['ffd_id'],
 			);
 			$fieldParam = $fieldAttr = array();
 			if ( $v['ffd_attr'] ) {

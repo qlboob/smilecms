@@ -101,6 +101,9 @@ class SElement {
 	);
 	
 	protected $additionParam = array();
+
+	/* 数据库里的主键 */
+	protected $dbId;
 	
 	
 	function __construct() {
