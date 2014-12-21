@@ -105,6 +105,11 @@ class SElement {
 	/* 数据库里的主键 */
 	protected $dbId;
 	
+	/**
+	 * @var boolean 是否在表单中显示
+	 */
+	protected $display=TRUE;
+	
 	
 	function __construct() {
 		$this->attr($this->additionAttr);

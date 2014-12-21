@@ -102,7 +102,7 @@ class SForm extends SContainer{
 		}
 
 		#加入字段信息
-		$formFieldDbData = D('Formfield')->where("frm_id=$formId and ffd_display=1")->getField('ffd_id,ffd_name,ffd_label,ffd_type,ffd_attr,ffd_param,ffd_weight,ffd_parent');
+		$formFieldDbData = D('Formfield')->where("frm_id=$formId")->getField('ffd_id,ffd_name,ffd_label,ffd_type,ffd_attr,ffd_param,ffd_weight,ffd_display,ffd_parent');
 		if ( $formFieldDbData ) {
 			self::initField($form, $formFieldDbData);
 		}
@@ -164,6 +164,7 @@ class SForm extends SContainer{
 				'weight'=>$v['ffd_weight'],
 				'key'	=>$v['ffd_name'],
 				'dbId'	=>$v['ffd_id'],
+				'display'=>$v['ffd_display']>0,
 			);
 			$fieldParam = $fieldAttr = array();
 			if ( $v['ffd_attr'] ) {

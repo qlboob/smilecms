@@ -56,6 +56,10 @@ class SDivRender extends SRender {
 	
 	public function getContent() {
 		$ele = $this->element;
+		if (!$ele->config('display')) {
+			#不显示元素跳过
+			return '';
+		}
 		$tag = $ele->config('tag');
 		if ('form'==$tag) {
 			if ($this->formOutDivClass) {
