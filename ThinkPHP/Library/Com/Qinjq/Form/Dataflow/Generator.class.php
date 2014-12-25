@@ -51,7 +51,14 @@ class Generator {
 	}
 	
 	function dealFieldCallback($ele) {
-		$this->result['field'][] = $ele->attr('name');
+		$name = $ele->attr('name');
+		$fnc = 'is_string';
+		$cls = get_class($name);
+		if ('Com\Qinjq\Form\Element\SCheckboxes'==$cls or 'Com\Qinjq\Form\Element\SSelect'==$cls and 'multiple'==$ele->attr('multiple')) {
+			//数组
+			$fnc = 'is_array';
+		}
+		$this->result['field'][$name] = $fnc;
 	}
 	
 	function dealValidator() {
@@ -66,8 +73,20 @@ class Generator {
 				$clsName = get_class($v);
 				$onlyCls = end(explode('\\', $clsName));
 				$type = strtolower(substr($onlyCls, 1,-8));
-				$this->result['validator'][$name][$type] = get_object_vars($v);
+				$this->result['validator'][$name][$type] = $this->getObjVars($v);
 			}
 		}
+	}
+	
+	function getObjVars($obj) {
+		$ret = array();
+		//反射得到类的属性
+		$class = new \ReflectionClass(get_class($obj));
+		$property = $class->getProperties();
+		foreach ($property as $v){
+			$p = $v->name;
+			$ret[$p] = $obj->config($p);
+		}
+		return $ret;
 	}
 }

@@ -15,6 +15,7 @@ class SDataflow {
 	 */
 	private $validator = array();
 	
+	private $error;
 	function config($key,$value=NULL) {
 		if (is_array($key)) {
 			foreach ($key as $k => $v) {
@@ -27,5 +28,44 @@ class SDataflow {
 		}
 	}
 	
+	function run($data) {
+		$data = $this->filterField($data);
+		return $this->validate($data);
+	}
+	
+	function filterField($data) {
+		if ($this->field) {
+			foreach ($data as $k =>$v){
+				if (isset($this->field[$k])) {
+					$fnc = $this->field[$k];
+					if (!$fnc($v)) {
+						unset($data[$k]);
+					}
+				}else {
+					unset($data[$k]);
+				}
+			}
+		}
+		return $data;
+	}
+	
+	function validate($data) {
+		foreach ($data as $k=>$v){
+			if (!isset($this->validator[$k])) {
+				continue;
+			}
+			foreach ($this->validator[$k] as $type=>$config){
+				$className = 'Com\Qinjq\Form\Validator\S'.ucfirst($type).'Validator';
+				$validator = new $className();
+				$validator->config($config);
+				$validator->setData($data);
+				if (!$validator->run()) {
+					$this->error = $validator->getError();
+					return false;
+				};
+			}
+		}
+		return TRUE;
+	}
 	
 }
