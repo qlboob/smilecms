@@ -186,7 +186,7 @@ class SForm extends SContainer{
 					if ($validatorItem['fvd_msg']) {
 						$validatorConfig['msg'] = $validatorItem['fvd_msg'];
 					}
-					//TODO 没有李增加参数信息
+					//TODO 没有增加参数信息
 					$ele->addValidator($validatorItem['fvd_type'],$validatorConfig);
 				}
 			}
@@ -201,6 +201,26 @@ class SForm extends SContainer{
 					$ele->addDecorator($v['fdr_type'],$param);
 				}
 			}
+			
+			//增加提交转换
+			$postConvertDb = D('Formpostconvert')->where(array('ffd_id'=>$v['ffd_id']))->find();#提交转换每个字段只有一个
+			if ($postConvertDb) {
+				$ele->addPostConvert($postConvertDb['fpc_type'],array(
+					'field'=>$v['ffd_name'],
+					'content'=>$postConvertDb['fpc_content'],
+				));
+			}
+			//TODO 增加显示转换
+			
+			//TODO 增加自动填充
+			$fillDb = D('Formfieldfill')->where(array('ffd_id'=>$v['ffd_id']))->find();
+			if ($fillDb) {
+				$ele->addFill($fillDb['fff_type'],array(
+					'field'=>$v['ffd_name'],
+					'content'=>$fillDb['fff_content'],
+				));
+			}
+			
 		}
 	}
 	

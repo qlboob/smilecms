@@ -20,7 +20,7 @@ class Generator {
 	}
 	
 	function run() {
-		foreach (array('field','validator',/*'convert','fill'*/) as $v){
+		foreach (array('field','validator','convert','fill') as $v){
 			$method = 'deal'.$v;
 			$this->$method();
 		}
@@ -34,9 +34,6 @@ class Generator {
 		$child = $ele->config('child');
 		if ($child) {
 			foreach ($child as $v){
-				if (!$v->config('display')) {
-					continue;
-				}
 				if ($v->config('container')) {
 					$this->eachField($callback,$v);
 				}else {
@@ -51,6 +48,9 @@ class Generator {
 	}
 	
 	function dealFieldCallback($ele) {
+		if (!$ele->config('display')) {
+			return ;
+		}
 		$name = $ele->attr('name');
 		$fnc = 'is_string';
 		$cls = get_class($name);
@@ -65,6 +65,9 @@ class Generator {
 		$this->eachField(array($this,'dealValidatorCallback'));
 	}
 	function dealValidatorCallback($ele) {
+		if (!$ele->config('display')) {
+			return;
+		}
 		$validator = $ele->config('validator');
 		if ($validator) {
 			$name = $ele->attr('name');
@@ -75,6 +78,43 @@ class Generator {
 				$type = strtolower(substr($onlyCls, 1,-8));
 				$this->result['validator'][$name][$type] = $this->getObjVars($v);
 			}
+		}
+	}
+	
+	function dealconvert() {
+		$this->eachField(array($this,'dealConvertCallback'));
+	}
+	function dealConvertCallback($ele) {
+		if (!$ele->config('display')) {
+			return;
+		}
+		$convert = $ele->config('postConvert');
+		if ($convert) {
+			$name = $ele->attr('name');
+			if (!isset($this->result['convert'][$name])) {
+				$this->result['convert'][$name] = array();
+			}
+			$clsName = get_class($convert);
+			$onlyCls = end(explode('\\', $clsName));
+			$type = strtolower(substr($onlyCls, 1,-7));
+			$this->result['convert'][$name][$type]=$this->getObjVars($convert);
+		}
+	}
+	
+	function dealFill() {
+		$this->eachField(array($this,'dealFillCallback'));
+	}
+	function dealFillCallback($ele) {
+		$fill = $ele->config('fill');
+		if ($fill) {
+			$name = $ele->attr('name');
+			if (!isset($this->result['fill'][$name])) {
+				$this->result['fill'][$name] = array();
+			}
+			$clsName = get_class($fill);
+			$onlyCls = end(explode('\\', $clsName));
+			$type = strtolower(substr($onlyCls, 1,-4));
+			$this->result['fill'][$name][$type]=$this->getObjVars($fill);
 		}
 	}
 	

@@ -34,7 +34,9 @@ class SDataflow {
 	}
 	
 	function filterField($data) {
+		$ret = array();
 		if ($this->field) {
+			//TODO 对于数组类型数据处理
 			foreach ($data as $k =>$v){
 				if (isset($this->field[$k])) {
 					$fnc = $this->field[$k];

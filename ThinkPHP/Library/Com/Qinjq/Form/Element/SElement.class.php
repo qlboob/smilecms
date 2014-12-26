@@ -77,6 +77,24 @@ class SElement {
 	 */
 	protected $validator	=	array();
 	
+	/**
+	 * @var object 数据提交转换
+	 */
+	protected $postConvert;
+	
+	/**
+	 * @var object 数据展示转换
+	 */
+	protected $showConvert;
+	
+	/**
+	 * @var object 数据自动填充
+	 */
+	protected $fill;
+	
+	/**
+	 * @var array 修饰器
+	 */
 	protected $decorator	=	array();
 	
 	/**
@@ -85,6 +103,9 @@ class SElement {
 	 */
 	protected $render;
 	
+	/**
+	 * @var object 默认渲染器
+	 */
 	protected $defaultRender;
 	
 	/**
@@ -428,5 +449,18 @@ class SElement {
 		$validator = new $className();
 		$validator->config($config);
 		$this->validator[] = $validator;
+	}
+	
+	function addFill($type,$config) {
+		$className = 'Com\Qinjq\Form\Fill\S'.ucfirst($type).'Fill';
+		$obj = new $className();
+		$obj->config($config);
+		$this->fill= $obj;
+	}
+	function addPostConvert($type,$config) {
+		$className = 'Com\Qinjq\Form\Postconvert\S'.ucfirst($type).'Postconvert';
+		$postconvert = new $className();
+		$postconvert->config($config);
+		$this->postConvert = $postconvert;
 	}
 }
