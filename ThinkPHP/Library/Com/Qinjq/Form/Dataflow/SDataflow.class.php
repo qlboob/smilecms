@@ -2,7 +2,7 @@
 
 namespace Com\Qinjq\Form\Dataflow;
 
-class SDataflow {
+class SDataflow extends SDataBase{
 	
 	/**
 	 * @var array 表单中所允许的字段
@@ -14,6 +14,8 @@ class SDataflow {
 	 * 字段->验证类型->验证器内容
 	 */
 	private $validator = array();
+
+	private $convert = array();
 	
 	private $error;
 	function config($key,$value=NULL) {
@@ -30,25 +32,25 @@ class SDataflow {
 	
 	function run($data) {
 		$data = $this->filterField($data);
-		return $this->validate($data);
+		$validateResult =  $this->validate($data);
+		if ( !$validateResult ) {
+			return $validateResult;
+		}
+		$data = $this->convert($data);
+		return $this->fill($data);
 	}
 	
 	function filterField($data) {
 		$ret = array();
 		if ($this->field) {
-			//TODO 对于数组类型数据处理
-			foreach ($data as $k =>$v){
-				if (isset($this->field[$k])) {
-					$fnc = $this->field[$k];
-					if (!$fnc($v)) {
-						unset($data[$k]);
-					}
-				}else {
-					unset($data[$k]);
+			foreach ($this->field as $field=>$fun){
+				$value = self::getArrVal($data, $field);
+				if ($fun($value)) {
+					self::setArrVal($ret, $field, $value);
 				}
 			}
 		}
-		return $data;
+		return $ret;
 	}
 	
 	function validate($data) {
@@ -69,5 +71,32 @@ class SDataflow {
 		}
 		return TRUE;
 	}
+
+	function convert($data){
+		if ( $this->convert ) {
+			foreach($this->convert as $field => $item){
+				foreach($item as $type=>$config){
+					$className = 'Com\Qinjq\Form\Postconvert\S'.ucfirst($type).'Postconvert';
+					$convertObj = new $className();
+					$convertObj->config($config);
+					$convertObj->convert($data);
+				}
+			}
+		}
+		return $data;
+	}
 	
+	function fill($data){
+		if ( $this->fill ) {
+			foreach($this->fill	 as $field=>$item){
+				foreach($item as $type=>$config){
+					$className = 'Com\Qinjq\Form\Fill\S'.ucfirst($type).'Fill';
+					$fillObj = new $className();
+					$fillObj->config($config);
+					$fillObj->fill($data);
+				}
+			}
+		}
+		return $data;
+	}
 }

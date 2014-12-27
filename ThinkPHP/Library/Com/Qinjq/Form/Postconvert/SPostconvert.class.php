@@ -1,13 +1,13 @@
 <?php
 
 namespace Com\Qinjq\Form\Postconvert;
-
+use Com\Qinjq\Form\Dataflow\SDataBase;
 /**
  * 表单提交的数据字段转换
  * @author lukeqin
  *
  */
-abstract class SPostconvert {
+abstract class SPostconvert extends SDataBase{
 	protected $field;
 	protected $content;
 	
@@ -27,6 +27,8 @@ abstract class SPostconvert {
 	abstract function run($val,$data);
 	
 	function convert(&$data) {
-		$data[$this->field] = $this->run(isset($data[$this->field])?$data[$this->field]:NULL,$data);
+		$value = self::getArrVal($data, $this->field);
+		self::setArrVal($data, $this->field, $this->run($value, $data));
+		return $data;
 	}
 }

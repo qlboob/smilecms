@@ -8,13 +8,14 @@ class SRegularValidator  extends SValidator{
 	
 	function validate($value,$data) {
 		$regular = $this->target;
-		foreach (array('!','#','/','~') as $v){
+		/*foreach (array('/','!','#','~') as $v){
 			if (FALSE==strpos($regular, $v)) {
 				$regular = $v.$regular.$v;
 				break;
 			}
-		}
-		return preg_match($regular, $this->value);
+		}*/
+		$regular = "/$regular/";
+		return preg_match($regular, $value);
 	}
 	
 

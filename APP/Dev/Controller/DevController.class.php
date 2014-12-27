@@ -31,6 +31,11 @@ class DevController extends Controller {
 	 * @return SForm
 	 */
 	protected function getForm(){
+		$formId = $this->getFormId();
+		return \Com\Qinjq\Form\Element\SForm::create($formId);
+	}
+	
+	protected function getFormId() {
 		if($this->formId){
 			$formId = $this->formId;
 		}else{
@@ -38,7 +43,7 @@ class DevController extends Controller {
 			$table	=	ltrim($table,'_');
 			$formId	=	D('Model')->where("mdl_table = '$table'")->getField('frm_id');
 		}
-		return \Com\Qinjq\Form\Element\SForm::create($formId);
+		return $formId;
 	}
 	
 	protected function getTable($table='') {

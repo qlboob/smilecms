@@ -11,7 +11,18 @@ use Com\Qinjq\Form\Fill\SFill;
 class SFunctionFill extends SFill{
 	public function run($data) {
 		$fun = $this->content;
-		return 	$fun($data);
+		if (strpos($fun, '(')>0) {
+			list($fun,$argStr) = explode('(', $fun,2);
+			$argStr = rtrim($argStr,')');
+			$args = explode(',', $argStr);
+			foreach ($args as $k=>$v){
+				if ('$data'==$v) {
+					$args[$k]= $data;
+				}
+			}
+			return call_user_func_array($fun, $args);
+		}
+		return $fun();
 	}
 
 }

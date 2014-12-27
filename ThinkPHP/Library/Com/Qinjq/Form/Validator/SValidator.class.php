@@ -2,7 +2,8 @@
 
 namespace Com\Qinjq\Form\Validator;
 
-abstract class SValidator{
+use Com\Qinjq\Form\Dataflow\SDataBase;
+abstract class SValidator extends SDataBase{
 	/**
 	 * @var string 错误信息
 	 */
@@ -73,7 +74,7 @@ abstract class SValidator{
 	 * @param array $data
 	 */
 	function setData(array $data) {
-		isset($data[$this->field]) && $this->value=$data[$this->field];
+		$this->value = self::getArrVal($data, $this->field);
 		$this->data = $data;
 	}
 	
@@ -82,10 +83,10 @@ abstract class SValidator{
 	 * @return boolean
 	 */
 	function run() {
-		if ($this->existValidate and null===$this->value) {
-			$ret = TRUE;
-		}elseif ($this->notEmptyValidate and ''===$this->value){
-			$ret = TRUE;
+		if (null===$this->value) {
+			$ret = $this->existValidate;
+		}elseif (''===$this->value){
+			$ret = $this->notEmptyValidate;
 		}else {
 			$ret = $this->validate($this->value,$this->data);
 		}
@@ -105,7 +106,7 @@ abstract class SValidator{
 	 */
 	function getError() {
 		if ($this->msg and FALSE===stripos($this->msg, '{$')) {
-			preg_replace_callback('#\{$(.+?)\}#', array($this,'replace'), $this->msg);
+			return preg_replace_callback('#\{$(.+?)\}#', array($this,'replace'), $this->msg);
 		}
 		return $this->msg;
 	}

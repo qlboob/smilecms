@@ -2,7 +2,8 @@
 
 namespace Com\Qinjq\Form\Fill;
 
-abstract class SFill {
+use Com\Qinjq\Form\Dataflow\SDataBase;
+abstract class SFill extends SDataBase{
 	protected $field;
 	protected $content;
 	abstract function run($data);
@@ -20,6 +21,7 @@ abstract class SFill {
 	}
 	
 	function fill(&$data) {
-		$data[$this->field] = $this->run($data);
+		self::setArrVal($data, $this->field, $this->run($data));
+		return $data;
 	}
 }

@@ -84,24 +84,38 @@ class FormfieldController extends DevController{
 		return $ret;
 	}
 	
+	/**
+	 * @param integer $minWeight 可以使用最小的排序值
+	 * @param integer $maxWeight 可以使用排序的最大值
+	 * @param array $sorted
+	 * @param array $ret
+	 * @param integer $level
+	 */
 	private function sortLevel($minWeight,$maxWeight,&$sorted,&$ret,$level) {
 		$toSort = array();
 		foreach ($sorted as &$v){
-			if (isset($v['newWeight'])) {
-				continue;
-			}elseif ($level==$v['level']){
+			if ($level==$v['level']){
+				if (isset($v['newWeight'])) {
+					#已经设置了排序值，不用再参与排序
+					continue;
+				}
+				#只有当前层级参才与排序
 				$toSort[] = &$v;
 			}elseif ($level < $v['level']){
+				#发现有比当前排序层级更高的
 				if ($toSort) {
+					#把已经找到当前层级元素，均匀排序
 					$intval = ceil(($v['weight']-$minWeight)/(count($toSort)+1));
 					foreach ($toSort as $i => &$item){
 						$newWeight = $minWeight + ($i+1)*$intval;
 						$item['newWeight']=$item['weight'] = $newWeight;
 						$ret[$item['id']] = $item;
 					}
-					$this->sortLevel($v['weight'], $maxWeight, $sorted, $ret,$level);
+					#剩余元素继续排序
+					$this->sortLevel($v['weight'], $newWeight, $sorted, $ret,$level);
 					return ;
 				}else {
+					#改变最小的排序值，因为后面的排序值不能比这个值小
 					$minWeight = $v['weight'];
 				}
 			}
@@ -111,10 +125,11 @@ class FormfieldController extends DevController{
 			foreach ($toSort as $i => &$item){
 				$newWeight = $minWeight + ($i+1)*$intval;
 				$item['newWeight']=$item['weight'] = $newWeight;
-				$ret[$v['id']] = $item;
+				$ret[$item['id']] = $item;
 			}
 		}
 		if ($level>0) {
+			#下一层级排序
 			$this->sortLevel($minWeight, $maxWeight, $sorted, $ret, $level-1);
 		}
 	}

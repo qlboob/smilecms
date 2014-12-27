@@ -92,7 +92,7 @@ class FormfieldModel extends SysModel{
 		//其它参数形式
 		$input		=	$this->inputValidatorType;
 		foreach ($input as $v){
-			$inputWhere = array('fvd_id'=>$fieldId,'fvd_type'=>$v);
+			$inputWhere = array('ffd_id'=>$fieldId,'fvd_type'=>$v);
 			if (empty($data[$validatorKey][$v])) {
 				$validatorModel->where($inputWhere)->delete();
 			}else {

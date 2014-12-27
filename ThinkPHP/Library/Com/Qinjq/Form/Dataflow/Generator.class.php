@@ -52,6 +52,9 @@ class Generator {
 			return ;
 		}
 		$name = $ele->attr('name');
+		if (!$name) {
+			return;
+		}
 		$fnc = 'is_string';
 		$cls = get_class($name);
 		if ('Com\Qinjq\Form\Element\SCheckboxes'==$cls or 'Com\Qinjq\Form\Element\SSelect'==$cls and 'multiple'==$ele->attr('multiple')) {
@@ -75,7 +78,7 @@ class Generator {
 			foreach ($validator as $v){
 				$clsName = get_class($v);
 				$onlyCls = end(explode('\\', $clsName));
-				$type = strtolower(substr($onlyCls, 1,-8));
+				$type = strtolower(substr($onlyCls, 1,-9));
 				$this->result['validator'][$name][$type] = $this->getObjVars($v);
 			}
 		}
@@ -96,7 +99,7 @@ class Generator {
 			}
 			$clsName = get_class($convert);
 			$onlyCls = end(explode('\\', $clsName));
-			$type = strtolower(substr($onlyCls, 1,-7));
+			$type = strtolower(substr($onlyCls, 1,-11));
 			$this->result['convert'][$name][$type]=$this->getObjVars($convert);
 		}
 	}

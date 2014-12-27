@@ -4,8 +4,8 @@ use Com\Qinjq\Form\Validator\SValidator;
 class SMaxValidator extends SValidator{
 	
 	
-	protected $message	=	'{$title}的最大值是{$target}';
-	function validate($value) {
+	protected $msg	=	'{$title}的最大值是{$target}';
+	function validate($value,$data) {
 		return $this->target>=$value;
 	}
 

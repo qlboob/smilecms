@@ -126,11 +126,10 @@
 							<input class="form-control" name="param[key][]" value="<?php echo $k;?>" placeholder="输入参数的key值" />
 						</div>
 						<div class="col-sm-5">
-							<textarea class="form-control" name="param[value][]" placeholder="输入参数的value值"><?php echo $v;?> </textarea>
+							<textarea class="form-control" name="param[value][]" placeholder="输入参数的value值"><?php echo $v;?></textarea>
 						</div>
 					</div>
-				<?php }?>
-				<div class="form-group">
+				<?php }?><div class="form-group">
 					<div class="col-sm-offset-4">
 						<button class="btn btn-primary" type="submit">提交</button>
 						<button id="addLine" class="btn" type="button">增加参数

@@ -182,6 +182,7 @@ class SForm extends SContainer{
 				foreach ($validatorDb as $validatorItem){
 					$validatorConfig = array(
 						'target'=> $validatorItem['fvd_target'],
+						'field'	=>$v['ffd_name'],
 					);
 					if ($validatorItem['fvd_msg']) {
 						$validatorConfig['msg'] = $validatorItem['fvd_msg'];
@@ -203,7 +204,7 @@ class SForm extends SContainer{
 			}
 			
 			//增加提交转换
-			$postConvertDb = D('Formpostconvert')->where(array('ffd_id'=>$v['ffd_id']))->find();#提交转换每个字段只有一个
+			$postConvertDb = D('Formfieldpostconvert')->where(array('ffd_id'=>$v['ffd_id']))->find();#提交转换每个字段只有一个
 			if ($postConvertDb) {
 				$ele->addPostConvert($postConvertDb['fpc_type'],array(
 					'field'=>$v['ffd_name'],

@@ -31,7 +31,12 @@ block closure
 					weight:$(this).attr('data-weight')
 				});
 			});
-			$.post(this.href,{sorted:ret},function(data){
+			var postData = {sorted:ret};
+			var checkbox = $('[name=change]');
+			if(checkbox.attr('checked') || checkbox.parent().hasClass('checked')){
+				postData.change=1;
+			}
+			$.post(location.href,postData,function(data){
 				$.each(data,function(){
 					$('[data-id='+this.ffd_id+']').attr('data-weight',this.ffd_weight);
 				});
