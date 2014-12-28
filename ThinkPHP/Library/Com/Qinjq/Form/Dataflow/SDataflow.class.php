@@ -36,8 +36,8 @@ class SDataflow extends SDataBase{
 		if ( !$validateResult ) {
 			return $validateResult;
 		}
-		$data = $this->convert($data);
-		return $this->fill($data);
+		$data = $this->fill($data);
+		return $this->convert($data);
 	}
 	
 	function filterField($data) {

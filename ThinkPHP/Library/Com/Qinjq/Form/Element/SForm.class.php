@@ -89,6 +89,18 @@ class SForm extends SContainer{
 				}
 				$fns = self::configForm($form,$parentId,$formIds,$fns);
 			}
+			if ($formDbData['frm_attr']) {
+				$attr = unserialize($formDbData['frm_attr']);
+				if ($attr) {
+					$form->attr($attr);
+				}
+			}
+			if ($formDbData['frm_param']) {
+				$formParam = unserialize($formDbData['frm_param']);
+				if ($formParam) {
+					$form->param($formParam);
+				}
+			}
 		}
 		#from表上信息
 		if ( $formDbData['frm_table'] ) {
@@ -211,9 +223,15 @@ class SForm extends SContainer{
 					'content'=>$postConvertDb['fpc_content'],
 				));
 			}
-			//TODO 增加显示转换
+			//增加显示转换
+			$showDb = D('Formfieldshowconvert')->where(array('ffd_id'=>$v['ffd_id']))->find();
+			if ($showDb) {
+				$ele->addShowConvert($showDb['fsc_type'],array(
+					'content'=>$showDb['fsc_content']
+				));
+			}
 			
-			//TODO 增加自动填充
+			//增加自动填充
 			$fillDb = D('Formfieldfill')->where(array('ffd_id'=>$v['ffd_id']))->find();
 			if ($fillDb) {
 				$ele->addFill($fillDb['fff_type'],array(
@@ -234,7 +252,7 @@ class SForm extends SContainer{
 		ob_start();
 		extract($this->vars);
 		if (APP_DEBUG) {
-			$cachePath	=	TEMP_PATH.'/tpl.'.md5($phpCode).'.t.php';
+			$cachePath	=	TEMP_PATH.'/tpl.'.$this->dbId.'.t.php';
 			if (!is_file($cachePath)) {
 				file_put_contents($cachePath, $phpCode);
 			}

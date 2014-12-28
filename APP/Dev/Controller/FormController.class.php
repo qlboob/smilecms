@@ -15,7 +15,7 @@ class FormController extends DevController{
 				$writeStr = sprintf('<?php return %s;',var_export($data,TRUE));
 				echo $writeStr;
 				file_put_contents(COMMON_PATH."Form/Dataflowconfig/{$v['frm_id']}.php", $writeStr);
-				break;
+// 				break;
 			}
 		}
 	}

@@ -50,13 +50,12 @@ class SDataBase {
 		$cloneData = &$data;
 		$lastKey = array_pop($keyArr);
 		foreach ($keyArr as $k){
-			if (isset($cloneData[$k])) {
-				$cloneData = &$cloneData[$k];
-			}else {
+			if (!isset($cloneData[$k])) {
 				$cloneData[$k] = array();
 			}
+			$cloneData = &$cloneData[$k];
 		}
-		$data[$lastKey] = $value;
+		$cloneData[$lastKey] = $value;
 	}
 	
 	static function unsetArrKey(&$data,$key) {
@@ -75,16 +74,9 @@ class SDataBase {
 	
 	static function getKeyArr($key) {
 		$keyArr = array();
-		if (FALSE===strpos($key, '[')) {
-			$keyArr[] = $key;
-		}else {
-			list($firstKey,$leftKey) = explode('[', $key,2);
-			$leftKey = '['.$leftKey;
-			if (preg_match_all('#\[([^\]]+)\]#', $leftKey,$matches)) {
-				foreach ($matches as $v){
-					$keyArr[] = $v[1];
-				}
-			}
+		$keyArr = explode('[', $key);
+		foreach ($keyArr as $k=>$v){
+			$keyArr[$k] = trim($v,']');
 		}
 		return $keyArr;
 	}

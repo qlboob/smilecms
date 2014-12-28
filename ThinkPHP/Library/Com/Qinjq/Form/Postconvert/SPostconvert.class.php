@@ -28,7 +28,9 @@ abstract class SPostconvert extends SDataBase{
 	
 	function convert(&$data) {
 		$value = self::getArrVal($data, $this->field);
-		self::setArrVal($data, $this->field, $this->run($value, $data));
+		if (NULL!==$value) {
+			self::setArrVal($data, $this->field, $this->run($value, $data));
+		}
 		return $data;
 	}
 }

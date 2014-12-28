@@ -28,12 +28,20 @@ class FormfieldModel extends SysModel{
 		empty($fieldParam)	&& $fieldParam	=	array();
 		if (!empty($data[$paramKey])) {
 			foreach ($data[$paramKey] as $k =>$v){
+				if (''===$v and in_array($k, array('options','defaultValue'))) {
+					#这两个参数直接删除，为了小占用数据库
+					if (isset($fieldParam[$k])) {
+						unset($fieldParam[$k]);
+					}
+					continue;
+				}
 				$fieldParam[$k] = $v;
 			}
 		}
+		$fieldParamStr = $fieldParam?serialize($fieldParam):'';
 		
 		//保存字段信息
-		$fieldData	=	array_merge($data,array('ffd_param'=>serialize($fieldParam)));
+		$fieldData	=	array_merge($data,array('ffd_param'=>$fieldParamStr));
 		foreach ($fieldData as $k => $v) {
 			if (is_array($v)) {
 				unset($fieldData[$k]);

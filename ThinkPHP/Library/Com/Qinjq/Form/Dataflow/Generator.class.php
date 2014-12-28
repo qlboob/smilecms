@@ -88,9 +88,7 @@ class Generator {
 		$this->eachField(array($this,'dealConvertCallback'));
 	}
 	function dealConvertCallback($ele) {
-		if (!$ele->config('display')) {
-			return;
-		}
+		#对于表单不显示的项也要执行，因为可能是以数组方式传递的值
 		$convert = $ele->config('postConvert');
 		if ($convert) {
 			$name = $ele->attr('name');

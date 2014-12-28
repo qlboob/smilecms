@@ -349,8 +349,9 @@ class SElement {
 	 * @return string
 	 */
 	function getInputHtml() {
+		$showConvertHtml = $this->getShowConvertHtml();
 		$ret = $this->renderInput();
-		return implode(' ', $this->param['preInput']).$ret.implode(' ', $this->param['endInput']);
+		return $showConvertHtml.implode('', $this->param['preInput']).$ret.implode('', $this->param['endInput']);
 	}
 	
 	function getPreLineHtml() {
@@ -360,6 +361,13 @@ class SElement {
 	function getEndLineHtml() {
 		$endLine = $this->param('endLine');
 		return implode(' ', $endLine);
+	}
+	
+	function getShowConvertHtml() {
+		if ($this->showConvert) {
+			return $this->showConvert->getContent();
+		}
+		return '';
 	}
 	
 	
@@ -462,5 +470,12 @@ class SElement {
 		$postconvert = new $className();
 		$postconvert->config($config);
 		$this->postConvert = $postconvert;
+	}
+	function addShowConvert($type,$config) {
+		$className = 'Com\Qinjq\Form\Showconvert\S'.ucfirst($type).'Showconvert';
+		$showObj = new $className();
+		$config['element'] = $this;
+		$showObj->config($config);
+		$this->showConvert = $showObj;
 	}
 }

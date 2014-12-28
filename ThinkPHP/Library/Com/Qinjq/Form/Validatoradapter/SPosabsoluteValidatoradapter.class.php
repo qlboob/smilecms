@@ -33,29 +33,6 @@ class SPosabsoluteValidatoradapter extends SValidatoradapter{
 			$form->addClass('jve');
 		}
 	}
-	/*
-	function before($form) {
-		$fields = $form->config('element');
-		foreach ($fields as $ele){
-			$validators = $ele->config('validator');
-			if ($validators) {
-				foreach ($validators as $validator){
-					$validatorClsName = get_class($validator);
-					$validatorName = substr($validatorClsName, 1,-9);
-					$method = 'add'.$validatorName.'Validator';
-					if (method_exists($this, $method)) {
-						$target = $validator->config('target');
-						$this->$method($ele,$validator,$target);
-					}
-				}
-			}
-		}
-	}
-	
-	function after($form) {
-		;
-	}
-	*/
 	
 	function addValdateClass($ele,$class) {
 		$classAttr	=	$ele->attr('class');
@@ -98,6 +75,12 @@ class SPosabsoluteValidatoradapter extends SValidatoradapter{
 	
 	function addEmailValidator($formEle,$validator) {
 		$this->addValdateClass($formEle, 'custom[email]');
+	}
+	function addDateValidator($formEle,$validator){
+		$this->addValdateClass($formEle,'custom[date]');
+	}
+	function addDatetimeValidator($formEle,$validator){
+		$this->addValdateClass($formEle,'custom[datetime]');
 	}
 	function addEqualValidator($formEle,$validator,$target) {
 		$this->addValdateClass($formEle, "equals[{$$target}]");
