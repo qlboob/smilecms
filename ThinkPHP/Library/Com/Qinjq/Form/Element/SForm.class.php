@@ -199,8 +199,11 @@ class SForm extends SContainer{
 					if ($validatorItem['fvd_msg']) {
 						$validatorConfig['msg'] = $validatorItem['fvd_msg'];
 					}
-					//TODO 没有增加参数信息
-					$ele->addValidator($validatorItem['fvd_type'],$validatorConfig);
+					$validatorParam = array();
+					if ($validatorItem['fvd_param']) {
+						$validatorParam = unserialize($validatorItem['fvd_param']);
+					}
+					$ele->addValidator($validatorItem['fvd_type'],$validatorConfig,$validatorParam);
 				}
 			}
 			//添加修饰器

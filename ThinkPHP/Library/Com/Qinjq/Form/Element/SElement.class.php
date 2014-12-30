@@ -452,10 +452,13 @@ class SElement {
 		}
 	}
 	
-	function addValidator($type,$config) {
+	function addValidator($type,$config,$param) {
 		$className = 'Com\Qinjq\Form\Validator\S'.ucfirst($type).'Validator';
 		$validator = new $className();
 		$validator->config($config);
+		if ($param) {
+			$validator->param($param);
+		}
 		$this->validator[] = $validator;
 	}
 	

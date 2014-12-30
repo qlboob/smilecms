@@ -85,6 +85,12 @@ class SPosabsoluteValidatoradapter extends SValidatoradapter{
 	function addEqualValidator($formEle,$validator,$target) {
 		$this->addValdateClass($formEle, "equals[{$$target}]");
 	}
+	function addIpValidator($formEle,$validator,$target) {
+		$this->addValdateClass($formEle, 'custom[ipv4]');
+	}
+	function addUrlValidator($formEle,$validator,$target) {
+		$this->addValdateClass($formEle, 'custom[url]');
+	}
 	/*
 	function addUniqueValidator($formEle,$validator,$target) {
 		if(!$formEle->attr('ajaxunique')){
