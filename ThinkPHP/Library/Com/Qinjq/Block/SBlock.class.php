@@ -3,6 +3,49 @@
 namespace Com\Qinjq\Block;
 
 abstract class SBlock {
+	
+	/**
+	 * 区块id
+	 * @var integer
+	 */
+	public $blk_id;
+	
+	/**
+	 * 区块标识
+	 * @var string
+	 */
+	public $blk_identify;
+	
+	/**
+	 * 显示顺序
+	 * @var integer
+	 */
+	public $blk_weight;
+	
+	/**
+	 * 其它参数
+	 * @var array
+	 */
+	public $blk_param;
+	
+	/**
+	 * 静态缓存时间（单位为秒）
+	 * @var integer
+	 */
+	public $blk_cachetime;
+	
+	/**
+	 * 显示区域
+	 * @var string
+	 */
+	public $blk_region;
+	
+	/**
+	 * 所依赖的区块
+	 * @var array
+	 */
+	public $blk_dependence;
+	
 	protected $param = array();
 	
 	/**
@@ -35,18 +78,18 @@ abstract class SBlock {
 	function param($key,$value=NULL) {
 		if (is_array($key)) {
 			foreach ($key as $k => $v) {
-				$this->param($k,$v);
+				$this->blk_param($k,$v);
 			}
-			$this->param = array_merge($this->param,$key);
+			$this->blk_param = array_merge($this->blk_param,$key);
 		}elseif (NULL === $value) {
-			return isset($this->param[$key])?$this->param[$key]:NULL;
+			return isset($this->blk_param[$key])?$this->blk_param[$key]:NULL;
 		}else {
-			$this->param[$key] = $value;
+			$this->blk_param[$key] = $value;
 		}
 	}
 	
 	function __get($key) {
-		if (isset($this->param[$key])) {
+		if (isset($this->blk_param[$key])) {
 			return $this->param[$key];
 		}
 		return NULL;

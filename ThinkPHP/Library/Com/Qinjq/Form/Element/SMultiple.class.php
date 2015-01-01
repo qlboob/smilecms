@@ -29,8 +29,8 @@ abstract class SMultiple extends SElement{
 					$options[$item]	=	$item;
 				}
 			}
-			//					return sprintf("unserialize('%s')",serialize($options));
-			return var_export($options,TRUE);
+			$ret = var_export($options,TRUE);
+			return preg_replace("#\r?\n#", '', $ret);
 		}
 		return '$'.$options;
 	}
