@@ -1,0 +1,17 @@
+- $htmlHeadTitle = '区块排序';
+block content
+	.row
+		.col-xs-12
+			.box
+				.box-header
+					h3.box-title {$htmlHeadTitle|}
+				.box-body.table-responsive.no-padding
+					ul#sortable.list-unstyled
+						foreach $lists
+							li.ui-state-default data-id={$v.blk_id} data-weight={$v.blk_weight} {$v.blk_title}
+					.row
+						button#dosort.btn.btn-primary 排序
+						if !empty($hasParent)
+							label
+								input type=checkbox name=change value=1 修改父表单排序
+include Layout/html

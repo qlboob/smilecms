@@ -27,7 +27,7 @@ class SLayout {
 		}
 		self::$inited = TRUE;
 		$arrSiteIds = getSiteIds();
-		$blocks =  D('Block')->where(array('sit_id'=>array('in',$arrSiteIds),'blk_status'=>1))->cache()->select();
+		$blocks =  D('Block')->where(array('sit_id'=>array('in',$arrSiteIds),'blk_status'=>1))/*->cache()*/->select();
 		if ($blocks) {
 			foreach ($blocks as $value) {
 				if (isExecutable($value,'blk_')){
@@ -38,6 +38,7 @@ class SLayout {
 	}
 	
 	static function getContent($region) {
+		self::init();
 		$ret = '';
 		if (!empty(self::$regions[$region])) {
 			$blocks = self::$regions[$region];
@@ -89,8 +90,8 @@ class SLayout {
 		return TRUE;
 	}
 	
-	private function createBlock(array $arr) {
-		$blockCls	=	'Com\Qinjq\Block\\'.ucfirst($arr['blk_name']).'Block';
+	private static function createBlock(array $arr) {
+		$blockCls	=	'Com\Qinjq\Block\S'.ucfirst($arr['blk_type']).'Block';
 		self::$addedBlock[$arr['blk_identify']] = true;
 		return new $blockCls($arr);
 	}

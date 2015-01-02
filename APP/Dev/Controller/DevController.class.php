@@ -1,8 +1,8 @@
 <?php
 namespace Dev\Controller;
 use Think\Controller;
+use Com\Qinjq\Form\Dataflow\SDataflow;
 use Think\Hook;
-use Com\Qinjq\Block\SLayout;
 class DevController extends Controller {
 	protected $model	=	array();
 	
@@ -113,14 +113,23 @@ class DevController extends Controller {
 			$this->assign('form',(string)$form);
 			$this->display('Default/add');
 		}else{
+			$data = I('post.');
+			$dataFlow = new SDataflow();
+			$formId	=	$this->getFormId();
+			$config = require COMMON_PATH."Form/Dataflowconfig/{$formId}.php";
+			$dataFlow->config($config);
+			$data = $dataFlow->run($data);
+			if (FALSE===$data) {
+				$this->error($dataFlow->config('error'));
+			}
 			$table		=	$this->getTable();
 			$firstTable	=	array_shift($table);
 			$firstM	=	$this->_getDao($firstTable);
-			if($firstM->create()){
+			if($firstM->create($data)){
 				$insertId	=	$firstM->add();
 				foreach ($table as $tab) {
 					$extendM = $this->_getDao($tab);
-					if($extendM->create()){
+					if($extendM->create($data)){
 						$field	=	$firstM->getDbFields();
 						$pk		=	$field['_pk'];
 						$extendM->$pk	=	$insertId;
@@ -161,10 +170,19 @@ class DevController extends Controller {
 			$this->assign('form',(string)$form);
 			$this->display('Default/add');
 		}else {
+			$data = I('post.');
+			$dataFlow = new SDataflow();
+			$formId	=	$this->getFormId();
+			$config = require COMMON_PATH."Form/Dataflowconfig/{$formId}.php";
+			$dataFlow->config($config);
+			$data = $dataFlow->run($data);
+			if (FALSE===$data) {
+				$this->error($dataFlow->config('error'));
+			}
 			$table		=	$this->getTable();
 			foreach ($table as $tab) {
 				$model	=	$this->_getDao($tab);
-				$model->create();
+				$model->create($data);
 				$model->save();
 			}
 			$eventParam	=	(object)array('model'=>$model,'id'=>$_REQUEST[$model->getPk()]);

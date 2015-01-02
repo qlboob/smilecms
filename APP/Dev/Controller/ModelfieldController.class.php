@@ -1,6 +1,7 @@
 <?php
 namespace Dev\Controller;
 use Dev\Controller\DevController;
+use Think\Hook;
 
 class ModelfieldController extends DevController{
 	
@@ -41,6 +42,32 @@ class ModelfieldController extends DevController{
 			$formFieldM->addOrEditWithValidator($post);
 			
 			$this->success('ok');
+		}
+	}
+	function edit() {
+		$formFieldM = D('Formfield');
+		$modelFieldM = D('Modelfield');
+		$modelM = D('Model');
+		if (IS_GET) {
+			$data = $modelFieldM->find(I('param.id'));
+			$modelDb = $modelM->find($data['mdl_id']);
+			$formFieldDb = $formFieldM->where(array('frm_id'=>$modelDb['frm_id'],'ffd_name'=>$data['mdf_name']))->find();
+			$formFieldAssign=$formFieldM->getAssignData($formFieldDb['ffd_id']);
+			
+			$form	=	$this->getForm();
+			$form->assign($_GET);
+			$form->assign($data);
+			$form->assign($formFieldAssign);
+			$this->assign('form',(string)$form);
+			$this->display('Default/add');
+		}else {
+			#TODO 这里没有使用数据流
+			$data = I('post.');
+			$formFieldM->addOrEditWithValidator($data);
+			$modelFieldM->create($data);
+			$modelFieldM->save();
+			$this->success('ok');
+			
 		}
 	}
 }

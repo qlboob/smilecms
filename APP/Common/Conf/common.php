@@ -25,6 +25,7 @@ function sexplode($str) {
 }
 
 function getPathInfo() {
+	return sprintf('%s/%s/%s',MODULE_NAME,CONTROLLER_NAME,ACTION_NAME);
 	$pathInfo	=	C('PATH_INFO');
 	if ($pathInfo) return $pathInfo;
 	$pathInfo	=	$_SERVER['PATH_INFO'];

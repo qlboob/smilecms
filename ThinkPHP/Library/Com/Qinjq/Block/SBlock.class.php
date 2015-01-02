@@ -57,9 +57,10 @@ abstract class SBlock {
 	
 	/**
 	 * construct
-	 * @param array $param 区块参数
+	 * @param array $config 区块参数
 	 */
-	function __construct($param=array()) {
+	function __construct($config=array()) {
+		$this->config($config);
 		$this->_init();
 	}
 	
@@ -71,6 +72,11 @@ abstract class SBlock {
 		}elseif (NULL===$value){
 			return isset($this->$key)?$this->$key:NULL;
 		}else {
+			if ('blk_param'==$key) {
+				if ($value) {
+					$value = unserialize($value);
+				};
+			}
 			$this->$key = $value;
 		}
 	}
@@ -97,10 +103,10 @@ abstract class SBlock {
 	abstract function render();
 	
 	function getContent(){
-		if ($this->blk_cachetime>0) {
+		if ($this->blk_cachetime>0 and !APP_DEBUG) {
 			$cacheKey = 'sblock/id/'.$this->blk_param['blk_identify'];
 			$content = S($cacheKey);
-			if (null === $content) {
+			if (FALSE === $content) {
 				$content = $this->render();
 				S($cacheKey,$content,$this->blk_cachetime);
 			}

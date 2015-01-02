@@ -1,10 +1,4 @@
-<?php 
-	$htmlHeadTitle = 'add'==ACTION_NAME?'新增':'编辑';
-	$modelName = D('Model')->where(array('mdl_table'=>strtolower(CONTROLLER_NAME)))->getField('mdl_name');
-	$htmlHeadTitle.=$modelName;
-?>
-
-
+<?php $htmlHeadTitle = '区块排序';?>
 
 <?php 
 	use Com\Qinjq\Block\SLayout;
@@ -29,8 +23,6 @@
 		<![endif]-->
 		<?php echo $_regionHead;?>
 		
-	<link rel="stylesheet" type="text/css" href="<?php echo __ROOT__;?>/skin/jqueryvalidationengine/css/validationEngine.jquery.css" />
-
 	</head>
 	<body class="skin-blue">
 		<header class="header">
@@ -121,12 +113,28 @@
 				
 				<section class="content">
 					
-	<div class="box box-primary">
-		<div class="box-header">
-			<h3 class="box-title"><?php echo htmlspecialchars($htmlHeadTitle);?></h3>
-		</div>
-		<div class="box-body">
-			<?php echo $form;?>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title"><?php echo htmlspecialchars($htmlHeadTitle);?></h3>
+				</div>
+				<div class="box-body table-responsive no-padding">
+					<ul id="sortable" class="list-unstyled">
+						<?php foreach($lists as $k=>$v){?>
+							<li class="ui-state-default" data-id="<?php echo $v["blk_id"];?>" data-weight="<?php echo $v["blk_weight"];?>"><?php echo $v["blk_title"];?></li>
+						<?php }?>
+					</ul>
+					<div class="row">
+						<button id="dosort" class="btn btn-primary">排序</button>
+						<?php if(!empty($hasParent)){?>
+							<label>
+								<input type="checkbox" name="change" value="1" />修改父表单排序
+							</label>
+						<?php }?>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
