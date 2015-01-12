@@ -212,9 +212,10 @@ class SElement {
 	function buildAttrValue($value) {
 		if ('$'==substr($value, 0,1)) {
 			return sprintf('<?php if(isset(%s))echo %s;?>',$value,$value);
-		}else {
-			return $value;
-		}
+		}/* elseif(FALSE!==strpos($value, "\n")){
+			$value = preg_replace('#\r?\n#', '&#13;', $value);
+		} */
+		return $value;
 	}
 	
 	/**

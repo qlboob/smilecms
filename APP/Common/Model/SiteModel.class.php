@@ -10,6 +10,6 @@ class SiteModel extends SysModel{
 		if (empty($ret)) {
 			$ret = array();
 		}
-		return array_merge(array(0=>''),$ret);
+		return array(0=>'')+$ret;
 	}
 }

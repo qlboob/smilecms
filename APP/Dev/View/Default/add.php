@@ -75,9 +75,9 @@
 							</a>
 							<ul class="treeview-menu">
 								<li>
-									<a href="<?php echo U('Dev/Form/index');?>">
+									<a href="<?php echo U('Dev/Site/index');?>">
 										<i class="fa fa-angle-double-right"></i>
-										表单
+										站点
 									</a>
 								</li>
 								<li>
@@ -87,15 +87,21 @@
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U('Dev/Event/index');?>">
+									<a href="<?php echo U('Dev/Form/index');?>">
 										<i class="fa fa-angle-double-right"></i>
-										事件
+										表单
 									</a>
 								</li>
 								<li>
 									<a href="<?php echo U('Dev/Block/index');?>">
 										<i class="fa fa-angle-double-right"></i>
 										区块
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo U('Dev/Event/index');?>">
+										<i class="fa fa-angle-double-right"></i>
+										事件
 									</a>
 								</li>
 							</ul>

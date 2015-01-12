@@ -16,10 +16,11 @@ class SCheckbox extends SInput{
 		$ret	=	"<{$this->tag}".$this->buildAttr();
 		$echoVar	=	$this->getEchoVar();
 		if ($echoVar) {
-			if ($this->param('defalutCheck')) {
+			if ($this->param('defaultValue')) {
 				$ret	.=	sprintf('<?php if(!isset($%s)||$%s)echo \' checked="checked"\'?>',$echoVar,$echoVar);
+			}else {
+				$ret	.=	sprintf('<?php if(isset($%s)&&$%s)echo \' checked="checked"\'?>',$echoVar,$echoVar);
 			}
-			$ret	.=	sprintf('<?php if(isset($%s)&&$%s)echo \' checked="checked"\'?>',$echoVar,$echoVar);
 		}
 		return $ret.' />';
 	}
