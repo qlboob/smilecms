@@ -54,7 +54,7 @@ class SAdminListBlock extends SListBlock{
 					if (count($lines)) {
 						$tds[]=$this->dealTd($pk, array_shift($lines));
 					}else {
-						$tds[]=$this->dealTd($pk, '');
+						array_unshift($tds,$this->dealTd($pk, ''));
 					}
 				}
 				if (count($lines)) {
@@ -93,8 +93,11 @@ class SAdminListBlock extends SListBlock{
 EOF;
 		$tpl = trim($tpl);
 		$this->getData();
-		return $this->toHtml($tpl);
-		
+		$ret =  $this->toHtml($tpl);
+		if ($this->vars['page']) {
+			$ret .= '<nav class="tppage">'.$this->vars['page'].'</nav>';
+		}
+		return $ret;
 	}
 	
 	function toHtml($tpl) {

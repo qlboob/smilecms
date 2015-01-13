@@ -1,0 +1,25 @@
+<taglib form>
+- $htmlHeadTitle='用户';
+block crumbs
+	h1 {$htmlHeadTitle|}
+		small {$htmlHeadTitle}列表
+	ol.breadcrumb
+		li
+			a href={:U(MODULE_NAME.'/Index/index')}
+				i.fa.fa-dashboard
+				首页
+		li.active {$htmlHeadTitle}
+
+block tableHeader
+	h3.box-title
+	.box-tools
+		form method=get
+			.input-group.col-xs-3.pull-right
+				input.form-control.input-sm.pull-right name=searchStr placeholder=关键字搜索 value={:htmlSpecialChars(I('get.searchStr',''))}
+				.input-group-btn
+					button.btn.btn-sm.btn-default
+						i.fa.fa-search
+			.input-group.col-xs-3.pull-right
+				- $userGroupOption = getUserGroupOption();
+				form:select.form-control.input-sm name=ugp_id first=请选择用户组 options=userGroupOption selected=ugp_id
+include Layout/index

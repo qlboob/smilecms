@@ -1,0 +1,95 @@
+-
+	use Com\Qinjq\Block\SLayout;
+	foreach(array('head','closure') as $v){
+		$regionVar = '_region'.ucfirst($v);
+		$$regionVar = SLayout::getContent($v);
+	}
+html5
+html
+	head
+		meta charset="UTF-8"
+		title {$htmlHeadTitle}
+		meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'
+		<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+		<![endif]-->
+		{$_regionHead}
+		blockto head
+	body.skin-blue
+		header.header
+			a.logo href={:U(MODULE_NAME.'/Index/index')} 洗车系统管理后台
+			nav class="navbar navbar-static-top" role="navigation"
+				a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button"
+					span class="sr-only" Toggle navigation
+					span class="icon-bar"
+					span class="icon-bar"
+					span class="icon-bar"
+		div class="wrapper row-offcanvas row-offcanvas-left"
+			/ 左侧菜单
+			aside class="left-side sidebar-offcanvas"
+				section class="sidebar"
+					div class="user-panel"
+						div class="pull-left image"
+							img src="{$Smile.const.__ROOT__}/skin/adminlte/img/me.png" class="img-circle" alt="User Image"
+						div class="pull-left info"
+							p Hello, Luke
+							a href="#"
+								i.fa.fa-circle.text-success
+								在线
+					ul class="sidebar-menu"
+						li 'Index'==CONTROLLER_NAMEMODULE_NAME?class=active
+							a href={:U(MODULE_NAME.'/Index/index')}
+								i.fa.fa-dashboard
+								span 首页
+						li.treeview in_array(CONTROLLER_NAME,array('Order','Car','Todolist'))?class=active
+							a href={:U(MODULE_NAME.'/Order/index')}
+								i.fa.fa-medkit
+								span 洗车
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li
+									a href={:U(MODULE_NAME.'/Order/index')}
+										i.fa.fa-angle-double-right
+										订单
+								li
+									a href={:U(MODULE_NAME.'/Car/index')}
+										i.fa.fa-angle-double-right
+										车辆列表
+								li
+									a href={:U(MODULE_NAME.'/Todolist/index')}
+										i.fa.fa-angle-double-right
+										洗车任务
+						li.treeview in_array(CONTROLLER_NAME,array('User','Usergroup'))?class=active
+							a href={:U(MODULE_NAME.'/User/index')}
+								i.fa.fa-fw.fa-user
+								span 用户
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li
+									a href={:U(MODULE_NAME.'/User/index')}
+										i.fa.fa-angle-double-right
+										用户
+								li
+									a href={:U(MODULE_NAME.'/Usergroup/index')}
+										i.fa.fa-angle-double-right
+										用户组
+			/ 右边主要内容
+			aside.right-side
+				section.content-header
+					blockto crumbs
+					/
+						h1 首页
+							small xxx
+						ol.breadcrumb
+							li
+								a href=#
+									i.fa.fa-dashboard
+									Home
+							li.active Test
+				/ 主要内容
+				section.content
+					blockto content
+		blockto preclosure
+		{$_regionClosure}
+		blockto closure

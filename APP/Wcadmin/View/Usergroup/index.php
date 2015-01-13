@@ -1,4 +1,4 @@
-<?php $htmlHeadTitle = '字段排序';?>
+<?php $htmlHeadTitle='用户组';?>
 
 
 
@@ -15,22 +15,16 @@
 		<meta charset="UTF-8" />
 		<title><?php echo $htmlHeadTitle;?></title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
-		
-
-			
-			
 		<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 		<![endif]-->
 		<?php echo $_regionHead;?>
 		
-	<link href="<?php echo __ROOT__;?>/skin/jqueryui/jquery-ui.css" rel="stylesheet" type="text/css" />
-
 	</head>
 	<body class="skin-blue">
 		<header class="header">
-			<a class="logo" href="<?php echo U(MODULE_NAME.'/Index/index');?>">Smile Cms</a>
+			<a class="logo" href="<?php echo U(MODULE_NAME.'/Index/index');?>">洗车系统管理后台</a>
 			<nav class="navbar navbar-static-top" role="navigation">
 				<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
 					<span class="sr-only">Toggle navigation</span>
@@ -52,52 +46,61 @@
 							<p>Hello, Luke</p>
 							<a href="#">
 								<i class="fa fa-circle text-success"></i>
-								Online
+								在线
 							</a>
 						</div>
 					</div>
 					<ul class="sidebar-menu">
-						<li>
-							<a href="<?php echo U('Dev/Index/index');?>">
+						<li<?php if('Index'==CONTROLLER_NAMEMODULE_NAME){ ?> class="active"<?php } ?>>
+							<a href="<?php echo U(MODULE_NAME.'/Index/index');?>">
 								<i class="fa fa-dashboard"></i>
 								<span>首页</span>
 							</a>
 						</li>
-						<li class="treeview active">
-							<a href="#">
-								<i class="fa fa-bar-chart-o"></i>
-								<span>核心</span>
+						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('Order','Car','Todolist'))){ ?> active<?php } ?>">
+							<a href="<?php echo U(MODULE_NAME.'/Order/index');?>">
+								<i class="fa fa-medkit"></i>
+								<span>洗车</span>
 								<i class="fa fa-angle-left pull-right"></i>
 							</a>
 							<ul class="treeview-menu">
 								<li>
-									<a href="<?php echo U('Dev/Site/index');?>">
+									<a href="<?php echo U(MODULE_NAME.'/Order/index');?>">
 										<i class="fa fa-angle-double-right"></i>
-										站点
+										订单
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U('Dev/Model/index');?>">
+									<a href="<?php echo U(MODULE_NAME.'/Car/index');?>">
 										<i class="fa fa-angle-double-right"></i>
-										模型
+										车辆列表
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U('Dev/Form/index');?>">
+									<a href="<?php echo U(MODULE_NAME.'/Todolist/index');?>">
 										<i class="fa fa-angle-double-right"></i>
-										表单
+										洗车任务
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('User','Usergroup'))){ ?> active<?php } ?>">
+							<a href="<?php echo U(MODULE_NAME.'/User/index');?>">
+								<i class="fa fa-fw fa-user"></i>
+								<span>用户</span>
+								<i class="fa fa-angle-left pull-right"></i>
+							</a>
+							<ul class="treeview-menu">
+								<li>
+									<a href="<?php echo U(MODULE_NAME.'/User/index');?>">
+										<i class="fa fa-angle-double-right"></i>
+										用户
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U('Dev/Block/index');?>">
+									<a href="<?php echo U(MODULE_NAME.'/Usergroup/index');?>">
 										<i class="fa fa-angle-double-right"></i>
-										区块
-									</a>
-								</li>
-								<li>
-									<a href="<?php echo U('Dev/Event/index');?>">
-										<i class="fa fa-angle-double-right"></i>
-										事件
+										用户组
 									</a>
 								</li>
 							</ul>
@@ -108,17 +111,21 @@
 			
 			<aside class="right-side">
 				<section class="content-header">
-					<h1>首页
-						<small>xxx</small></h1>
-					<ol class="breadcrumb">
-						<li>
-							<a href="#">
-								<i class="fa fa-dashboard"></i>
-								Home
-							</a>
-						</li>
-						<li class="active">Test</li>
-					</ol>
+					
+	<h1><?php echo htmlspecialchars($htmlHeadTitle);?>
+		<small><?php echo $htmlHeadTitle;?>列表</small></h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="<?php echo U(MODULE_NAME.'/Index/index');?>">
+				<i class="fa fa-dashboard"></i>
+				首页
+			</a>
+		</li>
+		<li class="active"><?php echo $htmlHeadTitle;?>
+</li>
+	</ol>
+
+					
 				</section>
 				
 				<section class="content">
@@ -127,25 +134,29 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title"><?php echo htmlspecialchars($htmlHeadTitle);?></h3>
+					
+	<h3 class="box-title">
+		<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/add',$_GET);?>" data-toggle="tooltip" title="增加用户组">
+			<i class="glyphicon glyphicon-plus"></i>
+		</a>
+	</h3>
+	<div class="box-tools">
+		<form method="get">
+			<div class="input-group col-xs-3 pull-right">
+				<input class="form-control input-sm pull-right" name="searchStr" placeholder="关键字搜索" value="<?php echo htmlSpecialChars(I('get.searchStr',''));?>" />
+				<div class="input-group-btn">
+					<button class="btn btn-sm btn-default">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+					
 				</div>
 				<div class="box-body table-responsive no-padding">
-					<ul id="sortable" class="list-unstyled">
-						<?php foreach($lists as $k=>$v){?>
-							<?php if($v['level']>0){?>
-								<?php $hasParent = 1;?>
-							<?php }?>
-							<li class="ui-state-default" data-level="<?php echo $v["level"];?>" data-id="<?php echo $v["ffd_id"];?>" data-weight="<?php echo $v["ffd_weight"];?>"><?php echo $v["ffd_label"];?> <?php echo htmlspecialchars($v["ffd_name"]);?>[<?php echo $v["ffd_type"];?>]</li>
-						<?php }?>
-					</ul>
-					<div class="row">
-						<button id="dosort" class="btn btn-primary">排序</button>
-						<?php if(!empty($hasParent)){?>
-							<label>
-								<input type="checkbox" name="change" value="1" />修改父表单排序
-							</label>
-						<?php }?>
-					</div>
+					<?php echo $table;?>
 				</div>
 			</div>
 		</div>
@@ -155,33 +166,8 @@
 			</aside>
 		</div>
 		
-		
 		<?php echo $_regionClosure;?>
 		
-	<script type="text/javaScript" src="<?php echo __ROOT__;?>/skin/jqueryui/jquery-ui.min.js"></script>
-	<script type="text/javascript">
-		$('#sortable').sortable();
-		$('#dosort').click(function(){
-			var ret = [];
-			$('#sortable li').each(function(){
-				ret.push({
-					id:$(this).attr('data-id'),
-					level:$(this).attr('data-level'),
-					weight:$(this).attr('data-weight')
-				});
-			});
-			var postData = {sorted:ret};
-			var checkbox = $('[name=change]');
-			if(checkbox.attr('checked') || checkbox.parent().hasClass('checked')){
-				postData.change=1;
-			}
-			$.post(location.href,postData,function(data){
-				$.each(data,function(){
-					$('[data-id='+this.ffd_id+']').attr('data-weight',this.ffd_weight);
-				});
-			},'json');
-		});</script>
-
 
 	</body>
 </html>

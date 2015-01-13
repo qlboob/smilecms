@@ -1,7 +1,6 @@
 <?php
 namespace Dev\Controller;
 use Dev\Controller\DevController;
-use Think\Hook;
 
 class ModelfieldController extends DevController{
 	

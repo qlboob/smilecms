@@ -26,7 +26,7 @@
 	</head>
 	<body class="skin-blue">
 		<header class="header">
-			<a class="logo" href="<?php echo U('Dev/Index/index');?>">Smile Cms</a>
+			<a class="logo" href="<?php echo U(MODULE_NAME.'/Index/index');?>">Smile Cms</a>
 			<nav class="navbar navbar-static-top" role="navigation">
 				<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
 					<span class="sr-only">Toggle navigation</span>
