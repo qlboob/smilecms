@@ -3,6 +3,8 @@ namespace Wcadmin\Controller;
 use Think\Controller;
 use Com\Qinjq\Form\Dataflow\SDataflow;
 use Think\Hook;
+
+include_once MODULE_PATH.'Conf/common.php';
 class DevController extends Controller {
 	protected $model	=	array();
 	

@@ -13,7 +13,7 @@ class SAdminListBlock extends SListBlock{
 		$table||$table	=	parse_name(CONTROLLER_NAME);
 		$ret	=	array($table);
 		while ($parentId=D('Model')->where("mdl_table='$table'")->getField('mdl_parent')) {
-			$table	=	D('Smodel')->where("mdl_id=$parentId")->getField('mdl_table');
+			$table	=	D('Model')->where("mdl_id=$parentId")->getField('mdl_table');
 			array_unshift($ret,$table);
 		}
 		return $ret;

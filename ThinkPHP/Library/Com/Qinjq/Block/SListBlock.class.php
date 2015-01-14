@@ -170,7 +170,17 @@ class SListBlock extends SBlock{
 		if ($searchFields) {
 			$searchFields = sexplode($searchFields);
 		}else {
-			$searchFields = $this->getAllField();
+			$tableInfo = $this->getTableInfo();
+			$searchFields = array();
+			foreach ($tableInfo as $table){
+				$fields = D($table['table'])->db()->getFields(D($table['table'])->getTableName());
+				foreach ($fields as $field=>$fieldInfo){
+					if (FALSE!==stripos($fieldInfo['type'], 'char') or FALSE!==stripos($fieldInfo['type'], 'text')) {
+						$searchFields[]=$field;
+					}
+				}
+			}
+			empty($searchFields) && $searchFields = $this->getAllField();
 		}
 		if ($searchStr) {
 			$condition = array(

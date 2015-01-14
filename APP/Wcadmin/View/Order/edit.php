@@ -1,6 +1,6 @@
 <?php 
-	$htmlHeadTitle='用户';
-	$smallTxt = ('edit'==ACTION_NAME?'编辑':'添加').$htmlHeadTitle;
+	$htmlHeadTitle='订单';
+	$smallTxt = '查看'.$htmlHeadTitle;
 ?>
 
 

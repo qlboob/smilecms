@@ -1,0 +1,18 @@
+-
+	$htmlHeadTitle='订单';
+	$smallTxt = '查看'.$htmlHeadTitle;
+block crumbs
+	h1 {$htmlHeadTitle|}
+		small {$smallTxt}
+	ol.breadcrumb
+		li
+			a href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index')}
+				i.fa.fa-dashboard
+				首页
+		li
+			a href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index')}
+				i.fa.fa-user
+				{$htmlHeadTitle}
+		li.active {$smallTxt}
+			
+include Layout/add

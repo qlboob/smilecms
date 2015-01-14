@@ -4,6 +4,7 @@
     'usr_id' => 'is_string',
     'ugp_id' => 'is_string',
     'usr_name' => 'is_string',
+    'usr_nick' => 'is_string',
   ),
   'validator' => 
   array (
@@ -22,6 +23,20 @@
         'field' => 'ugp_id',
         'existValidate' => true,
         'notEmptyValidate' => true,
+      ),
+      'required' => 
+      array (
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'ugp_id',
+        'existValidate' => true,
+        'target' => '',
       ),
     ),
     'usr_name' => 

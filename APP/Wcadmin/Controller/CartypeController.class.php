@@ -3,6 +3,5 @@
 namespace Wcadmin\Controller;
 
 use Wcadmin\Controller\DevController;
-class UserController extends DevController{
-	
+class CartypeController extends DevController{
 }

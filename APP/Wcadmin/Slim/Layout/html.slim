@@ -60,7 +60,25 @@ html
 									a href={:U(MODULE_NAME.'/Todolist/index')}
 										i.fa.fa-angle-double-right
 										洗车任务
-						li.treeview in_array(CONTROLLER_NAME,array('User','Usergroup'))?class=active
+						li.treeview in_array(CONTROLLER_NAME,array('Cartype','Period'))?class=active
+							a href=#
+								i.fa.fa-wrench
+								span 洗车设置
+								i.fa.fa-angle-double-right
+							ul.treeview-menu
+								li
+									a href={:U(MODULE_NAME.'/Cartype/index')}
+										i.fa.fa-angle-double-right
+										车辆类型设置
+								li
+									a href={:U(MODULE_NAME.'/Period/index')}
+										i.fa.fa-angle-double-right
+										服务时长设置
+								li
+									a href={:U(MODULE_NAME.'/Village/index')}
+										i.fa.fa-angle-double-right
+										小区
+						li.treeview in_array(CONTROLLER_NAME,array('User','Usergroup','Wxuser'))?class=active
 							a href={:U(MODULE_NAME.'/User/index')}
 								i.fa.fa-fw.fa-user
 								span 用户

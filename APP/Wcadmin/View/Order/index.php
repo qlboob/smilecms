@@ -84,7 +84,34 @@
 								</li>
 							</ul>
 						</li>
-						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('User','Usergroup'))){ ?> active<?php } ?>">
+						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('Cartype','Period'))){ ?> active<?php } ?>">
+							<a href="#">
+								<i class="fa fa-wrench"></i>
+								<span>洗车设置</span>
+								<i class="fa fa-angle-double-right"></i>
+							</a>
+							<ul class="treeview-menu">
+								<li>
+									<a href="<?php echo U(MODULE_NAME.'/Cartype/index');?>">
+										<i class="fa fa-angle-double-right"></i>
+										车辆类型设置
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo U(MODULE_NAME.'/Period/index');?>">
+										<i class="fa fa-angle-double-right"></i>
+										服务时长设置
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo U(MODULE_NAME.'/Village/index');?>">
+										<i class="fa fa-angle-double-right"></i>
+										小区
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('User','Usergroup','Wxuser'))){ ?> active<?php } ?>">
 							<a href="<?php echo U(MODULE_NAME.'/User/index');?>">
 								<i class="fa fa-fw fa-user"></i>
 								<span>用户</span>
@@ -135,20 +162,20 @@
 			<div class="box">
 				<div class="box-header">
 					
-	<h3 class="box-title">
-		<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/add',$_GET);?>" data-toggle="tooltip" title="增加订单">
-			<i class="glyphicon glyphicon-plus"></i>
-		</a>
-	</h3>
+	<h3 class="box-title"></h3>
 	<div class="box-tools">
 		<form method="get">
-			<div class="input-group col-xs-3 pull-right">
+			<div class="input-group col-xs-2 pull-right">
 				<input class="form-control input-sm pull-right" name="searchStr" placeholder="关键字搜索" value="<?php echo htmlSpecialChars(I('get.searchStr',''));?>" />
 				<div class="input-group-btn">
 					<button class="btn btn-sm btn-default">
 						<i class="fa fa-search"></i>
 					</button>
 				</div>
+			</div>
+			<div class="input-group col-xs-2 pull-right">
+				<?php $orderStateOption = getOrderStateOption();?>
+				<select class="form-control input-sm" name="ord_state"><option value="">请选择订单状态</option><?php foreach($orderStateOption as $key=>$val){?><?php if(isset($ord_state)&&($ord_state==$key||(is_array($ord_state)&&in_array($key,$ord_state)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
 			</div>
 		</form>
 	</div>

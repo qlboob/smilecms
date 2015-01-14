@@ -87,7 +87,34 @@
 								</li>
 							</ul>
 						</li>
-						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('User','Usergroup'))){ ?> active<?php } ?>">
+						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('Cartype','Period'))){ ?> active<?php } ?>">
+							<a href="#">
+								<i class="fa fa-wrench"></i>
+								<span>洗车设置</span>
+								<i class="fa fa-angle-double-right"></i>
+							</a>
+							<ul class="treeview-menu">
+								<li>
+									<a href="<?php echo U(MODULE_NAME.'/Cartype/index');?>">
+										<i class="fa fa-angle-double-right"></i>
+										车辆类型设置
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo U(MODULE_NAME.'/Period/index');?>">
+										<i class="fa fa-angle-double-right"></i>
+										服务时长设置
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo U(MODULE_NAME.'/Village/index');?>">
+										<i class="fa fa-angle-double-right"></i>
+										小区
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('User','Usergroup','Wxuser'))){ ?> active<?php } ?>">
 							<a href="<?php echo U(MODULE_NAME.'/User/index');?>">
 								<i class="fa fa-fw fa-user"></i>
 								<span>用户</span>
