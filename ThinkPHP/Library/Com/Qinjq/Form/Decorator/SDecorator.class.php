@@ -5,6 +5,8 @@ namespace Com\Qinjq\Form\Decorator;
 abstract class SDecorator {
 	protected $element;
 	
+	protected $param=array();
+	
 	function __construct($config=array()) {
 		$this->config($config);
 	}
