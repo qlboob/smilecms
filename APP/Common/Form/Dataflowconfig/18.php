@@ -3,17 +3,16 @@
   array (
     'car_id' => 'is_string',
     'car_owner' => 'is_string',
+    'car_no' => 'is_string',
     'car_tel' => 'is_string',
     'vlg_id' => 'is_string',
     'car_color' => 'is_string',
     'car_model' => 'is_string',
     'car_location' => 'is_string',
     'car_remark' => 'is_string',
-    'car_type' => 'is_string',
-    'prd_id' => 'is_string',
+    'ctp_id' => 'is_string',
     'car_endtime' => 'is_string',
     'car_lastwashtime' => 'is_string',
-    'car_state' => 'is_string',
   ),
   'validator' => 
   array (
@@ -32,6 +31,51 @@
         'field' => 'car_owner',
         'existValidate' => true,
         'target' => '',
+      ),
+    ),
+    'car_no' => 
+    array (
+      'required' => 
+      array (
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'car_no',
+        'existValidate' => true,
+        'target' => '',
+      ),
+      'maxlength' => 
+      array (
+        'msg' => '{$title}的最大长度是{$target}',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'car_no',
+        'existValidate' => true,
+        'notEmptyValidate' => true,
+        'target' => '7',
+      ),
+      'minlength' => 
+      array (
+        'msg' => '{$title}的最小长度是{$target}',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'car_no',
+        'existValidate' => true,
+        'notEmptyValidate' => true,
+        'target' => '7',
       ),
     ),
     'car_tel' => 
@@ -147,7 +191,7 @@
         'target' => '',
       ),
     ),
-    'car_type' => 
+    'ctp_id' => 
     array (
       'required' => 
       array (
@@ -159,24 +203,7 @@
         'param' => 
         array (
         ),
-        'field' => 'car_type',
-        'existValidate' => true,
-        'target' => '',
-      ),
-    ),
-    'prd_id' => 
-    array (
-      'required' => 
-      array (
-        'notEmptyValidate' => false,
-        'msg' => '{$title}必须填写',
-        'title' => NULL,
-        'value' => NULL,
-        'data' => NULL,
-        'param' => 
-        array (
-        ),
-        'field' => 'prd_id',
+        'field' => 'ctp_id',
         'existValidate' => true,
         'target' => '',
       ),
@@ -215,26 +242,31 @@
         'target' => '',
       ),
     ),
-    'car_state' => 
-    array (
-      'required' => 
-      array (
-        'notEmptyValidate' => false,
-        'msg' => '{$title}必须填写',
-        'title' => NULL,
-        'value' => NULL,
-        'data' => NULL,
-        'param' => 
-        array (
-        ),
-        'field' => 'car_state',
-        'existValidate' => true,
-        'target' => '',
-      ),
-    ),
   ),
   'convert' => 
   array (
+    'car_endtime' => 
+    array (
+      'function' => 
+      array (
+        'field' => 'car_endtime',
+        'content' => 'strtotime',
+        'param' => 
+        array (
+        ),
+      ),
+    ),
+    'car_lastwashtime' => 
+    array (
+      'function' => 
+      array (
+        'field' => 'car_lastwashtime',
+        'content' => 'strtotime',
+        'param' => 
+        array (
+        ),
+      ),
+    ),
   ),
   'fill' => 
   array (

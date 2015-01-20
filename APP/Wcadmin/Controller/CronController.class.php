@@ -12,4 +12,8 @@ class CronController extends Controller {
 			}
 		}
 	}
+	
+	function runTodo() {
+		D('Todolist')->plan();
+	}
 }

@@ -1,5 +1,5 @@
 <taglib form>
-- $htmlHeadTitle='小区';
+- $htmlHeadTitle='价格';
 block crumbs
 	h1 {$htmlHeadTitle|}
 		small {$htmlHeadTitle}列表
@@ -12,8 +12,9 @@ block crumbs
 
 block tableHeader
 	h3.box-title
-		a href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/add',$_GET)} data-toggle=tooltip title=增加小区
+		a href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/add',$_GET)} data-toggle=tooltip title=增加价格
 			i.glyphicon.glyphicon-plus
+
 	.box-tools
 		form method=get
 			.input-group.col-xs-3.pull-right

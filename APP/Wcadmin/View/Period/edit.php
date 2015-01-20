@@ -1,4 +1,7 @@
-<?php $htmlHeadTitle='用户';?>
+<?php 
+	$htmlHeadTitle='服务时长';
+	$smallTxt = ('edit'==ACTION_NAME?'编辑':'添加').$htmlHeadTitle;
+?>
 
 
 
@@ -146,16 +149,22 @@
 				<section class="content-header">
 					
 	<h1><?php echo htmlspecialchars($htmlHeadTitle);?>
-		<small><?php echo $htmlHeadTitle;?>列表</small></h1>
+		<small><?php echo $smallTxt;?></small></h1>
 	<ol class="breadcrumb">
 		<li>
-			<a href="<?php echo U(MODULE_NAME.'/Index/index');?>">
+			<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index');?>">
 				<i class="fa fa-dashboard"></i>
-				首页
+				仪表盘
 			</a>
 		</li>
-		<li class="active"><?php echo $htmlHeadTitle;?>
-</li>
+		<li>
+			<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index');?>">
+				<i class="fa fa-user"></i>
+				<?php echo $htmlHeadTitle;?>
+			</a>
+		</li>
+		<li class="active"><?php echo $smallTxt;?>
+			</li>
 	</ol>
 
 					
@@ -168,34 +177,19 @@
 			<div class="box">
 				<div class="box-header">
 					
-	<h3 class="box-title"></h3>
-	<div class="box-tools">
-		<form method="get">
-			<div class="input-group col-xs-3 pull-right">
-				<input class="form-control input-sm pull-right" name="searchStr" placeholder="关键字搜索" value="<?php echo htmlSpecialChars(I('get.searchStr',''));?>" />
-				<div class="input-group-btn">
-					<button class="btn btn-sm btn-default">
-						<i class="fa fa-search"></i>
-					</button>
-				</div>
-			</div>
-			<div class="input-group col-xs-3 pull-right">
-				<?php $userGroupOption = getUserGroupOption();?>
-				<select class="form-control input-sm" name="ugp_id"><option value="">请选择内部用户组</option><?php foreach($userGroupOption as $key=>$val){?><?php if(isset($ugp_id)&&($ugp_id==$key||(is_array($ugp_id)&&in_array($key,$ugp_id)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
-			</div>
-			<div class="input-group col-xs-3 pull-right">
-				<?php $wxUserGroupOption = getWxUserGroupOption();?>
-				<select class="form-control input-sm" name="xw_groupid"><option value="">请选择微信用户组</option><?php foreach($wxUserGroupOption as $key=>$val){?><?php if(isset($xw_groupid)&&($xw_groupid==$key||(is_array($xw_groupid)&&in_array($key,$xw_groupid)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
-			</div>
-		</form>
-	</div>
-
 					
 				</div>
 				<div class="box-body table-responsive no-padding">
 					<?php echo $table;?>
 				</div>
 			</div>
+		</div>
+	</div>
+
+	<div class="box box-primary">
+		
+		<div class="box-body">
+			<?php echo $form;?>
 		</div>
 	</div>
 

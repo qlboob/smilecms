@@ -1,14 +1,14 @@
 <?php return array (
   'field' => 
   array (
+    'prc_id' => 'is_string',
+    'ctp_id' => 'is_string',
     'prd_id' => 'is_string',
-    'prd_name' => 'is_string',
-    'prd_state' => 'is_string',
-    'prd_day' => 'is_string',
+    'prc_money' => 'is_string',
   ),
   'validator' => 
   array (
-    'prd_name' => 
+    'ctp_id' => 
     array (
       'required' => 
       array (
@@ -20,27 +20,12 @@
         'param' => 
         array (
         ),
-        'field' => 'prd_name',
+        'field' => 'ctp_id',
         'existValidate' => true,
-        'target' => '',
-      ),
-      'unique' => 
-      array (
-        'message' => '{$title} {$value}已经存在',
-        'msg' => '',
-        'title' => NULL,
-        'value' => NULL,
-        'data' => NULL,
-        'param' => 
-        array (
-        ),
-        'field' => 'prd_name',
-        'existValidate' => true,
-        'notEmptyValidate' => true,
         'target' => '',
       ),
     ),
-    'prd_day' => 
+    'prd_id' => 
     array (
       'required' => 
       array (
@@ -52,28 +37,42 @@
         'param' => 
         array (
         ),
-        'field' => 'prd_day',
+        'field' => 'prd_id',
         'existValidate' => true,
         'target' => '',
       ),
-      'integer' => 
+    ),
+    'prc_money' => 
+    array (
+      'required' => 
       array (
-        'msg' => '{$value}不是整数',
-        'target' => '^[\\-\\+]?([1-9]\\d*|0)+$',
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
         'title' => NULL,
         'value' => NULL,
         'data' => NULL,
         'param' => 
         array (
         ),
-        'field' => 'prd_day',
+        'field' => 'prc_money',
         'existValidate' => true,
-        'notEmptyValidate' => true,
+        'target' => '',
       ),
     ),
   ),
   'convert' => 
   array (
+    'prc_money' => 
+    array (
+      'function' => 
+      array (
+        'field' => 'prc_money',
+        'content' => 'multi100',
+        'param' => 
+        array (
+        ),
+      ),
+    ),
   ),
   'fill' => 
   array (

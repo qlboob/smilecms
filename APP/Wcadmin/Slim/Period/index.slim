@@ -7,11 +7,14 @@ block crumbs
 		li
 			a href={:U(MODULE_NAME.'/Index/index')}
 				i.fa.fa-dashboard
-				首页
+				仪表盘
 		li.active {$htmlHeadTitle}
 
 block tableHeader
 	h3.box-title
+		a href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/add',$_GET)} data-toggle=tooltip title=增加服务期限
+			i.glyphicon.glyphicon-plus
+
 	.box-tools
 		form method=get
 			.input-group.col-xs-3.pull-right

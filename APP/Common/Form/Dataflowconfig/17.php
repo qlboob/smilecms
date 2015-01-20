@@ -10,11 +10,12 @@
     'car_color' => 'is_string',
     'car_location' => 'is_string',
     'car_remark' => 'is_string',
-    'car_type' => 'is_string',
+    'ctp_id' => 'is_string',
     'prd_id' => 'is_string',
     'ord_ctime' => 'is_string',
     'ord_paytime' => 'is_string',
     'ord_state' => 'is_string',
+    'ord_money' => 'is_string',
   ),
   'validator' => 
   array (
@@ -159,7 +160,7 @@
         'target' => '',
       ),
     ),
-    'car_type' => 
+    'ctp_id' => 
     array (
       'required' => 
       array (
@@ -171,7 +172,7 @@
         'param' => 
         array (
         ),
-        'field' => 'car_type',
+        'field' => 'ctp_id',
         'existValidate' => true,
         'target' => '',
       ),
@@ -189,6 +190,23 @@
         array (
         ),
         'field' => 'prd_id',
+        'existValidate' => true,
+        'target' => '',
+      ),
+    ),
+    'ord_money' => 
+    array (
+      'required' => 
+      array (
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'ord_money',
         'existValidate' => true,
         'target' => '',
       ),

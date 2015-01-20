@@ -19,6 +19,11 @@ function getVillageOption($key=NULL) {
 	return getOption($data,$key);
 }
 
+function getPeriodOption($key=NULL){
+	$data = D('Period')->where('prd_state=1')->getField('prd_id,prd_name');
+	return getOption($data, $key);
+}
+
 function getWxUserGroupOption($key=NULL) {
 	$data = array(
 		1=>'普通用户',
@@ -36,6 +41,9 @@ function getYesNoOption($key=NULL) {
 }
 function div100($money) {
 	if ($money and '0'!==$money) {
-		return $money/1000;
+		return $money/100;
 	};
+}
+function multi100($yuan) {
+	return $yuan*100;
 }

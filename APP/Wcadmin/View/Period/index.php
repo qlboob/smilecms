@@ -54,7 +54,7 @@
 						<li<?php if('Index'==CONTROLLER_NAMEMODULE_NAME){ ?> class="active"<?php } ?>>
 							<a href="<?php echo U(MODULE_NAME.'/Index/index');?>">
 								<i class="fa fa-dashboard"></i>
-								<span>首页</span>
+								<span>仪表盘</span>
 							</a>
 						</li>
 						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('Order','Car','Todolist'))){ ?> active<?php } ?>">
@@ -84,29 +84,35 @@
 								</li>
 							</ul>
 						</li>
-						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('Cartype','Period'))){ ?> active<?php } ?>">
+						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('Cartype','Period','Village','Price'))){ ?> active<?php } ?>">
 							<a href="#">
 								<i class="fa fa-wrench"></i>
 								<span>洗车设置</span>
-								<i class="fa fa-angle-double-right"></i>
+								<i class="fa fa-angle-left pull-right"></i>
 							</a>
 							<ul class="treeview-menu">
 								<li>
 									<a href="<?php echo U(MODULE_NAME.'/Cartype/index');?>">
 										<i class="fa fa-angle-double-right"></i>
-										车辆类型设置
+										车辆类型
 									</a>
 								</li>
 								<li>
 									<a href="<?php echo U(MODULE_NAME.'/Period/index');?>">
 										<i class="fa fa-angle-double-right"></i>
-										服务时长设置
+										服务时长
 									</a>
 								</li>
 								<li>
 									<a href="<?php echo U(MODULE_NAME.'/Village/index');?>">
 										<i class="fa fa-angle-double-right"></i>
 										小区
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo U(MODULE_NAME.'/Price/index');?>">
+										<i class="fa fa-angle-double-right"></i>
+										价格
 									</a>
 								</li>
 							</ul>
@@ -145,7 +151,7 @@
 		<li>
 			<a href="<?php echo U(MODULE_NAME.'/Index/index');?>">
 				<i class="fa fa-dashboard"></i>
-				首页
+				仪表盘
 			</a>
 		</li>
 		<li class="active"><?php echo $htmlHeadTitle;?>
@@ -162,7 +168,13 @@
 			<div class="box">
 				<div class="box-header">
 					
-	<h3 class="box-title"></h3>
+	<h3 class="box-title">
+		<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/add',$_GET);?>" data-toggle="tooltip" title="增加服务期限">
+			<i class="glyphicon glyphicon-plus">
+
+			</i>
+		</a>
+	</h3>
 	<div class="box-tools">
 		<form method="get">
 			<div class="input-group col-xs-3 pull-right">

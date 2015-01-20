@@ -1,4 +1,4 @@
-<?php $htmlHeadTitle='用户';?>
+<?php $htmlHeadTitle='价格';?>
 
 
 
@@ -168,7 +168,13 @@
 			<div class="box">
 				<div class="box-header">
 					
-	<h3 class="box-title"></h3>
+	<h3 class="box-title">
+		<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/add',$_GET);?>" data-toggle="tooltip" title="增加价格">
+			<i class="glyphicon glyphicon-plus">
+
+			</i>
+		</a>
+	</h3>
 	<div class="box-tools">
 		<form method="get">
 			<div class="input-group col-xs-3 pull-right">
@@ -178,14 +184,6 @@
 						<i class="fa fa-search"></i>
 					</button>
 				</div>
-			</div>
-			<div class="input-group col-xs-3 pull-right">
-				<?php $userGroupOption = getUserGroupOption();?>
-				<select class="form-control input-sm" name="ugp_id"><option value="">请选择内部用户组</option><?php foreach($userGroupOption as $key=>$val){?><?php if(isset($ugp_id)&&($ugp_id==$key||(is_array($ugp_id)&&in_array($key,$ugp_id)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
-			</div>
-			<div class="input-group col-xs-3 pull-right">
-				<?php $wxUserGroupOption = getWxUserGroupOption();?>
-				<select class="form-control input-sm" name="xw_groupid"><option value="">请选择微信用户组</option><?php foreach($wxUserGroupOption as $key=>$val){?><?php if(isset($xw_groupid)&&($xw_groupid==$key||(is_array($xw_groupid)&&in_array($key,$xw_groupid)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
 			</div>
 		</form>
 	</div>
