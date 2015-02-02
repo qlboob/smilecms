@@ -1,1 +1,70 @@
-include Period/add
+-
+	$htmlHeadTitle='洗车任务';
+	$smallTxt = $htmlHeadTitle.'详情';
+block crumbs
+	h1 {$htmlHeadTitle|}
+		small {$smallTxt}
+	ol.breadcrumb
+		li
+			a href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index')}
+				i.fa.fa-dashboard
+				首页
+		li
+			a href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index')}
+				i.fa.fa-user
+				{$htmlHeadTitle}
+		li.active {$smallTxt}
+			
+block content
+	.box.box-primary
+		/ .box-header
+		.box-body
+			.form-horizontal
+				.form-group
+					.col-sm-2 车牌
+					.col-sm-10 {$car_no|}
+				.form-group
+					.col-sm-2 车主
+					.col-sm-10 {$car_owner|}
+				.form-group
+					.col-sm-2 手机号
+					.col-sm-10 {$car_tel|}
+				.form-group
+					.col-sm-2 车辆类型
+					.col-sm-10 {$ctp_id|getCarTypeOption}
+				.form-group
+					.col-sm-2 服务结束时间
+					.col-sm-10 {$car_endtime|date='Y-m-d',###}
+				.form-group
+					.col-sm-2 型号简写
+					.col-sm-10 {$car_model|}
+				.form-group
+					.col-sm-2 颜色
+					.col-sm-10 {$car_color|}
+				.form-group
+					.col-sm-2 小区
+					.col-sm-10 {$vlg_id|getVillageOption}
+				.form-group
+					.col-sm-2 停车区域
+					.col-sm-10 {$car_location|}
+				if $car_remark
+					.form-group
+						.col-sm-2 备注
+						.col-sm-10 {$car_remark|}
+				.form-group
+					.col-sm-2 任务日期
+					.col-sm-10 {$tdl_ctime|date='Y-m-d',###}
+				if $apm_id>0
+					if $apm_washinner>0
+						.form-group
+							.col-sm-2 是否清洁车内
+							.col-sm-10 是
+					if $apm_remark
+						.form-group
+							.col-sm-2 预约备注
+							.col-sm-10 {$apm_remark|}
+				.form-group
+					.col-sm-2 是否完成
+					.col-sm-10 {$tdl_state|getYesNoOption}
+				
+include Layout/index

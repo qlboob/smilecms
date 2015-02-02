@@ -9,11 +9,28 @@ use Com\Qinjq\Block\SListBlock;
  */
 class SAdminListBlock extends SListBlock{
 	
+	private function getSiteId() {
+		if (C('DB_PREFIX')) {
+			$siteId= D('Site')->where(array('sit_table_pre'=>C('DB_PREFIX')))->getField('sit_id');
+			if ($siteId) {
+				return $siteId;
+			}
+		};
+	}
+	
 	private function getTable($table='') {
 		$table||$table	=	parse_name(CONTROLLER_NAME);
 		$ret	=	array($table);
-		while ($parentId=D('Model')->where("mdl_table='$table'")->getField('mdl_parent')) {
+		$where = array(
+				'mdl_table'=>$table,
+		);
+		$siteId = $this->getSiteId();
+		if ($siteId) {
+				$where['sit_id']=$siteId;
+		}
+		while ($parentId=D('Model')->where($where)->getField('mdl_parent')) {
 			$table	=	D('Model')->where("mdl_id=$parentId")->getField('mdl_table');
+			$where['mdl_table'] = $table;
 			array_unshift($ret,$table);
 		}
 		return $ret;
@@ -30,6 +47,10 @@ class SAdminListBlock extends SListBlock{
 				'mdl_table'	=>	array('IN',$table),
 				'F.mdf_listtitle'=>array('NEQ',''),
 		);
+		$siteId = $this->getSiteId();
+		if ($siteId) {
+			$where['sit_id'] = $siteId;
+		}
 		$data	=	$modelM->join('NATURE JOIN '.D('Modelfield')->getTableName(). " F USING($using)")
 		->where($where)
 		->order('mdf_weight ASC ,mdf_id ASC')

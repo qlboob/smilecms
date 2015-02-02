@@ -10,6 +10,8 @@ class DevController extends Controller {
 	
 	protected $succssMsg;
 	
+	protected $template;
+	
 	protected $callback	=	array(
 			'beforeDisplay'	=>	'_bd_{ACTION}',
 			'beforeGetDao'	=>	'_bgd_{ACTION}',
@@ -41,7 +43,8 @@ class DevController extends Controller {
 		}else{
 			$table 	=	strtolower(parse_name(CONTROLLER_NAME,0));
 			$table	=	ltrim($table,'_');
-			$formId	=	D('Model')->where("mdl_table = '$table'")->getField('frm_id');
+// 			$formId	=	D('Model')->where("mdl_table = '$table'")->getField('frm_id');
+			$formId	=	$this->getModelByTable($table,'frm_id');
 		}
 		return $formId;
 	}
@@ -49,11 +52,38 @@ class DevController extends Controller {
 	protected function getTable($table='') {
 		$table||$table	=	strtolower(parse_name(CONTROLLER_NAME));
 		$ret	=	array($table);
-		while ($parentId=D('Model')->where("mdl_table='$table'")->getField('mdl_parent')) {
+		$where = array(
+			'mdl_table'=>$table,
+		);
+		if (C('DB_PREFIX')) {
+			$siteId= D('Site')->where(array('sit_table_pre'=>C('DB_PREFIX')))->getField('sit_id');
+			if ($siteId) {
+				$where['sit_id']=$siteId;
+			}
+		}
+		while ($parentId=D('Model')->where($where)->getField('mdl_parent')) {
 			$table	=	D('Model')->where("mdl_id=$parentId")->getField('mdl_table');
+			$where['mdl_table'] = $table;
 			array_unshift($ret,$table);
 		}
 		return $ret;
+	}
+	
+	protected function getModelByTable($table,$col=NULL) {
+		$where = array(
+			'mdl_table'=>$table,
+		);
+		if (C('DB_PREFIX')) {
+			$siteId= D('Site')->where(array('sit_table_pre'=>C('DB_PREFIX')))->getField('sit_id');
+			if ($siteId) {
+				$where['sit_id']=$siteId;
+			}
+		}
+		$result = D('Model')->where($where)->find();
+		if ($col) {
+			return $result[$col];
+		}
+		return $result;
 	}
 	
 	protected function _aop($key, &$params=NULL) {
@@ -111,7 +141,11 @@ class DevController extends Controller {
 			$eventParam	=	array('form'=>$form);
 			$this->_aop('beforeDisplay',$eventParam);
 			$this->assign('form',(string)$form);
-			$this->display('Default/add');
+			$template = 'Default/add';
+			if ($this->template) {
+				$template = $this->template;
+			}
+			$this->display($template);
 		}else{
 			$data = I('post.');
 			$dataFlow = new SDataflow();
@@ -168,7 +202,11 @@ class DevController extends Controller {
 			$form->assign($_GET);
 			$form->assign($data);
 			$this->assign('form',(string)$form);
-			$this->display('Default/add');
+			$template = 'Default/add';
+			if ($this->template) {
+				$template = $this->template;
+			}
+			$this->display($template);
 		}else {
 			$data = I('post.');
 			$dataFlow = new SDataflow();
@@ -209,11 +247,14 @@ class DevController extends Controller {
 	}
 	
 	function index() {
-		$modelName = D('Model')->where(array('mdl_table'=>strtolower(CONTROLLER_NAME)))->getField('mdl_name');
+// 		$modelName = D('Model')->where(array('mdl_table'=>strtolower(CONTROLLER_NAME)))->getField('mdl_name');
+		$modelName = $this->getModelByTable(strtolower(CONTROLLER_NAME),'mdl_name');
+// 		echo $modelName;
 		$block = new \Com\Qinjq\Block\SAdminListBlock();
 		$block->param('tableClass','table table-hover');
     	$block =  $block->getContent();
-		$this->display('Default/index',array('table'=>$block,'modelName'=>$modelName));
+    	$template = $this->template?$this->template:'Default/index';
+		$this->display($template,array('table'=>$block,'modelName'=>$modelName));
 	}
 	
 	protected function display($templateFile='',$charset='',$contentType='',$content='',$prefix='') {

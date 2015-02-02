@@ -1,6 +1,6 @@
 <?php 
-	$htmlHeadTitle='服务时长';
-	$smallTxt = ('edit'==ACTION_NAME?'编辑':'添加').$htmlHeadTitle;
+	$htmlHeadTitle='洗车任务';
+	$smallTxt = $htmlHeadTitle.'详情';
 ?>
 
 
@@ -54,7 +54,7 @@
 						</div>
 					</div>
 					<ul class="sidebar-menu">
-						<li<?php if('Index'==CONTROLLER_NAMEMODULE_NAME){ ?> class="active"<?php } ?>>
+						<li<?php if('Index'==CONTROLLER_NAME){ ?> class="active"<?php } ?>>
 							<a href="<?php echo U(MODULE_NAME.'/Index/index');?>">
 								<i class="fa fa-dashboard"></i>
 								<span>仪表盘</span>
@@ -128,7 +128,7 @@
 							</a>
 							<ul class="treeview-menu">
 								<li>
-									<a href="<?php echo U(MODULE_NAME.'/User/index');?>">
+									<a href="<?php echo U(MODULE_NAME.'/Wxuser/index');?>">
 										<i class="fa fa-angle-double-right"></i>
 										用户
 									</a>
@@ -154,7 +154,7 @@
 		<li>
 			<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index');?>">
 				<i class="fa fa-dashboard"></i>
-				仪表盘
+				首页
 			</a>
 		</li>
 		<li>
@@ -189,7 +189,73 @@
 	<div class="box box-primary">
 		
 		<div class="box-body">
-			<?php echo $form;?>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<div class="col-sm-2">车牌</div>
+					<div class="col-sm-10"><?php echo htmlspecialchars($car_no);?></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-2">车主</div>
+					<div class="col-sm-10"><?php echo htmlspecialchars($car_owner);?></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-2">手机号</div>
+					<div class="col-sm-10"><?php echo htmlspecialchars($car_tel);?></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-2">车辆类型</div>
+					<div class="col-sm-10"><?php echo getCarTypeOption($ctp_id);?></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-2">服务结束时间</div>
+					<div class="col-sm-10"><?php echo date('Y-m-d',$car_endtime);?></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-2">型号简写</div>
+					<div class="col-sm-10"><?php echo htmlspecialchars($car_model);?></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-2">颜色</div>
+					<div class="col-sm-10"><?php echo htmlspecialchars($car_color);?></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-2">小区</div>
+					<div class="col-sm-10"><?php echo getVillageOption($vlg_id);?></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-2">停车区域</div>
+					<div class="col-sm-10"><?php echo htmlspecialchars($car_location);?></div>
+				</div>
+				<?php if($car_remark){?>
+					<div class="form-group">
+						<div class="col-sm-2">备注</div>
+						<div class="col-sm-10"><?php echo htmlspecialchars($car_remark);?></div>
+					</div>
+				<?php }?>
+				<div class="form-group">
+					<div class="col-sm-2">任务日期</div>
+					<div class="col-sm-10"><?php echo date('Y-m-d',$tdl_ctime);?></div>
+				</div>
+				<?php if($apm_id>0){?>
+					<?php if($apm_washinner>0){?>
+						<div class="form-group">
+							<div class="col-sm-2">是否清洁车内</div>
+							<div class="col-sm-10">是</div>
+						</div>
+					<?php }?>
+					<?php if($apm_remark){?>
+						<div class="form-group">
+							<div class="col-sm-2">预约备注</div>
+							<div class="col-sm-10"><?php echo htmlspecialchars($apm_remark);?></div>
+						</div>
+					<?php }?>
+				<?php }?>
+				<div class="form-group">
+					<div class="col-sm-2">是否完成</div>
+					<div class="col-sm-10"><?php echo getYesNoOption($tdl_state);?>
+				</div>
+				</div>
+			</div>
 		</div>
 	</div>
 

@@ -51,7 +51,7 @@
 						</div>
 					</div>
 					<ul class="sidebar-menu">
-						<li<?php if('Index'==CONTROLLER_NAMEMODULE_NAME){ ?> class="active"<?php } ?>>
+						<li<?php if('Index'==CONTROLLER_NAME){ ?> class="active"<?php } ?>>
 							<a href="<?php echo U(MODULE_NAME.'/Index/index');?>">
 								<i class="fa fa-dashboard"></i>
 								<span>仪表盘</span>
@@ -125,7 +125,7 @@
 							</a>
 							<ul class="treeview-menu">
 								<li>
-									<a href="<?php echo U(MODULE_NAME.'/User/index');?>">
+									<a href="<?php echo U(MODULE_NAME.'/Wxuser/index');?>">
 										<i class="fa fa-angle-double-right"></i>
 										用户
 									</a>

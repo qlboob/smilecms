@@ -38,7 +38,7 @@ html
 								i.fa.fa-circle.text-success
 								在线
 					ul class="sidebar-menu"
-						li 'Index'==CONTROLLER_NAMEMODULE_NAME?class=active
+						li 'Index'==CONTROLLER_NAME?class=active
 							a href={:U(MODULE_NAME.'/Index/index')}
 								i.fa.fa-dashboard
 								span 仪表盘
@@ -89,7 +89,7 @@ html
 								i.fa.fa-angle-left.pull-right
 							ul.treeview-menu
 								li
-									a href={:U(MODULE_NAME.'/User/index')}
+									a href={:U(MODULE_NAME.'/Wxuser/index')}
 										i.fa.fa-angle-double-right
 										用户
 								li
