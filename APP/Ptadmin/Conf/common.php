@@ -34,7 +34,13 @@ function getInformationStateOption($key=NULL) {
 		0=>'待审核',
 		1=>'已审核',
 		2=>'已成交',
-	));
+	),$key);
+}
+function getInformationTypeOption($key=NULL){
+	return getOption(array(
+		1=>'商家求购',
+		2=>'工厂求购',
+	), $key);
 }
 function div100($money) {
 	if ($money and '0'!==$money) {

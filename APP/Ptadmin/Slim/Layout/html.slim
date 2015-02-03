@@ -61,16 +61,17 @@ html
 										a href={:U(MODULE_NAME.'/Todolist/index')}
 											i.fa.fa-angle-double-right
 											洗车任务
-							li.treeview in_array(CONTROLLER_NAME,array('Cartype','Period','Village','Price'))?class=active
-								a href=#
-									i.fa.fa-wrench
-									span 洗车设置
-									i.fa.fa-angle-left.pull-right
-								ul.treeview-menu
-									li
-										a href={:U(MODULE_NAME.'/Cartype/index')}
-											i.fa.fa-angle-double-right
-											车辆类型
+						li.treeview in_array(CONTROLLER_NAME,array('Information','Period','Village','Price'))?class=active
+							a href=#
+								i.fa.fa-wrench
+								span 求购信息
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li
+									a href={:U(MODULE_NAME.'/Information/index')}
+										i.fa.fa-angle-double-right
+										求购信息
+								/
 									li
 										a href={:U(MODULE_NAME.'/Period/index')}
 											i.fa.fa-angle-double-right
