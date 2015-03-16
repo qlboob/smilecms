@@ -9,6 +9,8 @@
     'usr_company' => 'is_string',
     'usr_address' => 'is_string',
     'usr_state' => 'is_string',
+    'usr_pay' => 'is_string',
+    'usr_timeout' => 'is_string',
   ),
   'validator' => 
   array (
@@ -50,6 +52,17 @@
   ),
   'convert' => 
   array (
+    'usr_timeout' => 
+    array (
+      'function' => 
+      array (
+        'field' => 'usr_timeout',
+        'content' => 'strtotime',
+        'param' => 
+        array (
+        ),
+      ),
+    ),
   ),
   'fill' => 
   array (

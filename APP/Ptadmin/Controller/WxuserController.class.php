@@ -2,8 +2,8 @@
 
 namespace Ptadmin\Controller;
 
-use Ptadmin\Controller\DevController;
-class WxuserController extends DevController{
+use Ptadmin\Controller\PtadminController;
+class WxuserController extends PtadminController{
 	function index() {
 		$block = new \Com\Qinjq\Block\SAdminListBlock();
 		$block->param('tableClass','table table-hover');

@@ -2,8 +2,8 @@
 
 namespace Ptadmin\Controller;
 
-use Ptadmin\Controller\DevController;
+use Ptadmin\Controller\PtadminController;
 
-class UsergroupController extends DevController{
+class UsergroupController extends PtadminController{
 	
 }

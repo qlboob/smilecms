@@ -70,7 +70,7 @@ class SDivRender extends SRender {
 		if ($ele->config('container')) {
 			$this->addOutPut($ele->getInputHtml());
 		}else {
-			if ('hidden'==$ele->attr('type') or !$tag) {
+			if ('hidden'==$ele->attr('type') or strpos(get_class($ele),'SHtml')) {
 				$this->addOutPut($ele->getInputHtml());
 			}else {
 				if ($ele->config('label')) {

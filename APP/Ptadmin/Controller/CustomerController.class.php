@@ -1,7 +1,7 @@
 <?php
 
 namespace Ptadmin\Controller;
-use Ptadmin\Controller\DevController;
-class CustomerController extends DevController{
+use Ptadmin\Controller\PtadminController;
+class CustomerController extends PtadminController{
 	
 }

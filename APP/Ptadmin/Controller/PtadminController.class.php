@@ -2,7 +2,7 @@
 namespace Ptadmin\Controller;
 
 include_once MODULE_PATH.'Conf/common.php';
-class DevController extends \Dev\Controller\DevController {
+class PtadminController extends \Dev\Controller\DevController {
 	function _initialize() {
 		if (empty($_SESSION['uid'])) {
 			$this->redirect(MODULE_NAME.'/Login/index');
