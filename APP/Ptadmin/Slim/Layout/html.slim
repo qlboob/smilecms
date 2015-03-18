@@ -61,7 +61,7 @@ html
 										a href={:U(MODULE_NAME.'/Todolist/index')}
 											i.fa.fa-angle-double-right
 											洗车任务
-						li.treeview in_array(CONTROLLER_NAME,array('Information','Period','Village','Price'))?class=active
+						li.treeview in_array(CONTROLLER_NAME,array('Information','Infotype','Village','Price'))?class=active
 							a href=#
 								i.fa.fa-wrench
 								span 求购信息
@@ -71,6 +71,10 @@ html
 									a href={:U(MODULE_NAME.'/Information/index')}
 										i.fa.fa-angle-double-right
 										求购信息
+								li
+									a href={:U(MODULE_NAME.'/Infotype/index')}
+										i.fa.fa-angle-double-right
+										求购分类
 								/
 									li
 										a href={:U(MODULE_NAME.'/Period/index')}

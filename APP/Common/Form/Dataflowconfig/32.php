@@ -6,6 +6,7 @@
     'cst_company' => 'is_string',
     'cst_tel' => 'is_string',
     'cst_address' => 'is_string',
+    'cst_business' => 'is_string',
   ),
   'validator' => 
   array (
@@ -73,6 +74,23 @@
         array (
         ),
         'field' => 'cst_address',
+        'existValidate' => true,
+        'target' => '',
+      ),
+    ),
+    'cst_business' => 
+    array (
+      'required' => 
+      array (
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'cst_business',
         'existValidate' => true,
         'target' => '',
       ),

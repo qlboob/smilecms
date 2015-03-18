@@ -50,6 +50,37 @@
         'target' => '',
       ),
     ),
+    'usr_timeout' => 
+    array (
+      'required' => 
+      array (
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'usr_timeout',
+        'existValidate' => true,
+        'target' => '',
+      ),
+      'date' => 
+      array (
+        'msg' => '请输入正确的日期格式',
+        'target' => '^\\d{4}[\\/\\-](0?[1-9]|1[012])[\\/\\-](0?[1-9]|[12][0-9]|3[01])$',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'usr_timeout',
+        'existValidate' => true,
+        'notEmptyValidate' => true,
+      ),
+    ),
     'wxu_groupid' => 
     array (
       'required' => 

@@ -1,4 +1,4 @@
-<?php $htmlHeadTitle='用户组';?>
+<?php $htmlHeadTitle='求购信息分类';?>
 
 
 
@@ -120,7 +120,7 @@
 		<li>
 			<a href="<?php echo U(MODULE_NAME.'/Index/index');?>">
 				<i class="fa fa-dashboard"></i>
-				首页
+				仪表盘
 			</a>
 		</li>
 		<li class="active"><?php echo $htmlHeadTitle;?>
@@ -138,7 +138,7 @@
 				<div class="box-header">
 					
 	<h3 class="box-title">
-		<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/add',$_GET);?>" data-toggle="tooltip" title="增加用户组">
+		<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/add',$_GET);?>" data-toggle="tooltip" title="增加分类">
 			<i class="glyphicon glyphicon-plus"></i>
 		</a>
 	</h3>

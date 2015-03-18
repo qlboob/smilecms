@@ -8,6 +8,7 @@
     'ifm_state' => 'is_string',
     'ifm_type' => 'is_string',
     'picList' => 'is_string',
+    'ift_id' => 'is_string',
   ),
   'validator' => 
   array (
@@ -92,6 +93,23 @@
         array (
         ),
         'field' => 'ifm_type',
+        'existValidate' => true,
+        'target' => '',
+      ),
+    ),
+    'ift_id' => 
+    array (
+      'required' => 
+      array (
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'ift_id',
         'existValidate' => true,
         'target' => '',
       ),

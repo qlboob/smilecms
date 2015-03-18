@@ -61,7 +61,7 @@
 							</a>
 						</li>
 						
-						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('Information','Period','Village','Price'))){ ?> active<?php } ?>">
+						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('Information','Infotype','Village','Price'))){ ?> active<?php } ?>">
 							<a href="#">
 								<i class="fa fa-wrench"></i>
 								<span>求购信息</span>
@@ -72,6 +72,12 @@
 									<a href="<?php echo U(MODULE_NAME.'/Information/index');?>">
 										<i class="fa fa-angle-double-right"></i>
 										求购信息
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo U(MODULE_NAME.'/Infotype/index');?>">
+										<i class="fa fa-angle-double-right"></i>
+										求购分类
 									</a>
 								</li>
 								
