@@ -1,0 +1,19 @@
+- $htmlHeadTitle='求购信息列表';
+block body
+	.container-fluid
+		.panel
+			.panel-body
+				foreach typeLists
+					a> href="{:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/lists',array('typeid'=>$k))}"
+						span.label.label-info {$v|}
+		if $lists
+			ul.list-unstyled
+				foreach lists
+					li 
+						a href="{:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/view',array('id'=>$v['ifm_id']))}" {$v.ifm_title|}
+		else
+			div class="alert alert-danger" role="alert" 暂时没有求购信息
+		if $page
+			.pull-right {$page}
+
+include Layout/html

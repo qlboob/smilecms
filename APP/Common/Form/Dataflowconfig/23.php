@@ -249,6 +249,17 @@
   ),
   'convert' => 
   array (
+    'car_id' => 
+    array (
+      'function' => 
+      array (
+        'field' => 'car_id',
+        'content' => 'strtotime',
+        'param' => 
+        array (
+        ),
+      ),
+    ),
     'car_endtime' => 
     array (
       'function' => 

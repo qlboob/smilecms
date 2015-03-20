@@ -1,0 +1,16 @@
+- $htmlHeadTitle='求购详情';
+block body
+	.container-fluid
+		h3 {$data.ifm_title|}
+		if $piclist
+			foreach piclist
+				.row
+					col-sm-12
+						.thumbnail
+							img src="{$rootPath}/upload/img/{$v.ifp_path}"
+		if 1==$_SESSION['usr_pay']
+			p.lead 联系电话：{$data.ifm_tel|}
+		else
+			p.lead 联系电话：只有付费用户可见联系电话
+		p.lead {$data.ifm_desc|}
+include Layout/html

@@ -1,13 +1,21 @@
 <?php
 namespace Pt\Controller;
 use Think\Controller;
+use Think\Page;
 class IndexController extends Controller {
 	
 	private $cookie;
 	
+	private $userGroupSeeType = array(
+		2 => 4,#工厂看
+		3 => 2,#原材料供应商看
+	);
+	
 	function _initialize() {
+		
 		$this->cookie=$cookie = new \Com\Qinjq\Wechat\SCookie();
 		$openId = $cookie->getOpenId();
+// 		return ;
 		$wx = new \Com\Qinjq\Wechat\SWechat(C('wx'));
 		if (isset($_GET['code'])) {
 			$info = $wx->getOauthAccessToken();
@@ -31,11 +39,6 @@ class IndexController extends Controller {
 			}
 		}
 	}
-	
-    public function index(){
-    	
-    }
-    
     
     /**
      * 发布求购
@@ -49,14 +52,10 @@ class IndexController extends Controller {
     	if (IS_GET) {
     		$this->display();
     	}else {
-    		$data = $this->_keyFilter($data, array('ifm_title','ifm_desc','ifm_tel','ift_id'));
-    		$userGroup2type = array(
-    			4=>1,
-    			3=>2,
-    				
-    		);
-    		$data['ifm_type']=$userGroup2type[$_SESSION['ugp_id']];
+    		$data = $this->_keyFilter($_POST, array('ifm_title','ifm_desc','ifm_tel','ift_id'));
+    		$data['ugp_id']=$_SESSION['ugp_id'];
     		$data['usr_id']=$this->cookie->getUid();
+    		$data['ifm_ctime'] = time();
     		$infoId = D('Information')->add($data);
     		if (!empty($_POST['wxid'])) {
     			$pic = array();
@@ -76,7 +75,11 @@ class IndexController extends Controller {
      * 查看求购
      */
     function view() {
-    	$info = D('Infomation')->find($_GET['id']);
+    	$info = D('Information')->where(array('ifm_id'=>$_GET['id']))->find();
+    	if (0==$info['ifm_state']) {
+    		#未审核不能查看
+    		return;
+    	}
     	$picList = D('Infopic')->where(array('ifm_id'=>$info['ifm_id']))->select();
     	$this->assign(array(
     		'data'=>$info,
@@ -89,7 +92,34 @@ class IndexController extends Controller {
      * 求购列表
      */
     function lists() {
-    	;
+    	$infotype = $this->userGroupSeeType[$_SESSION['ugp_id']];
+    	if (!$infotype) {
+    		$this->error('你不用查看求购信息');
+    	}
+    	$where = array(
+    		'ugp_id'=>$infotype,
+    		'ifm_state'=>1,
+    		'ifm_ctime'=>array('gt',time()-3600*24*4),
+    	);
+    	$model = D('Information');
+    	if (!empty($_GET['typeid'])) {
+    		$where['ift_id'] = $_GET['typeid'];
+    	}
+    	//分页
+    	$cnt = $model->where($where)->count();
+    	if ($cnt) {
+    		$this->assign('cnt',$cnt);
+//     		$cnt=500;
+    		$page = new Page($cnt,20);
+	    	$lists = $model->where($where)->order('ifm_ctime DESC')->limit($page->firstRow,$page->listRows)->select();
+	    	$this->assign('lists',$lists);
+	    	$this->assign('page',$page->show());
+    	}
+    	
+    	$typeLists = D('Infotype')->getField('ift_id,ift_name');
+    	$this->assign('typeLists',$typeLists);
+    	
+    	$this->display();
     }
     
     /**
@@ -107,7 +137,7 @@ class IndexController extends Controller {
     		$this->display();
     	}else {
     		$allow = array(
-    			'usr_realname','usr_tel','usr_company','usr_address',
+    			'usr_realname','usr_tel','usr_company','usr_address','ugp_id'
     		);
     		$data = $this->_keyFilter($_POST, $allow);
     		$data['usr_name'] = 'wx_';

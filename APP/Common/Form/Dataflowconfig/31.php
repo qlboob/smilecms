@@ -9,6 +9,7 @@
     'ifm_type' => 'is_string',
     'picList' => 'is_string',
     'ift_id' => 'is_string',
+    'ifm_ctime' => 'is_string',
   ),
   'validator' => 
   array (
@@ -112,6 +113,37 @@
         'field' => 'ift_id',
         'existValidate' => true,
         'target' => '',
+      ),
+    ),
+    'ifm_ctime' => 
+    array (
+      'required' => 
+      array (
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'ifm_ctime',
+        'existValidate' => true,
+        'target' => '',
+      ),
+      'datetime' => 
+      array (
+        'msg' => '请输入正确的日期时间格式',
+        'target' => '^\\d{4}[\\/\\-](0?[1-9]|1[012])[\\/\\-](0?[1-9]|[12][0-9]|3[01])\\s+([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'ifm_ctime',
+        'existValidate' => true,
+        'notEmptyValidate' => true,
       ),
     ),
   ),

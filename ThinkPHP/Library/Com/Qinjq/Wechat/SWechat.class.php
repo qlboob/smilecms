@@ -1,7 +1,7 @@
 <?php
 
 namespace Com\Qinjq\Wechat;
-include __dir__.'wechat.class.php';
+include __dir__.'/wechat.class.php';
 class SWechat extends \Wechat{
 	/**
 	 * 设置缓存，按需重载

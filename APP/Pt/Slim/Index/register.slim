@@ -1,0 +1,25 @@
+- $htmlHeadTitle='注册';
+block body
+	.container-fluid
+		form action='?' method=post
+			.form-group
+				label 姓名：
+				input.form-control name=usr_realname placeholder=请输入联系人姓名 required=required data-bv-stringlength-max=5 data-bv-stringlength-min=2 data-bv-stringlength="true"
+			.form-group
+				label 联系电话：
+				input.form-control name=usr_tel placeholder=请输入联系电话 required=required data-bv-stringlength-max=20 data-bv-stringlength-min=11 data-bv-stringlength="true"
+			.form-group
+				label 公司名称：
+				input.form-control name=usr_company placeholder=请输入工厂名/公司名/商铺名 required=required data-bv-stringlength-max=50 data-bv-stringlength-min=5 data-bv-stringlength="true"
+			.form-group
+				label 公司类型：
+				- $types= D('Usergroup')->where('ugp_id>1')->getField('ugp_id,ugp_name');
+				form:select.form-control name=ugp_id required=required options=types first=请选择公司类型
+			.form-group
+				label 公司地址：
+				input.form-control name=usr_address placeholder=请输入你的公司地址 required=required data-bv-stringlength-max=50 data-bv-stringlength-min=10 data-bv-stringlength="true"
+			p.text-center
+				button type="submit" class="btn btn-primary btn-lg" 注册
+block closure
+	include Layout/validate
+include Layout/html
