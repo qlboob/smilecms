@@ -1,0 +1,67 @@
+-
+	$htmlHeadTitle='确认订单';
+	$json = array('sign'=>$sign,'redirect'=>U(MODULE_NAME.'/'.CONTROLLER_NAME.'/success'));
+include Common/carinfomap
+block body
+	.container-fluid
+		form.form-horizontal action="{:U(MODULE_NAME.'/Pay/index')}" method=post
+			.panel.panel-default
+				.panel-heading 你的信息
+				.panel-body
+					.form-group
+						label.control-label.col-xs-3 姓名
+						.col-xs-9
+							{$car_owner|}
+					.form-group
+						label.control-label.col-xs-3 手机号
+						.col-xs-9
+							{$car_tel|}
+					.form-group
+						label.control-label.col-xs-3 小区
+						.col-xs-9
+							{$vlgOption[$vlg_id]|}
+			.panel.panel-default
+				.panel-heading 爱车信息
+				.panel-body
+					.form-group
+						label.control-label.col-xs-3 车牌
+						.col-xs-9
+							{$car_no|}
+					.form-group
+						label.control-label.col-xs-3 型号
+						.col-xs-9
+							{$car_model|}
+					.form-group
+						label.control-label.col-xs-3 类型
+						.col-xs-9
+							{$ctpOption[$ctp_id]}
+			.panel.panel-default
+				.panel-heading 爱车在哪里
+				.panel-body
+					.form-group
+						label.control-label.col-xs-3 停车区域
+						.col-xs-9
+							{$car_location|}
+					.form-group
+						label.control-label.col-xs-3 固定车位/楼栋单元下
+						.col-xs-9
+							{$car_remark|}
+			.panel.panel-default
+				.panel-heading 服务期限
+				.panel-body
+					.form-group
+						label.control-label.col-xs-3 服务期限
+						.col-xs-9
+							{$prdOption[$prd_id]}
+					.form-group
+						label.control-label.clo-xs-3 支付金额
+						.clo-xs-9
+							strong ￥{$ord_money/100}元
+				p.text-center
+					button#payBtn.btn.btn-primary.btn-lg type=button 立即支付
+					a.btn.btn-default href={:U(MODULE_NAME.'/Index/index')} 重新填写
+block closure
+	include Layout/validate
+	script type=text/javascript
+		__initData={$json|json_encode};
+include Layout/html

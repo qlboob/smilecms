@@ -1,8 +1,7 @@
 <?php
 namespace Pt\Controller;
-use Think\Controller;
 use Think\Page;
-class IndexController extends Controller {
+class IndexController extends WcpageController {
 	
 	private $cookie;
 	
@@ -11,34 +10,6 @@ class IndexController extends Controller {
 		3 => 2,#原材料供应商看
 	);
 	
-	function _initialize() {
-		
-		$this->cookie=$cookie = new \Com\Qinjq\Wechat\SCookie();
-		$openId = $cookie->getOpenId();
-// 		return ;
-		$wx = new \Com\Qinjq\Wechat\SWechat(C('wx'));
-		if (isset($_GET['code'])) {
-			$info = $wx->getOauthAccessToken();
-			$openId = $info['openid'];
-			$cookie->setOpenId($openId);
-			$uid = D('Wxuser')->openid2uid($openId);
-			$cookie->setUid($uid);
-			$cookie->write();
-		}
-		if (!$openId) {
-			$jumpUrl = $wx->getOauthRedirect('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],'','snsapi_base');
-			header("Location: $jumpUrl");
-			exit();
-		}
-		if (!empty($_SESSION['usr_state'])) {
-			$userInfo = D('User')->find($cookie->getUid());
-			if ($userInfo) {
-				$_SESSION['usr_state'] = $userInfo['usr_state'];
-				$_SESSION['usr_pay'] = $userInfo['usr_pay'];
-				$_SESSION['ugp_id'] = $userInfo['ugp_id'];
-			}
-		}
-	}
     
     /**
      * 发布求购
@@ -50,6 +21,9 @@ class IndexController extends Controller {
     		}
     	}
     	if (IS_GET) {
+    		$wx = new \Com\Qinjq\Wechat\SWechat(C('wx'));
+    		$sign = $wx->getJsSign('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+    		$this->assign('sign',$sign);
     		$this->display();
     	}else {
     		$data = $this->_keyFilter($_POST, array('ifm_title','ifm_desc','ifm_tel','ift_id'));
@@ -61,11 +35,11 @@ class IndexController extends Controller {
     			$pic = array();
     			foreach ($_POST['wxid'] as $pid){
     				$pic[] = array(
-    					'ifp_wxid'=>$pid,
+    					'wxi_imgid'=>$pid,
     					'ifm_id'=>$infoId,
     				);
     			}
-    			D('Infopic')->addAll($pic);
+    			D('Wximg')->addAll($pic);
     		}
     		$this->success('发布功能，等待审核');
     	}
@@ -154,7 +128,7 @@ class IndexController extends Controller {
     	}
     }
     
-    private function _keyFilter($data,$keys) {
+    protected function _keyFilter($data,$keys) {
     	$ret = array();
     	foreach ($keys as $k){
     		if (isset($data[$k])) {

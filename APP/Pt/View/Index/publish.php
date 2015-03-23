@@ -1,4 +1,7 @@
-<?php $htmlHeadTitle='发布求购信息';?>
+<?php 
+	$htmlHeadTitle='发布求购信息';
+	$json = array('sign'=>$sign);
+?>
 
 
 
@@ -28,6 +31,14 @@
 				<?php $types=D('Infotype')->getField('ift_id,ift_name');?>
 				<select class="form-control" name="ift_id" required="required"><option value="">请选择分类</option><?php foreach($types as $key=>$val){?><?php if(isset($ift_id)&&($ift_id==$key||(is_array($ift_id)&&in_array($key,$ift_id)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
 			</div>
+			<div id="imgRow" class="form-group hide">
+				<label>图片</label>
+				<div class="form-control">
+					<div id="imgList"></div>
+					<button class="btn btn-default" type="button">点击上传图片
+</button>
+				</div>
+			</div>
 			<div class="form-group">
 				<label>联系电话：</label>
 				<input class="form-control" name="ifm_tel" required="required" data-bv-stringlength-max="20" data-bv-stringlength-min="11" data-bv-stringlength="true" type="text" id="ifm_tel" value="<?php if(isset($ifm_tel)) echo htmlspecialchars($ifm_tel);?>" />
@@ -51,6 +62,11 @@
 		$('form').bootstrapValidator();
 
 	</script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript">
+		__initData = <?php echo json_encode($json);?>;
+	</script>
+	<script type="text/javascript" src="<?php echo $rootPath;?>/skin/pt/js/publish.js"></script>
 
 
 	</body>

@@ -20,4 +20,7 @@ class TController extends Controller {
 		}
 		var_dump($_SESSION);
 	}
+	function x() {
+		var_dump(get_defined_constants());
+	}
 }

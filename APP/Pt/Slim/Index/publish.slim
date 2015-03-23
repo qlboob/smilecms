@@ -1,4 +1,6 @@
-- $htmlHeadTitle='发布求购信息';
+-
+	$htmlHeadTitle='发布求购信息';
+	$json = array('sign'=>$sign);
 block body
 	.container-fluid
 		form action="?" method=post
@@ -9,6 +11,12 @@ block body
 				label 分类：
 				- $types=D('Infotype')->getField('ift_id,ift_name');
 				form:select.form-control name=ift_id first="请选择分类" selected=ift_id options=types required=required
+			#imgRow.form-group.hide
+				label 图片
+				.form-control
+					#imgList
+					button.btn.btn-default type=button 点击上传图片
+
 			.form-group
 				label 联系电话：
 				form:field.form-control name=ifm_tel required=required data-bv-stringlength-max=20 data-bv-stringlength-min=11 data-bv-stringlength="true"
@@ -21,4 +29,8 @@ block head
 	link rel="stylesheet" type="text/css" href={$rootPath}/skin/bootstrapvalidator/css/bootstrapValidator.min.css
 block closure
 	include Layout/validate
+	script type=text/javascript src=http://res.wx.qq.com/open/js/jweixin-1.0.0.js
+	script type=text/javascript
+		__initData = {$json|json_encode};
+	script type=text/javascript src="{$rootPath}/skin/pt/js/publish.js"
 include Layout/html

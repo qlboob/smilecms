@@ -1,0 +1,19 @@
+- $htmlHeadTitle='开通会员';
+block body
+	.container-fluid
+		.row
+			.jumbotron
+				h1> 开通会员，支付
+					strong 998.00元
+				p 开通会员后可以看到求购信息中的联系电话。
+				p>
+					button#paynow.btn.btn-primary.btn-lg 立即支付
+
+block closure
+	script type=text/javascript src="{$rootPath}/js/jquery.min.js"
+	script type=text/javascript src=http://res.wx.qq.com/open/js/jweixin-1.0.0.js
+	script type=text/javascript
+		$json = array('jsPayParam'=>$jsPayParam);
+		__initData = {$json|json_encode};
+	script type=text/javascript src="{$rootPath}/skin/pt/js/pay.js"
+include Layout/html
