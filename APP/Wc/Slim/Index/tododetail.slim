@@ -1,0 +1,46 @@
+-
+	$htmlHeadTitle='任务详情';
+include Common/carinfomap
+body
+	.container-fluid
+		.row
+			.col-xs-3 姓名
+			.col-xs-9 {$car_owner|}
+		.row
+			.col-xs-3 手机号
+			.col-xs-9
+				a href="tel:{$car_tel|}" {$car_tel|}
+		.row
+			.col-xs-3 车牌
+			.col-xs-9 {$car_no|}
+		.row
+			.col-xs-3 颜色
+			.col-xs-9 {$car_color|}
+		.row
+			.col-xs-3 型号
+			.col-xs-9 {$car_model|}
+		.row
+			.col-xs-3 小区
+			.col-xs-9 {$vlgOption[$vlg_id]|}
+		.row
+			.col-xs-3 停车区域
+			.col-xs-9 {$car_location|}
+		if $car_remark
+			.row
+				.col-xs-3 固定车位
+				.col-xs-9 {$car_remark}
+		if $apm_id>0
+			.row
+				.col-xs-3 预约时间
+				.col-xs-9 {$apm_time|date='m月d日H点',###}
+			if $apm_remark
+				.row
+					.col-xs-3 备注
+					.col-xs-9 {$apm_remark|}
+			if $apm_washinner>0
+				.row
+					.col-xs-3 预约内容
+					.col-xs-9 清洁车内
+		.row
+			button.btn.btn-primary type=button 清洗完成上传照片
+include Layout/html
