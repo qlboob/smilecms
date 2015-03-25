@@ -6,6 +6,13 @@ use Think\Hook;
 
 include_once MODULE_PATH.'Conf/common.php';
 class DevController extends Controller {
+	
+	function _initialize() {
+		if (empty($_SESSION['usr_id'])) {
+			header('location: http://'.$_SERVER['HTTP_HOST'].U(MODULE_NAME.'/Login/index'));
+			exit();
+		}
+	}
 	protected $model	=	array();
 	
 	protected $formId;

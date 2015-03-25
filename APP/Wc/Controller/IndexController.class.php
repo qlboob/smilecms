@@ -27,7 +27,18 @@ class IndexController extends WcpageController {
 	
 	#管理员
 	private function index1() {
-		echo '管理员功能正在策划中。。。';
+		$completeCnt = array(
+			0,0
+		);
+		$group = D('Todolist')->field('count(*) as CNT, tdl_state')->where(array('tdl_ctime'=>strtotime('today')))->group('tdl_state')->select();
+		foreach ($group as $v){
+			if ($v['tdl_state']>0){
+				$completeCnt[1] += $v['CNT'];
+			}else {
+				$completeCnt[0]  += $v['CNT'];
+			}
+		}
+		echo "已经完成".$completeCnt[1].'/'.array_sum($completeCnt);
 	}
 	
 	#洗车工的界面

@@ -73,7 +73,7 @@
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U(MODULE_NAME.'/Todolist/index');?>">
+									<a href="<?php echo U(MODULE_NAME.'/Todolist/index',array('tdl_ctime'=>strtotime('today')));?>">
 										<i class="fa fa-angle-double-right"></i>
 										洗车任务
 									</a>

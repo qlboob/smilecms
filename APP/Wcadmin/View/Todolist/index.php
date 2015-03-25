@@ -77,7 +77,7 @@
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U(MODULE_NAME.'/Todolist/index');?>">
+									<a href="<?php echo U(MODULE_NAME.'/Todolist/index',array('tdl_ctime'=>strtotime('today')));?>">
 										<i class="fa fa-angle-double-right"></i>
 										洗车任务
 									</a>
@@ -171,13 +171,21 @@
 	<h3 class="box-title"></h3>
 	<div class="box-tools">
 		<form method="get">
-			<div class="input-group col-xs-3 pull-right">
+			<div class="input-group col-xs-2 pull-right">
 				<input class="form-control input-sm pull-right" name="searchStr" placeholder="关键字搜索" value="<?php echo htmlSpecialChars(I('get.searchStr',''));?>" />
 				<div class="input-group-btn">
 					<button class="btn btn-sm btn-default">
 						<i class="fa fa-search"></i>
 					</button>
 				</div>
+			</div>
+			<div class="input-group col-xs-2 pull-right">
+				<?php $stateOption = array('0'=>'未完成',2=>'已经完成');?>
+				<select class="form-control input-sm" name="tdl_state"><option value="">是否完成</option><?php foreach($stateOption as $key=>$val){?><?php if(isset($_GET['tdl_state'])&&($_GET['tdl_state']==$key||(is_array($_GET['tdl_state'])&&in_array($key,$_GET['tdl_state'])))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
+			</div>
+			<div class="input-group col-xs-2 pull-right">
+				<?php $today = strtotime('today');$dayOption =array($today=>'今天',$today-24*3600=>'昨天');?>
+				<select class="form-control input-sm" name="tdl_ctime"><?php foreach($dayOption as $key=>$val){?><?php if(isset($_GET['tdl_ctime'])&&($_GET['tdl_ctime']==$key||(is_array($_GET['tdl_ctime'])&&in_array($key,$_GET['tdl_ctime'])))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
 			</div>
 		</form>
 	</div>

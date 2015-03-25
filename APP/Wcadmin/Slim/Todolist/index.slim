@@ -14,9 +14,15 @@ block tableHeader
 	h3.box-title
 	.box-tools
 		form method=get
-			.input-group.col-xs-3.pull-right
+			.input-group.col-xs-2.pull-right
 				input.form-control.input-sm.pull-right name=searchStr placeholder=关键字搜索 value={:htmlSpecialChars(I('get.searchStr',''))}
 				.input-group-btn
 					button.btn.btn-sm.btn-default
 						i.fa.fa-search
+			.input-group.col-xs-2.pull-right
+				- $stateOption = array('0'=>'未完成',2=>'已经完成');
+				form:select.form-control.input-sm name=tdl_state options=stateOption selected="_GET['tdl_state']" first="是否完成"
+			.input-group.col-xs-2.pull-right
+				- $today = strtotime('today');$dayOption =array($today=>'今天',$today-24*3600=>'昨天');
+				form:select.form-control.input-sm name=tdl_ctime options=dayOption selected="_GET['tdl_ctime']"
 include Layout/index

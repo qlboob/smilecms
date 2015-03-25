@@ -57,7 +57,7 @@ html
 										i.fa.fa-angle-double-right
 										车辆列表
 								li
-									a href={:U(MODULE_NAME.'/Todolist/index')}
+									a href={:U(MODULE_NAME.'/Todolist/index',array('tdl_ctime'=>strtotime('today')))}
 										i.fa.fa-angle-double-right
 										洗车任务
 						li.treeview in_array(CONTROLLER_NAME,array('Cartype','Period','Village','Price'))?class=active
