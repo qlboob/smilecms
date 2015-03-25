@@ -11,8 +11,8 @@ class LoginController extends Controller{
 	function qrcode() {
 		$id = session_id();
 		D('Qrlogin')->add(array(
-			'rql_id'=>$id,
-			'rql_ctime'=>time(),
+			'qrl_id'=>$id,
+			'qrl_ctime'=>time(),
 		),array(),TRUE);
 		require VENDOR_PATH.'phpqrcode/qrlib.php' ;
 		\QRcode::png('http://'.$_SERVER['HTTP_HOST'].U('Wcadmin/Login/in',array('id'=>$id)),false,QR_ECLEVEL_L,6);
@@ -35,11 +35,22 @@ class LoginController extends Controller{
 	
 	function in() {
 		D('Qrlogin')->save(array(
-			'rql_id'=>$_GET['id'],
+			'qrl_id'=>$_GET['id'],
 			'usr_id'=>1,
 		));
 	}
 	function s() {
 		var_dump($_SESSION);
+	}
+	
+	/**
+	 * 微信跳转过来的直接登录
+	 */
+	function wcjump() {
+		$info = D('Qrlogin')->find($_GET['id']);
+		if ($info and $info['usr_id']> 0 and time()-10<$info['qrl_ctime']) {
+			$_SESSION['usr_id'] = $info['usr_id'];
+			$this->redirect(MODULE_NAME.'/Index/index');
+		}
 	}
 }

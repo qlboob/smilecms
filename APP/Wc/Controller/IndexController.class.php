@@ -141,4 +141,18 @@ class IndexController extends WcpageController {
 			}
 		}
 	}
+	
+	function admin() {
+		$uid = $this->cookie->getUid();
+		$userInfo = D('User')->find($uid);
+		if (1==$userInfo['ugp_id']) {
+			$uuid = md5(uniqid(mt_rand(), true));
+			D('Qrlogin')->add(array(
+				'qrl_id'=>$uuid,
+				'qrl_ctime'=>time(),
+				'usr_id'=>$uid,
+			),array(),true);
+			header('Location: http://first.cdwashcar.com'.U('Wcadmin/Login/wcjump',array('id'=>$uuid)));
+		};
+	}
 }
