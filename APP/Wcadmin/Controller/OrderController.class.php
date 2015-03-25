@@ -21,6 +21,7 @@ class OrderController extends DevController{
 				'ord_id'=>$id,
 				'ord_state'=>1,
 				'ord_payee'=>$_SESSION['usr_id'],
+				'ord_paytime'=>time(),
 			));
 			$success?$this->success('收款成功'):$this->error('收款失败');
 		}
