@@ -1,0 +1,45 @@
+- $htmlHeadTitle='仪表盘';
+block head
+	link href=http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css type=text/css rel=stylesheet
+block crumbs
+	h1 {$htmlHeadTitle}
+		small 今日概览
+	ol.breadcrumb
+		li.active {$htmlHeadTitle}
+block content
+	.row
+		.col-lg-3.col-xs-6
+			.small-box.bg-aqua
+				.inner
+					h3 ￥{$sum/100}
+					p 总订单数{$orderCnt}
+						a href={:U(MODULE_NAME.'/Order/index',array('ord_state'=>0,'ord_mtime_between_'=>$today.','.($today+24*3600)))} 未支付{$noPayCnt}
+				.icon
+					i.ion.ion-bag
+				a.small-box-footer href={:U(MODULE_NAME.'/Order/index')} 详情
+					i.fa.fa-arrow-circle-right<>
+		.col-lg-3.col-xs-6
+			.small-box.bg-green
+				.inner
+					h3> {$completaRate}
+						sup< %
+					p 任务完成比例{$completeCnt[1]}/{$completeCnt[0]+$completeCnt[1]}
+				.icon
+					i.ion.ion-stats-bars
+				a.small-box-footer href={:U(MODULE_NAME.'/Todolist/index',array('tdl_ctime'=>$today))} 详情
+					i.fa.fa-arrow-circle-right<>
+		.col-lg-3.col-xs-6
+			.small-box.bg-yellow
+				.inner
+					h3> {$userSum}
+					p 用户数
+						foreach userCnt
+							a<> href={:U(MODULE_NAME.'/Wxuser/index',array('ugp_id'=>$k))} {$v}/
+				.icon
+					i.ion.ion-person-add
+				a.small-box-footer href={:U(MODULE_NAME.'/Wxuser/index')} 详情
+					i.fa.fa-arrow-circle-right<>
+
+
+
+include Layout/html

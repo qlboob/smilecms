@@ -170,7 +170,7 @@
 					
 	<h3 class="box-title"></h3>
 	<div class="box-tools">
-		<form method="get">
+		<form method="get" action="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);?>">
 			<div class="input-group col-xs-3 pull-right">
 				<input class="form-control input-sm pull-right" name="searchStr" placeholder="关键字搜索" value="<?php echo htmlSpecialChars(I('get.searchStr',''));?>" />
 				<div class="input-group-btn">

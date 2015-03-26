@@ -38,4 +38,8 @@ class CronController extends Controller {
 			$orderM->where(array('ord_state'=>0,'ord_mtime'=>array('between',$between),'usr_id'=>$v['usr_id']))->save(array('ord_state'=>-1));
 		}
 	}
+	
+	function usertimeout() {
+		D('Car');
+	}
 }

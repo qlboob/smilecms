@@ -1,8 +1,4 @@
-<?php 
-	$htmlHeadTitle='订单';
-	$today = strtotime('today');
-	$dayOption = $today;
-?>
+<?php $htmlHeadTitle='仪表盘';?>
 
 
 
@@ -25,6 +21,8 @@
 		<![endif]-->
 		<?php echo $_regionHead;?>
 		
+	<link href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" type="text/css" rel="stylesheet" />
+
 	</head>
 	<body class="skin-blue">
 		<header class="header">
@@ -149,17 +147,10 @@
 			<aside class="right-side">
 				<section class="content-header">
 					
-	<h1><?php echo htmlspecialchars($htmlHeadTitle);?>
-		<small><?php echo $htmlHeadTitle;?>列表</small></h1>
+	<h1><?php echo $htmlHeadTitle;?>
+		<small>今日概览</small></h1>
 	<ol class="breadcrumb">
-		<li>
-			<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index');?>">
-				<i class="fa fa-dashboard"></i>
-				首页
-			</a>
-		</li>
-		<li class="active"><?php echo $htmlHeadTitle;?>
-</li>
+		<li class="active"><?php echo $htmlHeadTitle;?></li>
 	</ol>
 
 					
@@ -168,34 +159,41 @@
 				<section class="content">
 					
 	<div class="row">
-		<div class="col-xs-12">
-			<div class="box">
-				<div class="box-header">
-					
-	<h3 class="box-title"></h3>
-	<div class="box-tools">
-		<form method="get" action="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);?>">
-			<div class="input-group col-xs-2 pull-right">
-				<input class="form-control input-sm pull-right" name="searchStr" placeholder="关键字搜索" value="<?php echo htmlSpecialChars(I('get.searchStr',''));?>" />
-				<div class="input-group-btn">
-					<button class="btn btn-sm btn-default">
-						<i class="fa fa-search"></i>
-					</button>
+		<div class="col-lg-3 col-xs-6">
+			<div class="small-box bg-aqua">
+				<div class="inner">
+					<h3>￥<?php echo $sum/100;?></h3>
+					<p>总订单数<?php echo $orderCnt;?>
+						<a href="<?php echo U(MODULE_NAME.'/Order/index',array('ord_state'=>0,'ord_mtime<>'=>$today.','.($today+24*3600)));?>">未支付<?php echo $noPayCnt;?></a></p>
 				</div>
+				<div class="icon">
+					<i class="ion ion-bag"></i>
+				</div>
+				<a class="small-box-footer" href="<?php echo U(MODULE_NAME.'/Order/index');?>">详情<i class="fa fa-arrow-circle-right"></i></a>
 			</div>
-			<div class="input-group col-xs-2 pull-right">
-				<?php $orderStateOption = getOrderStateOption();?>
-				<select class="form-control input-sm" name="ord_state"><option value="">请选择订单状态</option><?php foreach($orderStateOption as $key=>$val){?><?php if(isset($ord_state)&&($ord_state==$key||(is_array($ord_state)&&in_array($key,$ord_state)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
+		</div><div class="col-lg-3 col-xs-6">
+			<div class="small-box bg-green">
+				<div class="inner">
+					<h3><?php echo $completaRate;?><sup>%</sup></h3>
+					<p>任务完成比例<?php echo $completeCnt[1];?>/<?php echo $completeCnt[0]+$completeCnt[1];?></p>
+				</div>
+				<div class="icon">
+					<i class="ion ion-stats-bars"></i>
+				</div>
+				<a class="small-box-footer" href="<?php echo U(MODULE_NAME.'/Todolist/index',array('tdl_ctime'=>$today));?>">详情<i class="fa fa-arrow-circle-right"></i></a>
 			</div>
-			
-		</form>
-	</div>
+		</div><div class="col-lg-3 col-xs-6">
+			<div class="small-box bg-yellow">
+				<div class="inner">
+					<h3><?php echo $userSum;?></h3><p>用户数
+						<?php foreach($userCnt as $k=>$v){?><a href="<?php echo U(MODULE_NAME.'/Wxuser/index',array('ugp_id'=>$k));?>"><?php echo $v;?>/</a><?php }?></p>
+				</div><div class="icon">
+					<i class="ion ion-person-add"></i>
+				</div>
+				<a class="small-box-footer" href="<?php echo U(MODULE_NAME.'/Wxuser/index');?>">详情<i class="fa fa-arrow-circle-right">
 
-					
-				</div>
-				<div class="box-body table-responsive no-padding">
-					<?php echo $table;?>
-				</div>
+
+					</i></a>
 			</div>
 		</div>
 	</div>

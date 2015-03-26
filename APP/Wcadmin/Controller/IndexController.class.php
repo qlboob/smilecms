@@ -28,6 +28,31 @@ class IndexController extends DevController{
 		$sum = $orderM->where($where)->sum('ord_money');
 		$where['ord_state'] = 0;
 		$noPayCnt = $orderM->where($where)->count();
+		$completeSum = array_sum($completeCnt);
+		
+		#用户
+		$userCnt = array(3=>0,4=>0,5=>0);
+		$userList = D('User')->where('ugp_id>2')->group('ugp_id')->field('ugp_id,count(*) as cnt')->select();
+		if ($userList) {
+			foreach ($userList as $v){
+				$userCnt[$v['ugp_id']]+= $v['cnt'];
+			}
+		}
+		$userSum = array_sum($userCnt);
+		
+		$this->assign(array(
+			'completeCnt'=>$completeCnt,
+			'completaRate'=>$completeSum?sprintf('%2.2f',$completeCnt[1]/$completeSum*100):0,
+			'orderCnt'=>$cnt,
+			'orderSum'=>$sum,
+			'noPayCnt'=>$noPayCnt,
+				
+			'userCnt'=>$userCnt,
+			'userSum'=>$userSum,
+				
+			'today'=>$today,
+		));
+		$this->display();
 	}
 
 }
