@@ -40,6 +40,22 @@ class CronController extends Controller {
 	}
 	
 	function usertimeout() {
-		D('Car');
+		$time = time();
+		
+		$carM = D('Car');
+		$UserM = D('User');
+		#设置车的状态
+		$carM->where('car_endtime<'.$time)->save(array('car_state'=>0));
+		#前三天过期的查询出来
+		$userIds = $carM->where(array('car_endtime'=>array('between',array($time-3*24*3600,$time))))->getField('usr_id');
+		if ($userIds) {
+			$userIds = array_unique($userIds);
+			foreach ($userIds as $uid){
+				if (!$carM->where(array('usr_id'=>$uid,'car_state'=>1))->find()) {
+					#如果没有其它车的情况 下，直接改用户组
+					$UserM->where(array('usr_id'=>$uid,'upg_id'=>4))->save(array('upg_id'=>5));
+				}
+			}
+		}
 	}
 }

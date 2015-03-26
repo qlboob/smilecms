@@ -158,12 +158,27 @@ class SListBlock extends SBlock{
 		}else {
 			$whereFields	=	$this->getAllField();
 		}
-		$whereFields		=	array_intersect($whereFields, array_keys($_REQUEST));
-		foreach ($whereFields as $whereField){
+// 		$whereFields		=	array_intersect($whereFields, array_keys($_REQUEST));
+		foreach ($_REQUEST as $k =>$v){
+			if (''===$v) {
+				continue;
+			}
+			if ('_'==substr($k, -1)) {
+				#以“_”结尾的特殊处理
+				if (preg_match('#(.+)_(\w+)_#', $k,$matches)) {
+					if (in_array($matches[1], $whereFields)) {
+						$this->_addWhere($this->where, $matches[1],$v, $matches[2]);
+					}
+				}
+			}else {
+				$this->_addWhere($this->where, $k, $v);
+			}
+		}
+		/*foreach ($whereFields as $whereField){
 			if ($_REQUEST[$whereField]!=='') {
 				$this->_addWhere($this->where,$whereField, $_REQUEST[$whereField]);
 			}
-		}
+		}*/
 	
 		$searchFields	=	$this->param('searchfield');
 		$searchStr		=	I('get.searchStr');
