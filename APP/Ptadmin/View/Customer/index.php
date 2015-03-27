@@ -123,8 +123,7 @@
 				首页
 			</a>
 		</li>
-		<li class="active"><?php echo $htmlHeadTitle;?>
-</li>
+		<li class="active"><?php echo $htmlHeadTitle;?></li>
 	</ol>
 
 					
@@ -140,7 +139,6 @@
 	<h3 class="box-title">
 		<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/add',$_GET);?>" data-toggle="tooltip" title="增加客户">
 			<i class="glyphicon glyphicon-plus">
-
 			</i>
 		</a>
 	</h3>

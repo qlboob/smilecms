@@ -163,8 +163,7 @@
 				<?php echo $htmlHeadTitle;?>
 			</a>
 		</li>
-		<li class="active"><?php echo $smallTxt;?>
-			</li>
+		<li class="active"><?php echo $smallTxt;?></li>
 	</ol>
 
 					

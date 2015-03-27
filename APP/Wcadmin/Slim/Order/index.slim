@@ -4,9 +4,8 @@
 	$today = strtotime('today');
 	$dayOption = array();
 	foreach(array('今天','昨天','前天') as $k=>$v){
-		$dayOption[] = implode(',',array($today-$k*24*3600,($today+1-$k)*24*3600));
+		$dayOption[implode(',',array($today-$k*24*3600,$today+(1-$k)*24*3600))] = $v;
 	}
-	$dayOption = $today;
 block crumbs
 	h1 {$htmlHeadTitle|}
 		small {$htmlHeadTitle}列表
@@ -30,6 +29,6 @@ block tableHeader
 				- $orderStateOption = getOrderStateOption();
 				form:select.form-control.input-sm name=ord_state first=请选择订单状态 options=orderStateOption selected=ord_state
 			.input-group.col-xs-2.pull-right
-				form:select.form-control.input-sm name=ord_mtime first=选择日期 options=dayOption selected=ord_mtime_between_
+				form:select.form-control.input-sm name=ord_mtime_between_ first=选择日期 options=dayOption selected=ord_mtime_between_
 				
 include Layout/index

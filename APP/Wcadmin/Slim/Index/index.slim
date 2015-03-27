@@ -34,12 +34,11 @@ block content
 					h3> {$userSum}
 					p 用户数
 						foreach userCnt
-							a<> href={:U(MODULE_NAME.'/Wxuser/index',array('ugp_id'=>$k))} {$v}/
+							a<> href={:U(MODULE_NAME.'/Wxuser/index',array('ugp_id'=>$k))} {$v}
+							if<> $k<5
+								{:htmlSpecialChars('/')}
 				.icon
 					i.ion.ion-person-add
 				a.small-box-footer href={:U(MODULE_NAME.'/Wxuser/index')} 详情
 					i.fa.fa-arrow-circle-right<>
-
-
-
 include Layout/html

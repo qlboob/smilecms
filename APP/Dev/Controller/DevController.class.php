@@ -27,6 +27,12 @@ class DevController extends Controller {
 			'afterFindData'	=>	'_afd_{ACTION}',
 	);
 	
+	function _initialize() {
+		if (empty($_COOKIE['dev'])) {
+			header("Location: http://{$_SERVER['HTTP_HOST']}".U(MODULE_NAME.'/Login/index'));
+			exit();
+		};
+	}
 	
 	/**
 	 * 得到表单

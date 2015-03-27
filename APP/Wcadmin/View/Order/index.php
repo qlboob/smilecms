@@ -1,7 +1,10 @@
 <?php 
 	$htmlHeadTitle='订单';
 	$today = strtotime('today');
-	$dayOption = $today;
+	$dayOption = array();
+	foreach(array('今天','昨天','前天') as $k=>$v){
+		$dayOption[implode(',',array($today-$k*24*3600,$today+(1-$k)*24*3600))] = $v;
+	}
 ?>
 
 
@@ -158,8 +161,7 @@
 				首页
 			</a>
 		</li>
-		<li class="active"><?php echo $htmlHeadTitle;?>
-</li>
+		<li class="active"><?php echo $htmlHeadTitle;?></li>
 	</ol>
 
 					
@@ -187,7 +189,9 @@
 				<?php $orderStateOption = getOrderStateOption();?>
 				<select class="form-control input-sm" name="ord_state"><option value="">请选择订单状态</option><?php foreach($orderStateOption as $key=>$val){?><?php if(isset($ord_state)&&($ord_state==$key||(is_array($ord_state)&&in_array($key,$ord_state)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
 			</div>
-			
+			<div class="input-group col-xs-2 pull-right">
+				<select class="form-control input-sm" name="ord_mtime_between_"><option value="">选择日期</option><?php foreach($dayOption as $key=>$val){?><?php if(isset($ord_mtime_between_)&&($ord_mtime_between_==$key||(is_array($ord_mtime_between_)&&in_array($key,$ord_mtime_between_)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
+			</div>
 		</form>
 	</div>
 

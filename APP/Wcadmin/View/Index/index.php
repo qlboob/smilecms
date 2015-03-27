@@ -164,7 +164,7 @@
 				<div class="inner">
 					<h3>￥<?php echo $sum/100;?></h3>
 					<p>总订单数<?php echo $orderCnt;?>
-						<a href="<?php echo U(MODULE_NAME.'/Order/index',array('ord_state'=>0,'ord_mtime<>'=>$today.','.($today+24*3600)));?>">未支付<?php echo $noPayCnt;?></a></p>
+						<a href="<?php echo U(MODULE_NAME.'/Order/index',array('ord_state'=>0,'ord_mtime_between_'=>$today.','.($today+24*3600)));?>">未支付<?php echo $noPayCnt;?></a></p>
 				</div>
 				<div class="icon">
 					<i class="ion ion-bag"></i>
@@ -186,13 +186,12 @@
 			<div class="small-box bg-yellow">
 				<div class="inner">
 					<h3><?php echo $userSum;?></h3><p>用户数
-						<?php foreach($userCnt as $k=>$v){?><a href="<?php echo U(MODULE_NAME.'/Wxuser/index',array('ugp_id'=>$k));?>"><?php echo $v;?>/</a><?php }?></p>
-				</div><div class="icon">
+						<?php foreach($userCnt as $k=>$v){?><a href="<?php echo U(MODULE_NAME.'/Wxuser/index',array('ugp_id'=>$k));?>"><?php echo $v;?></a><?php if($k<5){?><?php echo htmlSpecialChars('/');?><?php }?><?php }?></p>
+				</div>
+				<div class="icon">
 					<i class="ion ion-person-add"></i>
 				</div>
 				<a class="small-box-footer" href="<?php echo U(MODULE_NAME.'/Wxuser/index');?>">详情<i class="fa fa-arrow-circle-right">
-
-
 					</i></a>
 			</div>
 		</div>

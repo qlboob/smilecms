@@ -13,10 +13,6 @@
 		<meta charset="UTF-8" />
 		<title><?php echo $htmlHeadTitle;?></title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
-		
-
-			
-			
 		<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
@@ -37,7 +33,6 @@
 			</nav>
 		</header>
 		<div class="wrapper row-offcanvas row-offcanvas-left">
-			
 			<aside class="left-side sidebar-offcanvas">
 				<section class="sidebar">
 					<div class="user-panel">
@@ -73,13 +68,13 @@
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U('Dev/Model/index');?>">
+									<a href="<?php echo U('Dev/Model/index',array('sit_id'=>$_COOKIE['sit_id']));?>">
 										<i class="fa fa-angle-double-right"></i>
 										模型
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U('Dev/Form/index');?>">
+									<a href="<?php echo U('Dev/Form/index',array('sit_id'=>$_COOKIE['sit_id']));?>">
 										<i class="fa fa-angle-double-right"></i>
 										表单
 									</a>
@@ -101,7 +96,6 @@
 					</ul>
 				</section>
 			</aside>
-			
 			<aside class="right-side">
 				<section class="content-header">
 					<h1>首页
@@ -116,7 +110,6 @@
 						<li class="active">Test</li>
 					</ol>
 				</section>
-				
 				<section class="content">
 					
 	<div class="row">
@@ -148,9 +141,7 @@
 			</aside>
 		</div>
 		
-		
 		<?php echo $_regionClosure;?>
 		
-
 	</body>
 </html>

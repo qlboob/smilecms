@@ -39,6 +39,9 @@ class CronController extends Controller {
 		}
 	}
 	
+	/**
+	 * 用户过期
+	 */
 	function usertimeout() {
 		$time = time();
 		
@@ -54,6 +57,47 @@ class CronController extends Controller {
 				if (!$carM->where(array('usr_id'=>$uid,'car_state'=>1))->find()) {
 					#如果没有其它车的情况 下，直接改用户组
 					$UserM->where(array('usr_id'=>$uid,'upg_id'=>4))->save(array('upg_id'=>5));
+				}
+			}
+		}
+	}
+	
+	function sendMsgComplete() {
+		$today = strtotime('today');
+		$lists = D('Todolist')->where("tdl_state=1 AND tdl_ctime>=$today ")->select();
+		$wx = new \Com\Qinjq\Wechat\SWechat(C('wx'));
+		$todoimgM = D('Todoimg');
+		if ($lists) {
+			foreach ($lists as $v){
+				$imgLists = $todoimgM->where("tdl_id={$v['tdl_id']} and tdi_retry<5")->select();
+				$mimeMap = array(
+					'image/jpeg'=>'jpg',
+					'image/jpg'=>'jpg',
+					'image/png'=>'png',
+					'image/bmp'=>'bmp',
+				);
+				$sendMsg = TRUE;
+				if($imgLists){
+					foreach ($imgLists as $imgInfo){
+						$content = $wx->getMedia($v['tdi_id']);
+						if ($content) {
+							$ext = $mimeMap[$wx->lastHttpStatus[CURLINFO_CONTENT_TYPE]];
+							$filename = uniqid('wximg_').'.'.$ext;
+							$filePath = THINK_PATH.'../upload/img/'.$filename;
+							file_put_contents($filePath, $content);
+							$todoimgM->save(array(
+								'tdi_path'=>$filename,
+								'tdi_id'=>$imgInfo['tdi_id'],
+							));
+						}else {
+							$sendMsg = FALSE;
+							++$v['tdi_retry'];
+							$todoimgM->save($imgInfo);
+						}
+					}
+				}
+				if ($sendMsg) {
+					#发送微信模板消息;
 				}
 			}
 		}
