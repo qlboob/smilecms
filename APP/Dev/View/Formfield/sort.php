@@ -72,13 +72,13 @@
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U('Dev/Model/index',array('sit_id'=>$_COOKIE['sit_id']));?>">
+									<a href="<?php echo U('Dev/Model/index',array('sit_id'=>$_COOKIE['_sit_id']));?>">
 										<i class="fa fa-angle-double-right"></i>
 										模型
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo U('Dev/Form/index',array('sit_id'=>$_COOKIE['sit_id']));?>">
+									<a href="<?php echo U('Dev/Form/index',array('sit_id'=>$_COOKIE['_sit_id']));?>">
 										<i class="fa fa-angle-double-right"></i>
 										表单
 									</a>

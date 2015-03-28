@@ -1,7 +1,6 @@
 <?php $htmlHeadTitle='仪表盘';?>
 
 
-
 <?php 
 	use Com\Qinjq\Block\SLayout;
 	foreach(array('head','closure') as $v){
@@ -191,8 +190,7 @@
 				<div class="icon">
 					<i class="ion ion-person-add"></i>
 				</div>
-				<a class="small-box-footer" href="<?php echo U(MODULE_NAME.'/Wxuser/index');?>">详情<i class="fa fa-arrow-circle-right">
-					</i></a>
+				<a class="small-box-footer" href="<?php echo U(MODULE_NAME.'/Wxuser/index');?>">详情<i class="fa fa-arrow-circle-right"></i></a>
 			</div>
 		</div>
 	</div>

@@ -10,12 +10,18 @@ class LoginController extends Controller{
 	
 	function qrcode() {
 		$id = session_id();
-		D('Qrlogin')->add(array(
+		$time = time();
+		$model = D('Qrlogin');
+		$model->add(array(
 			'qrl_id'=>$id,
-			'qrl_ctime'=>time(),
+			'qrl_ctime'=>$time,
 		),array(),TRUE);
 		require VENDOR_PATH.'phpqrcode/qrlib.php' ;
 		\QRcode::png('http://'.$_SERVER['HTTP_HOST'].U('Wcadmin/Login/in',array('id'=>$id)),false,QR_ECLEVEL_L,6);
+		if (mt_rand(0, 100)>95) {
+			#删除过期的二维码
+			$model->where('qrl_ctime<'.($time-5*60))->delete();
+		}
 	}
 	
 	function login() {

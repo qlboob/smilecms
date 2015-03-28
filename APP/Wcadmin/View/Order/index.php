@@ -156,7 +156,7 @@
 		<small><?php echo $htmlHeadTitle;?>列表</small></h1>
 	<ol class="breadcrumb">
 		<li>
-			<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index');?>">
+			<a href="<?php echo U(MODULE_NAME.'/Index/index');?>">
 				<i class="fa fa-dashboard"></i>
 				首页
 			</a>
