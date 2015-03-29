@@ -1047,7 +1047,7 @@ class Wechat
 	 * GET 请求
 	 * @param string $url
 	 */
-	private function http_get($url){
+	protected function http_get($url){
 		$oCurl = curl_init();
 		if(stripos($url,"https://")!==FALSE){
 			curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -1258,8 +1258,8 @@ class Wechat
 	    if (!$sign)
 	        return false;
 	    $signPackage = array(
-	            "appid"     => $this->appid,
-	            "noncestr"  => $noncestr,
+	            "appId"     => $this->appid,
+	            "nonceStr"  => $noncestr,
 	            "timestamp" => $timestamp,
 	            "url"       => $url,
 	            "signature" => $sign

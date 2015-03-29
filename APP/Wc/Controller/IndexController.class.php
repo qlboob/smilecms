@@ -27,6 +27,7 @@ class IndexController extends WcpageController {
 	
 	#管理员
 	private function index1() {
+		$this->admin();
 		$completeCnt = array(
 			0,0
 		);
@@ -77,16 +78,36 @@ class IndexController extends WcpageController {
 	}
 
 	function tododetail(){
-		$id = intvaln($_GET['id']);
-		$todoInfo = D('Todolist')->find($id);
-		$carInfo = D('Car')->find($todoInfo['car_id']);
-		if ( $todoInfo['apm_id']>0 ) {
-			$appointInfo = D('Appointment')->find($todoInfo['apm_id']);
-			$this->assign($appointInfo);
+		$id = intval($_GET['id']);
+		$todoM = D('Todolist');
+		if (IS_AJAX) {
+			$ret = array('code'=>0,'msg'=>'上传成功');
+			$todoimgM = D('Todoimg');
+			$success = $todoimgM->add(array(
+				'tdi_id'=>$_REQUEST['tdi_id'],
+				'tdl_id'=>$id,
+			));
+			$success2= $todoM->save(array(
+				'tdl_id'=>$id,
+				'tdl_state'=>1,
+			));
+			if (!$success or !$success2) {
+				$ret['code']=1;
+				$ret['msg']='保存失败';
+			}
+			exit(json_encode($ret));
+		}elseif (IS_GET) {
+			$todoInfo = $todoM->find($id);
+			$carInfo = D('Car')->find($todoInfo['car_id']);
+			if ( $todoInfo['apm_id']>0 ) {
+				$appointInfo = D('Appointment')->find($todoInfo['apm_id']);
+				$this->assign($appointInfo);
+			}
+			$this->assign($todoInfo);
+			$this->assign($carInfo);
+			$this->setJsSign();
+			$this->display( );
 		}
-		$this->assign($todoInfo);
-		$this->assign($carInfo);
-		$this->display( );
 	}
 	
 	#未付费
@@ -104,7 +125,7 @@ class IndexController extends WcpageController {
 	
 	#过期用户，去续费
 	private function index5() {
-		;
+		$this->index3();
 	}
 	
 	/**
@@ -152,7 +173,10 @@ class IndexController extends WcpageController {
 				'qrl_ctime'=>time(),
 				'usr_id'=>$uid,
 			),array(),true);
-			header('Location: http://first.cdwashcar.com'.U('Wcadmin/Login/wcjump',array('id'=>$uuid)));
+			$host = $_SERVER['HTTP_HOST'];
+// 			$host = 'first.cdwashcar.com';
+			header("Location: http://$host".U('Wcadmin/Login/wcjump',array('id'=>$uuid)));
+			exit();
 		};
 	}
 }

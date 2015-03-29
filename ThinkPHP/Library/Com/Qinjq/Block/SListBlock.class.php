@@ -160,7 +160,7 @@ class SListBlock extends SBlock{
 		}
 // 		$whereFields		=	array_intersect($whereFields, array_keys($_REQUEST));
 		foreach ($_REQUEST as $k =>$v){
-			if (''===$v) {
+			if (''===$v or empty($k)) {
 				continue;
 			}
 			if ('_'==substr($k, -1)) {
@@ -171,7 +171,9 @@ class SListBlock extends SBlock{
 					}
 				}
 			}else {
-				$this->_addWhere($this->where, $k, $v);
+				if (in_array($k, $whereFields)) {
+					$this->_addWhere($this->where, $k, $v);
+				}
 			}
 		}
 		/*foreach ($whereFields as $whereField){

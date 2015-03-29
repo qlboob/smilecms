@@ -6,7 +6,7 @@
     'ifm_desc' => 'is_string',
     'ifm_tel' => 'is_string',
     'ifm_state' => 'is_string',
-    'ifm_type' => 'is_string',
+    'ugp_id' => 'is_string',
     'picList' => 'is_string',
     'ift_id' => 'is_string',
     'ifm_ctime' => 'is_string',
@@ -81,7 +81,7 @@
         'target' => '',
       ),
     ),
-    'ifm_type' => 
+    'ugp_id' => 
     array (
       'required' => 
       array (
@@ -93,7 +93,7 @@
         'param' => 
         array (
         ),
-        'field' => 'ifm_type',
+        'field' => 'ugp_id',
         'existValidate' => true,
         'target' => '',
       ),

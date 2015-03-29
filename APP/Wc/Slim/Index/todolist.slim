@@ -5,7 +5,7 @@ block body
 	.container-fluid
 		form method=get
 			form:select first=选择小区 options=vlgOption name=vlg_id selected=vlg_id
-			form:field name=search value=手机号/车牌号/姓名搜索
+			form:field name=search placeholder=手机号/车牌号/姓名搜索
 			button.btn.btn-primary type=submit 搜索
 		if empty($lists)
 			p 没有待洗车
@@ -21,7 +21,7 @@ block body
 					foreach lists
 						tr
 							td
-								a href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/tododetail',array('id'=>$v['tdl_id']))} {$v.car_no|mb_substr=2|}
+								a href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/tododetail',array('id'=>$v['tdl_id']))} {$v.car_no|mb_substr=2,10,'utf-8'|}
 							td {$v.car_color|}
 							td {$v.car_model|}
 							td {$ctpOption[$v['ctp_id']]}

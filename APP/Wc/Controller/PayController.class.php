@@ -23,10 +23,10 @@ class PayController extends WcpageController {
 		
 		#生成订单
 		$time = time();
-		$data = $this->_keyFilter($_POST,array('car_owner','car_tel','vlg_id','car_no','car_color','car_model','car_location','car_remark'));
+		$data = $this->_keyFilter($_POST,array('car_owner','car_tel','vlg_id','ctp_id','prd_id','car_no','car_color','car_model','car_location','car_remark',));
 		#计算支付金额
 		$money = D('Price')->where(array('ctp_id'=>$data['ctp_id'],'prd_id'=>$data['prd_id']))->getField('prc_money');
-		if ($money) {
+		if (!$money) {
 			$this->error('没有所所选择的套餐');
 		}else {
 			$data = array_merge($data,array(

@@ -26,92 +26,59 @@
 	<body>
 		
 	<div class="container-fluid">
-		<form class="form-horizontal" action="<?php echo U(MODULE_NAME.'/Pay/index');?>" method="post">
-			<div class="panel panel-default">
-				<div class="panel-heading">你的信息</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<label class="control-label col-xs-3">姓名</label>
-						<div class="col-xs-9">
-							<?php echo htmlspecialchars($car_owner);?>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-3">手机号</label>
-						<div class="col-xs-9">
-							<?php echo htmlspecialchars($car_tel);?>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-3">小区</label>
-						<div class="col-xs-9">
-							<?php echo htmlspecialchars($vlgOption[$vlg_id]);?>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-heading">爱车信息</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<label class="control-label col-xs-3">车牌</label>
-						<div class="col-xs-9">
-							<?php echo htmlspecialchars($car_no);?>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-3">型号</label>
-						<div class="col-xs-9">
-							<?php echo htmlspecialchars($car_model);?>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-3">类型</label>
-						<div class="col-xs-9">
-							<?php echo $ctpOption[$ctp_id];?>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-heading">爱车在哪里</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<label class="control-label col-xs-3">停车区域</label>
-						<div class="col-xs-9">
-							<?php echo htmlspecialchars($car_location);?>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-3">固定车位/楼栋单元下</label>
-						<div class="col-xs-9">
-							<?php echo htmlspecialchars($car_remark);?>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-heading">服务期限</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<label class="control-label col-xs-3">服务期限</label>
-						<div class="col-xs-9">
-							<?php echo $prdOption[$prd_id];?>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label clo-xs-3">支付金额</label>
-						<div class="clo-xs-9">
-							<strong>￥<?php echo $ord_money/100;?>元</strong>
-						</div>
-					</div>
-				</div>
-				<p class="text-center">
+		<table class="table table-condensed">
+			<tr>
+				<td>姓名</td>
+				<td><?php echo htmlspecialchars($car_owner);?></td>
+			</tr>
+			<tr>
+				<td>手机号</td>
+				<td><?php echo htmlspecialchars($car_tel);?></td>
+			</tr>
+			<tr>
+				<td>小区</td>
+				<td><?php echo htmlspecialchars($vlgOption[$vlg_id]);?></td>
+			</tr>
+			<tr>
+				<td>车牌</td>
+				<td><?php echo htmlspecialchars($car_no);?></td>
+			</tr>
+			<tr>
+				<td>型号</td>
+				<td><?php echo htmlspecialchars($car_model);?></td>
+			</tr>
+			<tr>
+				<td>类型</td>
+				<td><?php echo $ctpOption[$ctp_id];?></td>
+			</tr>
+			<tr>
+				<td>停车区域</td>
+				<td><?php echo htmlspecialchars($car_location);?></td>
+			</tr>
+			<?php if($car_remark){?>
+				<tr>
+					<td>固定车位/楼栋单元下</td>
+					<td><?php echo htmlspecialchars($car_remark);?></td>
+				</tr>
+			<?php }?>
+			<tr>
+				<td>服务期限</td>
+				<td><?php echo $prdOption[$prd_id];?></td>
+			</tr>
+			<tr>
+				<td>支付金额</td>
+				<td>
+					<strong>￥<?php echo $ord_money/100;?>元</strong>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
 					<button id="payBtn" class="btn btn-primary btn-lg" type="button">立即支付</button>
 					<a class="btn btn-default" href="<?php echo U(MODULE_NAME.'/Index/index');?>">重新填写</a>
-				</p>
-			</div>
-		</form>
+				</td>
+			</tr>
+		</table>
 	</div>
 
 		

@@ -16,6 +16,8 @@
     'ord_paytime' => 'is_string',
     'ord_state' => 'is_string',
     'ord_money' => 'is_string',
+    'ord_mtime' => 'is_string',
+    'ord_payee' => 'is_string',
   ),
   'validator' => 
   array (
@@ -209,6 +211,23 @@
         'field' => 'ord_money',
         'existValidate' => true,
         'target' => '',
+      ),
+    ),
+    'ord_payee' => 
+    array (
+      'integer' => 
+      array (
+        'msg' => '{$value}不是整数',
+        'target' => '^[\\-\\+]?([1-9]\\d*|0)+$',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'ord_payee',
+        'existValidate' => true,
+        'notEmptyValidate' => true,
       ),
     ),
   ),

@@ -10,7 +10,7 @@ class SWechat extends \Wechat{
 	 * GET 请求
 	 * @param string $url
 	 */
-	private function http_get($url){
+	protected function http_get($url){
 		$oCurl = curl_init();
 		if(stripos($url,"https://")!==FALSE){
 			curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);

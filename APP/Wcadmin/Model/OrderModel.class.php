@@ -51,7 +51,13 @@ class OrderModel extends Model{
 			$this->rollback();
 			return FALSE;
 		}
+		#更改车辆状态和服务结束时间
 		if (!$carM->save(array('car_id'=>$existCar['car_id'],'car_endtime'=>$newEndTime,'car_state'=>1))) {
+			$this->rollback();
+			return FALSE;
+		}
+		#更改用户组，用户信息
+		if ( !D('User')->save(array('usr_id'=>$data['usr_id'],'ugp_id'=>4,'usr_nick'=>$data['car_owner'])) ) {
 			$this->rollback();
 			return FALSE;
 		}

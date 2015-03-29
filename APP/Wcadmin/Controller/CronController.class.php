@@ -67,37 +67,61 @@ class CronController extends Controller {
 		$lists = D('Todolist')->where("tdl_state=1 AND tdl_ctime>=$today ")->select();
 		$wx = new \Com\Qinjq\Wechat\SWechat(C('wx'));
 		$todoimgM = D('Todoimg');
-		if ($lists) {
-			foreach ($lists as $v){
-				$imgLists = $todoimgM->where("tdl_id={$v['tdl_id']} and tdi_retry<5")->select();
-				$mimeMap = array(
-					'image/jpeg'=>'jpg',
-					'image/jpg'=>'jpg',
-					'image/png'=>'png',
-					'image/bmp'=>'bmp',
-				);
-				$sendMsg = TRUE;
-				if($imgLists){
-					foreach ($imgLists as $imgInfo){
-						$content = $wx->getMedia($v['tdi_id']);
-						if ($content) {
-							$ext = $mimeMap[$wx->lastHttpStatus[CURLINFO_CONTENT_TYPE]];
-							$filename = uniqid('wximg_').'.'.$ext;
-							$filePath = THINK_PATH.'../upload/img/'.$filename;
-							file_put_contents($filePath, $content);
-							$todoimgM->save(array(
-								'tdi_path'=>$filename,
-								'tdi_id'=>$imgInfo['tdi_id'],
-							));
-						}else {
-							$sendMsg = FALSE;
-							++$v['tdi_retry'];
-							$todoimgM->save($imgInfo);
-						}
-					}
+		$wxuserM = D('Wxuser');
+		$carM = D('Car');
+		if (!$lists) {
+			return FALSE;
+		}
+		foreach ($lists as $v){
+			$imgLists = $todoimgM->where("tdl_id={$v['tdl_id']} and tdi_retry<5")->select();
+			$mimeMap = array(
+				'image/jpeg'=>'jpg',
+				'image/jpg'=>'jpg',
+				'image/png'=>'png',
+				'image/bmp'=>'bmp',
+			);
+			$sendMsg = TRUE;
+			if(!$imgLists){
+				continue;
+			}
+			foreach ($imgLists as $imgInfo){
+				if ($imgInfo['tdi_path']) {
+					continue;
 				}
-				if ($sendMsg) {
-					#发送微信模板消息;
+				$content = $wx->getMedia($imgInfo['tdi_id']);
+				if ($content) {
+					$ext = $mimeMap[$wx->lastHttpStatus['content_type']];
+					$filename = uniqid('wximg_').'.'.$ext;
+					$filePath = THINK_PATH.'../upload/img/'.$filename;
+					file_put_contents($filePath, $content);
+					$todoimgM->save(array(
+						'tdi_path'=>$filename,
+						'tdi_id'=>$imgInfo['tdi_id'],
+					));
+				}else {
+					$sendMsg = FALSE;
+					++$imgInfo['tdi_retry'];
+					$todoimgM->save($imgInfo);
+				}
+			}
+			if ($sendMsg) {
+				$uid = $carM->where("car_id={$v['car_id']}")->getField('usr_id');
+				$openId = $wxuserM->where("usr_id={$uid}")->getField('wx_id');
+				#发送微信模板消息;
+				$result = $wx->sendTemplateMessage(array(
+					'template_id'=>'VLPCdrIqtXlL9iEOCDxkQ8VLTzqPPt2BJ54k85-EOiE',
+					'touser'=>$openId,
+					'url'=>'http://192.168.1.101/index.php/Wc/Index/index',
+					'topcolor'=>'#FF0000',
+					'data'=>array(
+						'name'=>array(
+							'value'=>'张某',
+							'color'=>'#173177'
+						),
+					),
+				));
+				if ($result) {
+					D('Todolist')->where('tdl_id='.$v['tdl_id'])->save(array('tdl_state'=>2));
 				}
 			}
 		}

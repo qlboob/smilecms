@@ -1,7 +1,8 @@
 -
 	$htmlHeadTitle='任务详情';
+	$json = array('sign'=>$sign);
 include Common/carinfomap
-body
+block body
 	.container-fluid
 		.row
 			.col-xs-3 姓名
@@ -41,6 +42,14 @@ body
 				.row
 					.col-xs-3 预约内容
 					.col-xs-9 清洁车内
-		.row
-			button.btn.btn-primary type=button 清洗完成上传照片
+		#imgshow.row.thumbnail
+		.row.text-center
+			button#upload.btn.btn-primary type=button 清洗完成上传照片
+			a.btn.btn-default href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index')} 返回
+block closure
+	script type=text/javascript
+		__initData = {$json|json_encode};
+	script type=text/javascript src=http://res.wx.qq.com/open/js/jweixin-1.0.0.js
+	script type=text/javascript src="{$rootPath}/js/jquery.min.js"
+	script type=text/javascript src={$rootPath}/skin/wc/js/tododetail.js
 include Layout/html

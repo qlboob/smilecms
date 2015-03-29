@@ -1,6 +1,7 @@
 <?php
 namespace Wc\Controller;
 use Think\Controller;
+use Think\Log;
 
 class WcpageController extends Controller {
 	
@@ -12,10 +13,10 @@ class WcpageController extends Controller {
 	function _initialize() {
 		$this->cookie=$cookie = new \Com\Qinjq\Wechat\SCookie();
 		//TODO 删除
-		return;
+// 		return;
 		$openId = $cookie->getOpenId();
 // 		return ;
-		$this->wc = $wx = new \Com\Qinjq\Wechat\SWechat(C('wc'));
+		$this->wc = $wx = new \Com\Qinjq\Wechat\SWechat(C('wx'));
 		if (isset($_GET['code'])) {
 			$info = $wx->getOauthAccessToken();
 			$openId = $info['openid'];
@@ -26,13 +27,16 @@ class WcpageController extends Controller {
 		}
 		if (!$openId) {
 			$jumpUrl = $wx->getOauthRedirect('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],'',$this->authUserInfoType);
+// 			var_dump($jumpUrl);
+// 			exit('|');
+// 			Log::record('jumpurl :'.$jumpUrl,"ERR",true);
 			header("Location: $jumpUrl");
 			exit();
 		}
 	}
 	
 	protected function setJsSign() {
-		$sign = $this->wx->getJsSign('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+		$sign = $this->wc->getJsSign('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
     	$this->assign('sign',$sign);;
 	}
 	

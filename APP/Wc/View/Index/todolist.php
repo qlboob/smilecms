@@ -26,7 +26,7 @@
 	<div class="container-fluid">
 		<form method="get">
 			<select name="vlg_id"><option value="">选择小区</option><?php foreach($vlgOption as $key=>$val){?><?php if(isset($vlg_id)&&($vlg_id==$key||(is_array($vlg_id)&&in_array($key,$vlg_id)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
-			<input name="search" value="手机号/车牌号/姓名搜索" type="text" id="search" />
+			<input name="search" placeholder="手机号/车牌号/姓名搜索" type="text" id="search" value="<?php if(isset($search)) echo htmlspecialchars($search);?>" />
 			<button class="btn btn-primary" type="submit">搜索</button>
 		</form>
 		<?php if(empty($lists)){?>
@@ -45,7 +45,7 @@
 					<?php foreach($lists as $k=>$v){?>
 						<tr>
 							<td>
-								<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/tododetail',array('id'=>$v['tdl_id']));?>"><?php echo htmlspecialchars(mb_substr($v["car_no"],2));?></a>
+								<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/tododetail',array('id'=>$v['tdl_id']));?>"><?php echo htmlspecialchars(mb_substr($v["car_no"],2,10,'utf-8'));?></a>
 							</td>
 							<td><?php echo htmlspecialchars($v["car_color"]);?></td>
 							<td><?php echo htmlspecialchars($v["car_model"]);?></td>

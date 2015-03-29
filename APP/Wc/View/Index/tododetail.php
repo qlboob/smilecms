@@ -1,5 +1,6 @@
 <?php 
 	$htmlHeadTitle='任务详情';
+	$json = array('sign'=>$sign);
 ?>
 <?php 
 	$vlgOption = D('Village')->where('vlg_state=1')->getField('vlg_id,vlg_name');
@@ -9,7 +10,21 @@
 	$prdOption = D('Period')->where('prd_state=1')->getField('prd_id,prd_name');
 ?>
 
-<body>
+
+
+<?php $rootPath= __ROOT__;?>
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<title><?php echo htmlspecialchars($htmlHeadTitle);?></title>
+		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+		
+	</head>
+	<body>
+		
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-3">姓名</div>
@@ -65,25 +80,21 @@
 				</div>
 			<?php }?>
 		<?php }?>
-		<div class="row">
-			<button class="btn btn-primary" type="button">清洗完成上传照片</button>
+		<div id="imgshow" class="row thumbnail"></div>
+		<div class="row text-center">
+			<button id="upload" class="btn btn-primary" type="button">清洗完成上传照片</button>
+			<a class="btn btn-default" href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index');?>">返回</a>
 		</div>
 	</div>
-</body>
-<?php $rootPath= __ROOT__;?>
-<!DOCTYPE html>
-<html lang="zh-cn">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-		<title><?php echo htmlspecialchars($htmlHeadTitle);?></title>
-		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
 		
-	</head>
-	<body>
-		
-		
+	<script type="text/javascript">
+		__initData = <?php echo json_encode($json);?>;
+	</script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" src="<?php echo $rootPath;?>/js/jquery.min.js"></script>
+	<script type="text/javascript" src="<?php echo $rootPath;?>/skin/wc/js/tododetail.js"></script>
+
 
 	</body>
 </html>

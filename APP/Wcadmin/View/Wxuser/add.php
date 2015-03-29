@@ -1,5 +1,5 @@
 <?php 
-	$htmlHeadTitle='车辆类型';
+	$htmlHeadTitle='用户';
 	$smallTxt = ('edit'==ACTION_NAME?'编辑':'添加').$htmlHeadTitle;
 ?>
 

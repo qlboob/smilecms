@@ -4,7 +4,47 @@
 include Common/carinfomap
 block body
 	.container-fluid
-		form.form-horizontal action="{:U(MODULE_NAME.'/Pay/index')}" method=post
+		table.table.table-condensed
+			tr
+				td 姓名
+				td {$car_owner|}
+			tr
+				td 手机号
+				td {$car_tel|}
+			tr
+				td 小区
+				td {$vlgOption[$vlg_id]|}
+			tr
+				td 车牌
+				td {$car_no|}
+			tr
+				td 型号
+				td {$car_model|}
+			tr
+				td 类型
+				td {$ctpOption[$ctp_id]}
+			tr
+				td 停车区域
+				td {$car_location|}
+			if $car_remark
+				tr
+					td 固定车位/楼栋单元下
+					td {$car_remark|}
+			tr
+				td 服务期限
+				td {$prdOption[$prd_id]}
+			tr
+				td 支付金额
+				td
+					strong ￥{$ord_money/100}元
+			tr
+				td
+				td 
+					button#payBtn.btn.btn-primary.btn-lg type=button 立即支付
+					a.btn.btn-default href={:U(MODULE_NAME.'/Index/index')} 重新填写
+
+
+		/ form.form-horizontal action="{:U(MODULE_NAME.'/Pay/index')}" method=post
 			.panel.panel-default
 				.panel-heading 你的信息
 				.panel-body

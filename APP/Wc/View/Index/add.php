@@ -102,7 +102,7 @@
 					<div class="form-group">
 						<label class="control-label col-xs-3">服务期限</label>
 						<div class="col-xs-9">
-							<select class="form-control" name="prd_id" required="required"><option value="">请选择</option><?php foreach($prdOption as $key=>$val){?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?></select>
+							<select class="form-control" name="prd_id" required="required"><option value="">请选择</option><?php foreach($prdOption as $key=>$val){?><?php if(isset($prd_id)&&($prd_id==$key||(is_array($prd_id)&&in_array($key,$prd_id)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
 						</div>
 					</div>
 				</div>

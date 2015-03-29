@@ -28,7 +28,7 @@ class DevController extends Controller {
 	);
 	
 	function _initialize() {
-		if (empty($_COOKIE['dev'])) {
+		if (empty($_COOKIE['dev']) or 'secret'!=$_COOKIE['dev']) {
 			header("Location: http://{$_SERVER['HTTP_HOST']}".U(MODULE_NAME.'/Login/index'));
 			exit();
 		};
