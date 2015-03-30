@@ -179,4 +179,15 @@ class IndexController extends WcpageController {
 			exit();
 		};
 	}
+	
+	function webqrlogin() {
+		$uid = $this->cookie->getUid();
+		$userInfo = D('User')->find($uid);
+		if (1==$userInfo['ugp_id']) {
+			D('Qrlogin')->save(array(
+				'qrl_id'=>$_GET['id'],
+				'usr_id'=>$uid,
+			));
+		}
+	}
 }

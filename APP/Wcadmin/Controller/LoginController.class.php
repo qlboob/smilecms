@@ -4,10 +4,34 @@ use Think\Controller;
 
 class LoginController extends Controller{
 
+	/**
+	 * 登录页
+	 */
 	function index() {
-		$this->display();
+		if (IS_AJAX) {
+			$ret = array();
+			$model = D('Qrlogin');
+			$id = session_id();
+			$data = $model->find($id);
+			if ($data && $data['usr_id']) {
+				$_SESSION['usr_id'] = $data['usr_id'];
+				$model->delete($id);
+				$ret['code']=0;
+				$ret['data'] = array(
+					'url'=>U(MODULE_NAME.'/Index/index'),
+				);
+			}else {
+				$ret['code']=1;
+			}
+			echo json_encode($ret);
+		}else {
+			$this->display();
+		}
 	}
 	
+	/**
+	 * 登录二维码图片生成
+	 */
 	function qrcode() {
 		$id = session_id();
 		$time = time();
@@ -17,34 +41,13 @@ class LoginController extends Controller{
 			'qrl_ctime'=>$time,
 		),array(),TRUE);
 		require VENDOR_PATH.'phpqrcode/qrlib.php' ;
-		\QRcode::png('http://'.$_SERVER['HTTP_HOST'].U('Wcadmin/Login/in',array('id'=>$id)),false,QR_ECLEVEL_L,6);
+		\QRcode::png('http://'.$_SERVER['HTTP_HOST'].U('Wc/Index/webqrlogin',array('id'=>$id)),false,QR_ECLEVEL_L,6);
 		if (mt_rand(0, 100)>95) {
 			#删除过期的二维码
 			$model->where('qrl_ctime<'.($time-5*60))->delete();
 		}
 	}
-	
-	function login() {
-		$ret = array();
-		$model = D('Qrlogin');
-		$id = session_id();
-		$data = $model->find($id);
-		if ($data && $data['usr_id']) {
-			$_SESSION['usr_id'] = $data['usr_id'];
-			$model->delete($id);
-			$ret['code']=0;
-		}else {
-			$ret['code']=1;
-		}
-		echo json_encode($ret);
-	}
-	
-	function in() {
-		D('Qrlogin')->save(array(
-			'qrl_id'=>$_GET['id'],
-			'usr_id'=>1,
-		));
-	}
+		
 	function s() {
 		var_dump($_SESSION);
 	}

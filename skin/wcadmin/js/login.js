@@ -3,9 +3,9 @@
   var src;
 
   setInterval(function() {
-    return $.getJSON(__initData.heat, function(ret) {
+    return $.getJSON(location.href, function(ret) {
       if (0 === ret.code) {
-        return location.href = __initData.redirect;
+        return location.href = ret.data.url;
       }
     });
   }, 4000);

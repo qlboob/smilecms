@@ -1,7 +1,7 @@
 setInterval ->
-	$.getJSON __initData.heat,(ret)->
+	$.getJSON location.href,(ret)->
 		if 0==ret.code
-			location.href = __initData.redirect
+			location.href = ret.data.url
 ,4000
 src = $('#qrcodeimg').attr 'src'
 setInterval ->
