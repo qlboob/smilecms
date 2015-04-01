@@ -190,4 +190,19 @@ class IndexController extends WcpageController {
 			));
 		}
 	}
+	
+	/**
+	 * 查看洗车后的照片
+	 */
+	function view() {
+		$id = intval($_GET['id']);
+		$todoInfo = D('Todolist')->find($id);
+		$carInfo = D('Car')->find($todoInfo['car_id']);
+		if ($carInfo['usr_id']!=$this->cookie->getUid()) {
+			return;
+		}
+		$lists = D('Todoimg')->where(array('tdl_id'=>$id))->select();
+		$this->assign('lists',$lists);
+		$this->display();
+	}
 }

@@ -1,0 +1,8 @@
+-
+	$htmlHeadTitle='爱车照片';
+block body
+	.container-fluid
+		foreach lists
+			.row
+				img src="{$rootPath}/upload/img/{$v.tdi_path}" style="width:100%"
+include Layout/html

@@ -18,6 +18,10 @@ function getVillageOption($key=NULL) {
 	$data = D('Village')->where('vlg_state=1')->getField('vlg_id,vlg_name');
 	return getOption($data,$key);
 }
+function getTaoCanOption($key=NULL) {
+	$data = D('Taocan')->getField('tc_id,tc_name');
+	return getOption($data, $key);
+}
 
 function getPeriodOption($key=NULL){
 	$data = D('Period')->where('prd_state=1')->getField('prd_id,prd_name');

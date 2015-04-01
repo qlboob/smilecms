@@ -27,9 +27,6 @@ class WcpageController extends Controller {
 		}
 		if (!$openId) {
 			$jumpUrl = $wx->getOauthRedirect('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],'',$this->authUserInfoType);
-// 			var_dump($jumpUrl);
-// 			exit('|');
-// 			Log::record('jumpurl :'.$jumpUrl,"ERR",true);
 			header("Location: $jumpUrl");
 			exit();
 		}
