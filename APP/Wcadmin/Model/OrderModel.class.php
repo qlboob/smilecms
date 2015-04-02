@@ -7,8 +7,9 @@ class OrderModel extends Model{
 	/**
 	 * 订单生效，对于已经支付的订单
 	 * @param integer $id 订单ID
+	 * @param integer $payeeId 收款人ID
 	 */
-	function effect($id) {
+	function effect($id,$payeeId=NULL) {
 		$data = $this->find($id);
 		if (!$data or 1!=$data['ord_state']) {
 			return FALSE;
@@ -19,6 +20,7 @@ class OrderModel extends Model{
 		$carM = D('Car');
 		$addTimeLogM = D('Addtimelog');
 		$existCar = $carM->where(array('car_no'=>$data['car_no']))->find();
+		$taocanlogM = D('Taocanlog');
 		
 		$this->startTrans();
 		if (!$existCar) {
@@ -31,26 +33,32 @@ class OrderModel extends Model{
 			}
 			$existCar = $carM->find($carId);
 		}
-		if (!$this->save(array('ord_id'=>$id,'ord_state'=>2))) {
+		$newOrder = array('ord_id'=>$id,'ord_state'=>2);
+		if ($payeeId) {
+			$newOrder['ord_payee'] = $payeeId;
+		}
+		if (!$this->save($newOrder)) {
 			#订单生效
 			$this->rollback();
 			return FALSE;
 		}
-		#增加续期记录
+		#增加套餐记录
 		$newStartTime = max(strtotime('tomorrow'),$existCar['car_endtime']);
 		$newEndTime = $newStartTime + $addDays*24*3600;
-		$addTimeData = array(
+		$addTaocanLogData = array(
 			'car_id'=>$existCar['car_id'],
+			'usr_id'=>$data['usr_id'],
+			'tc_id'=>$data['tc_id'],
 			'ord_id'=>$id,
-			'prd_id'=>$data['prd_id'],
-			'atl_oldendtime'=>$existCar['car_endtime'],
-			'atl_newendtime'=>$newEndTime,
-			'atl_ctime'=>time(),
+			'tcl_starttime'=>$newStartTime,
+			'tcl_endtime'=>$newEndTime,
+			'tcl_ctime'=>time(),
 		);
-		if (!$addTimeLogM->add($addTimeData)) {
+		if (!$taocanlogM->add($addTaocanLogData)) {
 			$this->rollback();
 			return FALSE;
 		}
+		
 		#更改车辆状态和服务结束时间
 		if (!$carM->save(array('car_id'=>$existCar['car_id'],'car_endtime'=>$newEndTime,'car_state'=>1))) {
 			$this->rollback();

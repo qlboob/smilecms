@@ -38,7 +38,6 @@
 			</nav>
 		</header>
 		<div class="wrapper row-offcanvas row-offcanvas-left">
-			
 			<aside class="left-side sidebar-offcanvas">
 				<section class="sidebar">
 					<div class="user-panel">
@@ -87,7 +86,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('Cartype','Period','Village','Price'))){ ?> active<?php } ?>">
+						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('Cartype','Period','Village','Price','Taocan'))){ ?> active<?php } ?>">
 							<a href="#">
 								<i class="fa fa-wrench"></i>
 								<span>洗车设置</span>
@@ -118,6 +117,12 @@
 										价格
 									</a>
 								</li>
+								<li>
+									<a href="<?php echo U(MODULE_NAME.'/Taocan/index');?>">
+										<i class="fa fa-angle-double-right"></i>
+										套餐
+									</a>
+								</li>
 							</ul>
 						</li>
 						<li class="treeview<?php if(in_array(CONTROLLER_NAME,array('User','Usergroup','Wxuser'))){ ?> active<?php } ?>">
@@ -144,7 +149,6 @@
 					</ul>
 				</section>
 			</aside>
-			
 			<aside class="right-side">
 				<section class="content-header">
 					
@@ -167,9 +171,7 @@
 			</li>
 	</ol>
 
-					
 				</section>
-				
 				<section class="content">
 					
 	<div class="row">
@@ -199,6 +201,5 @@
 		
 		<?php echo $_regionClosure;?>
 		
-
 	</body>
 </html>

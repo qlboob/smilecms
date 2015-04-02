@@ -18,6 +18,7 @@
     'ord_money' => 'is_string',
     'ord_mtime' => 'is_string',
     'ord_payee' => 'is_string',
+    'tc_id' => 'is_string',
   ),
   'validator' => 
   array (
@@ -228,6 +229,23 @@
         'field' => 'ord_payee',
         'existValidate' => true,
         'notEmptyValidate' => true,
+      ),
+    ),
+    'tc_id' => 
+    array (
+      'required' => 
+      array (
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'tc_id',
+        'existValidate' => true,
+        'target' => '',
       ),
     ),
   ),

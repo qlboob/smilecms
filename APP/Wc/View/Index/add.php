@@ -1,15 +1,19 @@
 <?php 
-	$htmlHeadTitle='登记录车辆信息';
-	empty($car_no) && $car_no='川A';
-?>
-<?php 
 	$vlgOption = D('Village')->where('vlg_state=1')->getField('vlg_id,vlg_name');
 	$ctpOption = D('Cartype')->where('ctp_state=1')->getField('ctp_id,ctp_name');
 	$loctionOption = array('地面','负1楼','负2楼','负3楼');
 	$loctionOption = array_combine($loctionOption,$loctionOption);
 	$prdOption = D('Period')->where('prd_state=1')->getField('prd_id,prd_name');
+	$tcLists = D('Taocan')->getField('tc_id,tc_name,tc_desc');
+	$tcOption = $tcDescOption = array();
+	foreach ($tcLists as $k=>$v){ $tcOption[$k]=$v['tc_name']; $tcDescOption[$k]=$v['tc_desc'] ;}
 ?>
-
+<?php 
+	$htmlHeadTitle='登记录车辆信息';
+	empty($car_no) && $car_no='川A';
+	$priceLists = D('Price')->select();
+	$json = array('descMap'=>$tcDescOption,'priceLists'=>$priceLists);
+?>
 
 
 <?php $rootPath= __ROOT__;?>
@@ -97,12 +101,25 @@
 				</div>
 			</div>
 			<div class="panel panel-default">
-				<div class="panel-heading">服务期限</div>
+				<div class="panel-heading">服务选择</div>
 				<div class="panel-body">
 					<div class="form-group">
 						<label class="control-label col-xs-3">服务期限</label>
 						<div class="col-xs-9">
-							<select class="form-control" name="prd_id" required="required"><option value="">请选择</option><?php foreach($prdOption as $key=>$val){?><?php if(isset($prd_id)&&($prd_id==$key||(is_array($prd_id)&&in_array($key,$prd_id)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
+							<select class="form-control" name="prd_id" required="required"><?php foreach($prdOption as $key=>$val){?><?php if(isset($prd_id)&&($prd_id==$key||(is_array($prd_id)&&in_array($key,$prd_id)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">服务套餐</label>
+						<div class="col-xs-9">
+							<select class="form-control" name="tc_id" required="required"><?php foreach($tcOption as $key=>$val){?><?php if(isset($tc_id)&&($tc_id==$key||(is_array($tc_id)&&in_array($key,$tc_id)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
+							<p id="tcDesc" class="help-block"></p>
+						</div>
+					</div>
+					<div id="priceRow" class="form-group hide">
+						<label class="control-label col-xs-3">价格</label>
+						<div class="col-xs-9">
+								<strong id="money" style="color:red"></strong>
 						</div>
 					</div>
 				</div>
@@ -114,6 +131,9 @@
 	</div>
 
 		
+	<script type="text/javascript">
+		__initData = <?php echo json_encode($json);?>;
+	</script>
 		<script type="text/javascript" src="<?php echo $rootPath;?>/js/jquery.min.js"></script>
 	<script type="text/javascript" src="<?php echo $rootPath;?>/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo $rootPath;?>/skin/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
@@ -122,6 +142,7 @@
 		$('form').bootstrapValidator();
 
 	</script>
+	<script type="text/javascript" src="<?php echo $rootPath;?>/skin/wc/js/add.js"></script>
 
 
 	</body>

@@ -1,5 +1,5 @@
 <?php 
-	$htmlHeadTitle='价格';
+	$htmlHeadTitle='套餐';
 	$smallTxt = ('edit'==ACTION_NAME?'编辑':'添加').$htmlHeadTitle;
 ?>
 
@@ -167,8 +167,7 @@
 				<?php echo $htmlHeadTitle;?>
 			</a>
 		</li>
-		<li class="active"><?php echo $smallTxt;?>
-			</li>
+		<li class="active"><?php echo $smallTxt;?></li>
 	</ol>
 
 				</section>

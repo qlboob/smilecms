@@ -60,7 +60,7 @@ html
 									a href={:U(MODULE_NAME.'/Todolist/index',array('tdl_ctime'=>strtotime('today')))}
 										i.fa.fa-angle-double-right
 										洗车任务
-						li.treeview in_array(CONTROLLER_NAME,array('Cartype','Period','Village','Price'))?class=active
+						li.treeview in_array(CONTROLLER_NAME,array('Cartype','Period','Village','Price','Taocan'))?class=active
 							a href=#
 								i.fa.fa-wrench
 								span 洗车设置
@@ -82,6 +82,10 @@ html
 									a href={:U(MODULE_NAME.'/Price/index')}
 										i.fa.fa-angle-double-right
 										价格
+								li
+									a href={:U(MODULE_NAME.'/Taocan/index')}
+										i.fa.fa-angle-double-right
+										套餐
 						li.treeview in_array(CONTROLLER_NAME,array('User','Usergroup','Wxuser'))?class=active
 							a href={:U(MODULE_NAME.'/User/index')}
 								i.fa.fa-fw.fa-user

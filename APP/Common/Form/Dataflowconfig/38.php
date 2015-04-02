@@ -1,15 +1,15 @@
 <?php return array (
   'field' => 
   array (
-    'prc_id' => 'is_string',
-    'ctp_id' => 'is_string',
-    'prd_id' => 'is_string',
-    'prc_money' => 'is_string',
+    'tcl_id' => 'is_string',
+    'car_id' => 'is_string',
     'tc_id' => 'is_string',
+    'tcl_starttime' => 'is_string',
+    'tcl_endtime' => 'is_string',
   ),
   'validator' => 
   array (
-    'ctp_id' => 
+    'car_id' => 
     array (
       'required' => 
       array (
@@ -21,41 +21,7 @@
         'param' => 
         array (
         ),
-        'field' => 'ctp_id',
-        'existValidate' => true,
-        'target' => '',
-      ),
-    ),
-    'prd_id' => 
-    array (
-      'required' => 
-      array (
-        'notEmptyValidate' => false,
-        'msg' => '{$title}必须填写',
-        'title' => NULL,
-        'value' => NULL,
-        'data' => NULL,
-        'param' => 
-        array (
-        ),
-        'field' => 'prd_id',
-        'existValidate' => true,
-        'target' => '',
-      ),
-    ),
-    'prc_money' => 
-    array (
-      'required' => 
-      array (
-        'notEmptyValidate' => false,
-        'msg' => '{$title}必须填写',
-        'title' => NULL,
-        'value' => NULL,
-        'data' => NULL,
-        'param' => 
-        array (
-        ),
-        'field' => 'prc_money',
+        'field' => 'car_id',
         'existValidate' => true,
         'target' => '',
       ),
@@ -77,20 +43,43 @@
         'target' => '',
       ),
     ),
-  ),
-  'convert' => 
-  array (
-    'prc_money' => 
+    'tcl_starttime' => 
     array (
-      'function' => 
+      'required' => 
       array (
-        'field' => 'prc_money',
-        'content' => 'multi100',
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
         'param' => 
         array (
         ),
+        'field' => 'tcl_starttime',
+        'existValidate' => true,
+        'target' => '',
       ),
     ),
+    'tcl_endtime' => 
+    array (
+      'required' => 
+      array (
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'tcl_endtime',
+        'existValidate' => true,
+        'target' => '',
+      ),
+    ),
+  ),
+  'convert' => 
+  array (
   ),
   'fill' => 
   array (

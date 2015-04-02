@@ -1,7 +1,4 @@
-<?php 
-	$htmlHeadTitle='价格';
-	$smallTxt = ('edit'==ACTION_NAME?'编辑':'添加').$htmlHeadTitle;
-?>
+<?php $htmlHeadTitle='套餐';?>
 
 
 
@@ -153,22 +150,15 @@
 				<section class="content-header">
 					
 	<h1><?php echo htmlspecialchars($htmlHeadTitle);?>
-		<small><?php echo $smallTxt;?></small></h1>
+		<small><?php echo $htmlHeadTitle;?>列表</small></h1>
 	<ol class="breadcrumb">
 		<li>
-			<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index');?>">
+			<a href="<?php echo U(MODULE_NAME.'/Index/index');?>">
 				<i class="fa fa-dashboard"></i>
 				仪表盘
 			</a>
 		</li>
-		<li>
-			<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index');?>">
-				<i class="fa fa-user"></i>
-				<?php echo $htmlHeadTitle;?>
-			</a>
-		</li>
-		<li class="active"><?php echo $smallTxt;?>
-			</li>
+		<li class="active"><?php echo $htmlHeadTitle;?></li>
 	</ol>
 
 				</section>
@@ -179,19 +169,31 @@
 			<div class="box">
 				<div class="box-header">
 					
+	<h3 class="box-title">
+		<a href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/add',$_GET);?>" data-toggle="tooltip" title="增加套餐">
+			<i class="glyphicon glyphicon-plus">
+			</i>
+		</a>
+	</h3>
+	<div class="box-tools">
+		<form method="get">
+			<div class="input-group col-xs-3 pull-right">
+				<input class="form-control input-sm pull-right" name="searchStr" placeholder="关键字搜索" value="<?php echo htmlSpecialChars(I('get.searchStr',''));?>" />
+				<div class="input-group-btn">
+					<button class="btn btn-sm btn-default">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
 					
 				</div>
 				<div class="box-body table-responsive no-padding">
 					<?php echo $table;?>
 				</div>
 			</div>
-		</div>
-	</div>
-
-	<div class="box box-primary">
-		
-		<div class="box-body">
-			<?php echo $form;?>
 		</div>
 	</div>
 
