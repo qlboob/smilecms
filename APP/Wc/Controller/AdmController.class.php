@@ -1,6 +1,7 @@
 <?php
 namespace Wc\Controller;
 use Think\Controller;
+use Think\Log;
 class AdmController extends Controller {
 
 	function name() {
@@ -35,5 +36,17 @@ class AdmController extends Controller {
 			exit();;
 		}
 	}
-	
+	function t() {
+		$wxPay = new \Com\Qinjq\Wechat\SPay(array(
+			'paykey'=>'e182ebbc166d73366e7986813a7fc5f2',
+		));
+		$jsParam = array(
+			'appId'=>'wx98e78d22de880f6a',
+			'timeStamp'=>'1428539333',
+			'nonceStr'=>'3n1lr6wsx1yf5vvs196toa5115n3ow7e',
+			'package'=>"prepay_id=wx2015040908285381bf081bcd0318484564",
+			'signType'=>'MD5',
+		);
+		echo $wxPay->sign($jsParam);
+	}
 }

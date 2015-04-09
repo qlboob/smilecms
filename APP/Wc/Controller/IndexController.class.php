@@ -16,13 +16,9 @@ class IndexController extends WcpageController {
 			$method = 'index'.$userInfo['ugp_id'];
 		}else {
 			#没有下过单的用户
-			$method='index0';
+			$method='index3';
 		}
 		$this->$method();
-	}
-	
-	private function index0() {
-		;
 	}
 	
 	#管理员

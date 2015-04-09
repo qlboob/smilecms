@@ -111,7 +111,7 @@ class CronController extends Controller {
 				$result = $wx->sendTemplateMessage(array(
 					'template_id'=>'VLPCdrIqtXlL9iEOCDxkQ8VLTzqPPt2BJ54k85-EOiE',
 					'touser'=>$openId,
-					'url'=>'http://192.168.1.101/index.php/Wc/Index/index',
+					'url'=>'http://'.$_SERVER['HTTP_HOST'].U('Wc/Index/view',array('id'=>$v['tdl_id'])),
 					'topcolor'=>'#FF0000',
 					'data'=>array(
 						'name'=>array(

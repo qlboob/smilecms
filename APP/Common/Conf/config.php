@@ -19,6 +19,15 @@ return array(
 		'token'=>'secretToken_',
 		'encodingaeskey'=>'',
 		'appid'=>'wxa3b1cf1802694830',
-		'appsecret'=>'68a64399ede2a99e89f9a2222607a866',	
+		'appsecret'=>'68a64399ede2a99e89f9a2222607a866',
+		//正式
+		'appid'=>'wxa0728c2c4ceffcc6',
+		'appsecret'=>'8497a23972ca8927866f30c37b47e622',
 	),
+	//支付配置
+	'wxpay'=>array(
+		'mchid'=>'1236124302',
+		'paykey'=>'d9804c3d60061e3ab68eb403516c3920',
+	),
+	'LOG_LEVEL'=>'DEBUG',
 );

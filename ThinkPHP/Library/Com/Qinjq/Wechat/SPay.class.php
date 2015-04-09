@@ -2,11 +2,12 @@
 
 namespace Com\Qinjq\Wechat;
 
+use Think\Log;
 class SPay {
-	private $appId;
-	private $appSecret;//app密钥
-	private $mchId;//商户号
-	private $payKey;//支付密钥
+	private $appid;
+	private $appsecret;//app密钥
+	private $mchid;//商户号
+	private $paykey;//支付密钥
 	//证书路径
 	private $sslCert;
 	private $sslKey;
@@ -68,6 +69,8 @@ class SPay {
 			\Log::write("fetch $url failed error[$errno], error msg :".curl_error($ch));
 			$resp = FALSE;
 		}
+// 		header("Content-type:text/html;charset=utf-8");
+// 		echo htmlspecialchars($resp);
 		curl_close($ch);
 		return $resp;
 	}
@@ -79,18 +82,29 @@ class SPay {
 	 */
 	public function sign(array $param) {
 		ksort($param);
-		$param['key'] = $this->payKey;
+		$param['key'] = $this->paykey;
 		$arr = array();
 		foreach ($param as $k=>$v){
-			$arr[] = "$k=$v";
+			if($v){
+				$arr[] = "$k=$v";
+			}
 		}
 		$str = implode('&',$arr);
-		return strtoupper(md5($str));
+		Log::write('str:'.$str,'DEBUG');
+		$ret = strtoupper(md5($str));
+		Log::write('md5:'.$ret,'DEBUG');
+		
+		return $ret;
 	}
 	
 	/**
 	 * 下单
 	 * @param array $info 
+	 * 			string body 商品描述
+	 * 			string out_trade_no 订单号
+	 * 			integer total_fee 金额
+	 * 			string notify_url 通知地址
+	 * 			string openid 用户标识openid
 	 * 参数 参考 http://mch.weixin.qq.com/wiki/doc/api/index.php?chapter=9_1
 	 */
 	function placeAnOrder($info) {
@@ -98,8 +112,8 @@ class SPay {
 				'trade_type'=>'JSAPI',
 				'spbill_create_ip'=>$_SERVER['REMOTE_ADDR'],
 			),$info,array(
-				'appid'=>$this->appId,
-				'mch_id'=>$this->mchId,
+				'appid'=>$this->appid,
+				'mch_id'=>$this->mchid,
 				'nonce_str'=>$this->generateNonceStr(),
 		));
 		$param['sign'] = $this->sign($param);
@@ -116,8 +130,8 @@ class SPay {
 		$orderInfo = $this->placeAnOrder($param);
 		if ('SUCCESS'==$orderInfo['return_code'] and 'SUCCESS'==$orderInfo['result_code']) {
 			$jsParam = array(
-				'appId'=>$this->appId,
-				'timeStamp'=>time().'',
+				'appId'=>$this->appid,
+				'timeStamp'=>time(),
 				'nonceStr'=>$this->generateNonceStr(),
 				'package'=>"prepay_id={$orderInfo['prepay_id']}",
 				'signType'=>'MD5',
@@ -156,8 +170,8 @@ class SPay {
 			$param=array('out_trade_no'=>$param);
 		}
 		$param = array_merge($param,array(
-			'appid'=>$this->appId,
-			'mch_id'=>$this->mchId,
+			'appid'=>$this->appid,
+			'mch_id'=>$this->mchid,
 			'nonce_str'=>$this->generateNonceStr(),
 		));
 		$param['sign'] = $this->sign($param);

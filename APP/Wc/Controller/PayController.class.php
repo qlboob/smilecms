@@ -3,10 +3,6 @@ namespace Wc\Controller;
 class PayController extends WcpageController {
 	
 	
-	function _initialize() {
-		parent::_initialize();
-		
-	}
 	
 	/**
 	 * 确认订单并支付
@@ -35,10 +31,30 @@ class PayController extends WcpageController {
 				'ord_mtime'=>$time,
 				'ord_money'=>$money,
 			));
+			#生成本地和微信订单
 			$orderId = D('Order')->add($data);
-			$this->assign($data);
-			$this->display();
+			$wxPay = new \Com\Qinjq\Wechat\SPay(array_merge(C('wx'),C('wxpay')));
+			$payJsParam = $wxPay->getJsPayParam(array(
+				'body'=>'washcarfee',
+				'out_trade_no'=>$orderId,
+				'total_fee'=>$money,
+				'notify_url'=>'http://'.$_SERVER['HTTP_HOST'].U(MODULE_NAME.'/'.CONTROLLER_NAME.'/notify'),
+				'openid'=>$this->cookie->getOpenId(),
+			));
+			if ($payJsParam) {
+				$this->assign('payJsParam',$payJsParam);
+				$this->assign($data);
+				$this->setJsSign();
+				$this->display();
+			}else {
+				exit();
+				$this->error('下单失败');
+			}
+			
 		}
+	}
+	function notify() {
+		;
 	}
 	
 }

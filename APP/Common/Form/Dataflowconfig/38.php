@@ -6,6 +6,10 @@
     'tc_id' => 'is_string',
     'tcl_starttime' => 'is_string',
     'tcl_endtime' => 'is_string',
+    'ord_id' => 'is_string',
+    'prd_id' => 'is_string',
+    'tcl_ctime' => 'is_string',
+    'usr_id' => 'is_string',
   ),
   'validator' => 
   array (
@@ -73,6 +77,23 @@
         array (
         ),
         'field' => 'tcl_endtime',
+        'existValidate' => true,
+        'target' => '',
+      ),
+    ),
+    'ord_id' => 
+    array (
+      'required' => 
+      array (
+        'notEmptyValidate' => false,
+        'msg' => '{$title}必须填写',
+        'title' => NULL,
+        'value' => NULL,
+        'data' => NULL,
+        'param' => 
+        array (
+        ),
+        'field' => 'ord_id',
         'existValidate' => true,
         'target' => '',
       ),

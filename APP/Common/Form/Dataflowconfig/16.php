@@ -4,6 +4,7 @@
     'vlg_id' => 'is_string',
     'vlg_name' => 'is_string',
     'vlg_state' => 'is_string',
+    'vlg_type' => 'is_string',
   ),
   'validator' => 
   array (

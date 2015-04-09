@@ -8,6 +8,9 @@ class TodolistModel extends Model{
 	 * 安排洗车
 	 */
 	function plan() {
+		#找出所有小区，是否是工业区
+		$vlg2Type = D('Village')->getField('vlg_id,vlg_type');
+		
 		$today = strtotime('today');
 		$tomorrow = strtotime('tomorrow');
 		$lists = D('Appointment')->where("apm_time between $today and $tomorrow")->select();
@@ -30,12 +33,17 @@ class TodolistModel extends Model{
 			foreach ($lists as $v){
 				$wash = FALSE;#加入洗车
 				$lastNum = preg_replace('!.+(\d)\D*$!', '$1', $v['car_no']);
-				if ($mon<6 && ($mon==$lastNum || $mon+5==$lastNum) ) {
-					#限号日洗车
-					$wash = TRUE;
-				}else {
-					if ($today-$v['car_lastwashtime']>24*3600*4) {
-						$wash = TRUE;
+				if ($mon<6 ) {
+					if ($vlg2Type[$v['vlg_id']]>0 ) {
+						if (in_array($lastNum, array($mon-1,$mon+5-1))) {
+							#工业园，T+1洗车;
+							$wash = TRUE;
+						}
+					}else {
+						if (in_array($lastNum, array($mon-5,$mon,$mon+5))) {
+							#小区，限号日洗车
+							$wash = TRUE;
+						}
 					}
 				}
 				if ($wash) {

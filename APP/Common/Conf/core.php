@@ -57,9 +57,9 @@ return array(
         'app_begin'     =>  array(
             'Behavior\ReadHtmlCacheBehavior', // 读取静态缓存
         ),
-        'app_end'       =>  array(
+        /*'app_end'       =>  array(
             'Behavior\ShowPageTraceBehavior', // 页面Trace显示
-        ),
+        ),*/
         'view_parse'    =>  array(
             'Behavior\ParseTemplateBehavior', // 模板解析 支持PHP、内置模板引擎和第三方模板引擎
         ),

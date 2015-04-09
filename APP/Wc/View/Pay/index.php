@@ -1,6 +1,6 @@
 <?php 
 	$htmlHeadTitle='确认订单';
-	$json = array('sign'=>$sign,'redirect'=>U(MODULE_NAME.'/'.CONTROLLER_NAME.'/success'));
+	$json = array('sign'=>$sign,'redirect'=>U(MODULE_NAME.'/'.CONTROLLER_NAME.'/success'),'payParam'=>$payJsParam);
 ?>
 <?php 
 	$vlgOption = D('Village')->where('vlg_state=1')->getField('vlg_id,vlg_name');
@@ -74,6 +74,10 @@
 				</td>
 			</tr>
 			<tr>
+				<td>套餐</td>
+				<td><?php echo $tcOption[$tc_id];?></td>
+			</tr>
+			<tr>
 				<td></td>
 				<td>
 					<button id="payBtn" class="btn btn-primary btn-lg" type="button">立即支付</button>
@@ -84,17 +88,12 @@
 	</div>
 
 		
-		<script type="text/javascript" src="<?php echo $rootPath;?>/js/jquery.min.js"></script>
-	<script type="text/javascript" src="<?php echo $rootPath;?>/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<?php echo $rootPath;?>/skin/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
-	<script type="text/javascript" src="<?php echo $rootPath;?>/skin/bootstrapvalidator/js/language/zh_CN.js"></script>
-	<script type="text/javascript">
-		$('form').bootstrapValidator();
-
-	</script>
 	<script type="text/javascript">
 		__initData=<?php echo json_encode($json);?>;
 	</script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" src="<?php echo $rootPath;?>/js/jquery.min.js"></script>
+	<script type="text/javascript" src="<?php echo $rootPath;?>/skin/wc/js/pay.js"></script>
 
 
 	</body>
