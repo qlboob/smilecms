@@ -12,11 +12,9 @@ class IndexController extends WcpageController {
 	function index() {
 		$uid = $this->cookie->getUid();
 		$userInfo = D('User')->find($uid);
+		$method='index3';
 		if ($userInfo) {
 			$method = 'index'.$userInfo['ugp_id'];
-		}else {
-			#没有下过单的用户
-			$method='index3';
 		}
 		$this->$method();
 	}
