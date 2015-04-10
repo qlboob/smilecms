@@ -1,6 +1,6 @@
 jsApiList = ['chooseWXPay']
 config = __initData.sign
-config.debug=on
+#config.debug=on
 config.jsApiList=jsApiList
 wx.config config
 wx.ready ->
@@ -15,7 +15,7 @@ wx.ready ->
 			if canUse
 				$('#payBtn').click ->
 					payObj = __initData.payParam
-					delete payObj.appId
+					#alert(JSON.stringify(payObj))
 					payObj.success=(res)->
 						location.href=__initData.redirect
 					wx.chooseWXPay payObj

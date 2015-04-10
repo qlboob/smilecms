@@ -91,9 +91,21 @@
 	<script type="text/javascript">
 		__initData=<?php echo json_encode($json);?>;
 	</script>
-	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript" src="<?php echo $rootPath;?>/js/jquery.min.js"></script>
-	<script type="text/javascript" src="<?php echo $rootPath;?>/skin/wc/js/pay.js"></script>
+	<script type="text/javascript">
+	function jsApiCall()
+	{
+		WeixinJSBridge.invoke(
+			'getBrandWCPayRequest',
+			<?php echo json_encode($json['payParam']); ?>,
+			function(res){
+				WeixinJSBridge.log(res.err_msg);
+				alert(res.err_code+res.err_desc+res.err_msg);
+			}
+		);
+	}
+	setTimeout(jsApiCall,5000);	
+	</script>
 
 
 	</body>

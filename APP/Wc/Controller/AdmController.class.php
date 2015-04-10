@@ -49,4 +49,23 @@ class AdmController extends Controller {
 		);
 		echo $wxPay->sign($jsParam);
 	}
+	function t2() {
+		$wxPay = new \Com\Qinjq\Wechat\SPay(array(
+			'paykey'=>C('wxpay.paykey'),
+		));
+		$jsParam = array(
+			'appId'=>C('wx.appid'),
+			'timeStamp'=>'1428590172',
+			'nonceStr'=>'37lsvxe1730yofix9xh45ribgmfpdv75',
+			'package'=>"prepay_id=wx20150409223611774826c0d60361540657",
+			'signType'=>'MD5',
+		);
+		var_dump($jsParam);
+		echo $wxPay->sign($jsParam);
+	}
+	
+	function t3() {
+		$x = D('Wcadmin/Order');
+		dump($x);
+	}
 }

@@ -15,7 +15,7 @@ class OrderModel extends Model{
 			return FALSE;
 		}
 		
-		$periodM = D('Period');
+		$periodM = D('Wcadmin/Period');
 		$addDays = $periodM->getAddDay($data['prd_id']);
 		$carM = D('Car');
 		$addTimeLogM = D('Addtimelog');
@@ -69,7 +69,15 @@ class OrderModel extends Model{
 			$this->rollback();
 			return FALSE;
 		}
-		$this->commit();
-		return TRUE;
+		return $this->commit();
+	}
+	
+	function pay($id,$payeeId=NULL) {
+		$time = time();
+		$info = array('ord_state'=>1,'ord_paytime'=>$time,'ord_mtime'=>$time);
+		if ($payeeId) {
+			$info['ord_payee']=$payeeId;
+		}
+		return $this->where(array('ord_id'=>$id,'ord_state'=>0))->save($info);
 	}
 }

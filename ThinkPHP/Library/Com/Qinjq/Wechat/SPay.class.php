@@ -66,7 +66,7 @@ class SPay {
 		$resp= curl_exec($ch);
 		$errno = curl_errno($ch);
 		if ($errno) {
-			\Log::write("fetch $url failed error[$errno], error msg :".curl_error($ch));
+			Log::record("fetch $url failed error[$errno], error msg :".curl_error($ch));
 			$resp = FALSE;
 		}
 // 		header("Content-type:text/html;charset=utf-8");
@@ -131,7 +131,7 @@ class SPay {
 		if ('SUCCESS'==$orderInfo['return_code'] and 'SUCCESS'==$orderInfo['result_code']) {
 			$jsParam = array(
 				'appId'=>$this->appid,
-				'timeStamp'=>time(),
+				'timeStamp'=>time().'',
 				'nonceStr'=>$this->generateNonceStr(),
 				'package'=>"prepay_id={$orderInfo['prepay_id']}",
 				'signType'=>'MD5',
@@ -139,6 +139,7 @@ class SPay {
 			$jsParam['paySign']=$this->sign($jsParam);
 			return $jsParam;
 		}else {
+			Log::record('place order failed.'.var_export($orderInfo,TRUE));
 			return FALSE;
 		}
 	}
@@ -150,13 +151,21 @@ class SPay {
 	 */
 	function notify() {
 		$content =file_get_contents("php://input");
+		Log::record($content);
 		$array = $this->xmlToArr($content);
 		$sign = $array['sign'];
 		unset($array['sign']);
 		if ($this->sign($array)==$sign) {
 			return $array;
+		}else {
+			Log::record('notify sign error');
 		}
 		return FALSE;
+	}
+	
+	
+	function notifyOk() {
+		echo '<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>';
 	}
 	
 	/**

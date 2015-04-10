@@ -1,8 +1,7 @@
 <?php
 namespace Wc\Controller;
+use Think\Log;
 class PayController extends WcpageController {
-	
-	
 	
 	/**
 	 * 确认订单并支付
@@ -34,27 +33,28 @@ class PayController extends WcpageController {
 			#生成本地和微信订单
 			$orderId = D('Order')->add($data);
 			$wxPay = new \Com\Qinjq\Wechat\SPay(array_merge(C('wx'),C('wxpay')));
-			$payJsParam = $wxPay->getJsPayParam(array(
-				'body'=>'washcarfee',
-				'out_trade_no'=>$orderId,
-				'total_fee'=>$money,
-				'notify_url'=>'http://'.$_SERVER['HTTP_HOST'].U(MODULE_NAME.'/'.CONTROLLER_NAME.'/notify'),
-				'openid'=>$this->cookie->getOpenId(),
-			));
+			$wxorder = array(
+							'body'=>'washcarfee',
+							'out_trade_no'=>$orderId,
+							'total_fee'=>$money,
+							'notify_url'=>'http://'.$_SERVER['HTTP_HOST'].U(MODULE_NAME.'/Cron/notify'),
+							'openid'=>$this->cookie->getOpenId(),
+						);
+			$payJsParam = $wxPay->getJsPayParam($wxorder);
+			Log::record(var_export($wxorder,TRUE));
 			if ($payJsParam) {
 				$this->assign('payJsParam',$payJsParam);
 				$this->assign($data);
 				$this->setJsSign();
 				$this->display();
 			}else {
-				exit();
+				exit('下单失败');
 				$this->error('下单失败');
 			}
 			
 		}
 	}
-	function notify() {
-		;
-	}
+	
+	
 	
 }

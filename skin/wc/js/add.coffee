@@ -29,7 +29,7 @@ showPrice = ->
 				break
 		unless find
 			jPriceRow.addClass 'hide'
-#绑定事件
+#绑定事件(影响价格元素)
 for v in priceDepend
 	$("[name=#{v}]").change showPrice
 showPrice()

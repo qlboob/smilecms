@@ -6,8 +6,6 @@
 
   config = __initData.sign;
 
-  config.debug = true;
-
   config.jsApiList = jsApiList;
 
   wx.config(config);
@@ -30,7 +28,6 @@
           return $('#payBtn').click(function() {
             var payObj;
             payObj = __initData.payParam;
-            delete payObj.appId;
             payObj.success = function(res) {
               return location.href = __initData.redirect;
             };
