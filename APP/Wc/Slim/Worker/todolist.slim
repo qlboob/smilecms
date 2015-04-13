@@ -21,7 +21,7 @@ block body
 					foreach lists
 						tr
 							td
-								a href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/tododetail',array('id'=>$v['tdl_id']))} {$v.car_no|mb_substr=2,10,'utf-8'|}
+								a href={:U(MODULE_NAME.'/Worker/tododetail',array('id'=>$v['tdl_id']))} {$v.car_no|mb_substr=2,10,'utf-8'|}
 							td {$v.car_color|}
 							td {$v.car_model|}
 							td {$ctpOption[$v['ctp_id']]}

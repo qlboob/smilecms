@@ -21,9 +21,9 @@ EOF;
 			case Wechat::MSGTYPE_EVENT:
 				$url = U(MODULE_NAME.'/Index/index');
 				$text = <<<EOF
-		<a href="http://{$_SERVER['HTTP_HOST']}$url">我要洗车</a>
+				5月5日正式开业，敬请期待
 EOF;
-				$wx->text($text)->reply();
+				$wx->text(trim($text))->reply();
 				break;
 			case Wechat::MSGTYPE_IMAGE:
 				break;

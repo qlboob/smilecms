@@ -64,9 +64,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-3">型号</label>
+						<label class="control-label col-xs-3">品牌型号</label>
 						<div class="col-xs-9">
-							<input class="form-control" name="car_model" placeholder="请输入你的爱车型号" type="text" id="car_model" value="<?php if(isset($car_model)) echo htmlspecialchars($car_model);?>" />
+							<input class="form-control" name="car_model" placeholder="请输入你的爱车品牌和型号如宝马X4" type="text" id="car_model" value="<?php if(isset($car_model)) echo htmlspecialchars($car_model);?>" />
 						</div>
 					</div>
 					<div class="form-group">

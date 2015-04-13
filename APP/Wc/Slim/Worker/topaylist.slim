@@ -1,0 +1,27 @@
+-
+	$htmlHeadTitle='待付款订单';
+block body
+	.container-fluid
+		form method=get
+			form:select first=选择小区 options=vlgOption name=vlg_id selected=vlg_id
+			form:field name=search placeholder=手机号/车牌号/姓名搜索
+			button.btn.btn-primary type=submit 搜索
+		if empty($lists)
+			p 没有待付款订单
+		else
+			table.table.table-responsive
+				thead
+					tr
+						th 车主
+						th 车牌
+						th 电话
+						th 操作
+				tbody
+					foreach lists
+						tr
+							td {$v.car_owner|}
+							td {$v.car_no|}
+							td {$v.car_tel|}
+							td
+								a href="{:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/pay',array('id'=>$v['ord_id']))}" onclick="return confirm('确认线下收款:{$v.car_owner|}')" 线下收款
+include Layout/html
