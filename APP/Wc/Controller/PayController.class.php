@@ -34,14 +34,13 @@ class PayController extends WcpageController {
 			$orderId = D('Order')->add($data);
 			$wxPay = new \Com\Qinjq\Wechat\SPay(array_merge(C('wx'),C('wxpay')));
 			$wxorder = array(
-							'body'=>'washcarfee',
-							'out_trade_no'=>$orderId,
-							'total_fee'=>$money,
-							'notify_url'=>'http://'.$_SERVER['HTTP_HOST'].U(MODULE_NAME.'/Cron/notify'),
-							'openid'=>$this->cookie->getOpenId(),
-						);
+				'body'=>'洗车费',
+				'out_trade_no'=>$orderId,
+				'total_fee'=>$money,
+				'notify_url'=>'http://'.$_SERVER['HTTP_HOST'].U(MODULE_NAME.'/Cron/notify'),
+				'openid'=>$this->cookie->getOpenId(),
+			);
 			$payJsParam = $wxPay->getJsPayParam($wxorder);
-			Log::record(var_export($wxorder,TRUE));
 			if ($payJsParam) {
 				$this->assign('payJsParam',$payJsParam);
 				$this->assign($data);
@@ -55,6 +54,8 @@ class PayController extends WcpageController {
 		}
 	}
 	
-	
+	function test() {
+		$this->index();
+	}
 	
 }

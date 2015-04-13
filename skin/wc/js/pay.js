@@ -21,6 +21,7 @@
           v = _ref[k];
           if (!v) {
             canUse = false;
+            alert('你的微信版本不支付微信支付');
             break;
           }
         }

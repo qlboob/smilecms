@@ -201,4 +201,8 @@ class IndexController extends WcpageController {
 		$this->assign('lists',$lists);
 		$this->display();
 	}
+	function test() {
+		$this->setJsSign();
+		$this->display();
+	}
 }

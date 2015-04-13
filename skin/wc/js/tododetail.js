@@ -6,8 +6,6 @@
 
   config = __initData.sign;
 
-  config.debug = true;
-
   config.jsApiList = jsApiList;
 
   wx.config(config);

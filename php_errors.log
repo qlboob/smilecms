@@ -1,1 +1,1 @@
-[09-Apr-2015 23:18:55 PRC] PHP Parse error:  syntax error, unexpected ')', expecting ']' in D:\www\github\smilecms\APP\Wc\View\Pay\index.php on line 100
+[12-Apr-2015 08:10:53 PRC] PHP Fatal error:  Class 'Log' not found in D:\www\github\smilecms\APP\Wc\Controller\AdmController.class.php on line 72

@@ -11,6 +11,7 @@ wx.ready ->
 			for k,v of res.checkResult
 				unless v
 					canUse = no
+					alert '你的微信版本不支付微信支付'
 					break
 			if canUse
 				$('#payBtn').click ->

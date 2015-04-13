@@ -90,9 +90,9 @@ class SPay {
 			}
 		}
 		$str = implode('&',$arr);
-		Log::write('str:'.$str,'DEBUG');
+		Log::record('str:'.$str,'DEBUG');
 		$ret = strtoupper(md5($str));
-		Log::write('md5:'.$ret,'DEBUG');
+		Log::record('md5:'.$ret,'DEBUG');
 		
 		return $ret;
 	}
@@ -151,7 +151,6 @@ class SPay {
 	 */
 	function notify() {
 		$content =file_get_contents("php://input");
-		Log::record($content);
 		$array = $this->xmlToArr($content);
 		$sign = $array['sign'];
 		unset($array['sign']);

@@ -106,7 +106,18 @@ block body
 block closure
 	script type=text/javascript
 		__initData={$json|json_encode};
-	/ script type=text/javascript src=http://res.wx.qq.com/open/js/jweixin-1.0.0.js
 	script type=text/javascript src="{$rootPath}/js/jquery.min.js"
-	script type=text/javascript src="{$rootPath}/skin/wc/js/pay1.js"
+	script type=text/javascript
+		function jsApiCall()
+		{
+			WeixinJSBridge.invoke(
+				'getBrandWCPayRequest',
+				<?php echo json_encode($json['payParam']); ?>,
+				function(res){
+					WeixinJSBridge.log(res.err_msg);
+					alert(res.err_code+res.err_desc+res.err_msg);
+				}
+			);
+		}
+		setTimeout(jsApiCall,5000);
 include Layout/html

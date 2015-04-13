@@ -1,6 +1,6 @@
 jsApiList = ['chooseImage','uploadImage']
 config = __initData.sign
-config.debug=on
+#config.debug=on
 config.jsApiList=jsApiList
 wx.config config
 #alert JSON.stringify(config)

@@ -14,8 +14,7 @@
 	<body>
 		
 	<div class="jumbotron">
-		<h1><i class="glyphicon glyphicon-ok"></i>支付成功</h1><p>我们将在<?php echo date('Y年m月d日');?>开始为你提供洗车服务。
-</p>
+		<h1><i class="glyphicon glyphicon-ok"></i>支付成功</h1><p>我们将在<?php echo date('Y年m月d日',time()+3600*24);?>开始为你提供洗车服务。</p>
 	</div>
 
 		

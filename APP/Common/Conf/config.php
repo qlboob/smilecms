@@ -16,13 +16,11 @@ return array(
 	
 	#微信配置
 	'wx'=>array(
-		'token'=>'secretToken_',
-		'encodingaeskey'=>'',
-		'appid'=>'wxa3b1cf1802694830',
-		'appsecret'=>'68a64399ede2a99e89f9a2222607a866',
 		//正式
 		'appid'=>'wxa0728c2c4ceffcc6',
+		'token'=>'qw12mnbiihToken',
 		'appsecret'=>'8497a23972ca8927866f30c37b47e622',
+		'encodingaeskey'=>'vuT2nNbomVsCL8QNzhos68FX0fzXLd0d9xABrkrqUDE',
 	),
 	//支付配置
 	'wxpay'=>array(
