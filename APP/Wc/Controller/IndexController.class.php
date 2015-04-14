@@ -122,6 +122,9 @@ class IndexController extends WcpageController {
 				'qrl_id'=>$_GET['id'],
 				'usr_id'=>$uid,
 			));
+			$this->success('登录成功');
+		}else {
+			$this->error('no access');
 		}
 	}
 	

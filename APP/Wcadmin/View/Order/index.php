@@ -192,7 +192,13 @@
 				<select class="form-control input-sm" name="ord_state"><option value="">请选择订单状态</option><?php foreach($orderStateOption as $key=>$val){?><?php if(isset($ord_state)&&($ord_state==$key||(is_array($ord_state)&&in_array($key,$ord_state)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
 			</div>
 			<div class="input-group col-xs-2 pull-right">
-				<select class="form-control input-sm" name="ord_mtime_between_"><option value="">选择日期</option><?php foreach($dayOption as $key=>$val){?><?php if(isset($ord_mtime_between_)&&($ord_mtime_between_==$key||(is_array($ord_mtime_between_)&&in_array($key,$ord_mtime_between_)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
+				<input class="form-control input-sm" type="date" title="选择结束日期" name="ord_mtime_lt_" placeholder="结束日期" id="ord_mtime_lt_" value="<?php if(isset($ord_mtime_lt_)) echo htmlspecialchars($ord_mtime_lt_);?>" />
+			</div>
+			<div class="input-group col-xs-2 pull-right">
+				<input class="form-control input-sm" type="date" title="选择开始日期" name="ord_mtime_egt_" placeholder="开始日期" id="ord_mtime_egt_" value="<?php if(isset($ord_mtime_egt_)) echo htmlspecialchars($ord_mtime_egt_);?>" />
+			</div>
+			<div class="input-group col-xs-2 pull-right">
+				<input class="form-control input-sm" type="number" title="请款人ID" name="ord_payee" placeholder="请款人ID" id="ord_payee" value="<?php if(isset($ord_payee)) echo htmlspecialchars($ord_payee);?>" />
 			</div>
 		</form>
 	</div>

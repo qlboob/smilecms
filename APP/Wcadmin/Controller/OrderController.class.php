@@ -5,9 +5,14 @@ namespace Wcadmin\Controller;
 use Wcadmin\Controller\DevController;
 class OrderController extends DevController{
 	
-	/*function index(){
-		var_dump($_GET);
-	}*/
+	function _before_index() {
+		if (!empty($_REQUEST['ord_mtime_gt_'])) {
+			$_REQUEST['ord_mtime_egt_']=strtotime($_REQUEST['ord_mtime_egt_']);
+		}
+		if (!empty($_REQUEST['ord_mtime_lt_'])) {
+			$_REQUEST['ord_mtime_lt_']=strtotime($_REQUEST['ord_mtime_lt_'])+3600*24;
+		}
+	}
 	
 	/**
 	 * 线下收款
