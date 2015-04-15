@@ -44,11 +44,15 @@
                         localId: id,
                         isShowProgressTips: 1,
                         success: function(uploadRes) {
-                          var serverId;
+                          var serverId, uploadData;
                           serverId = uploadRes.serverId;
-                          return $.getJSON(location.href, {
+                          uploadData = {
                             tdi_id: serverId
-                          }, function(ret) {
+                          };
+                          if (document.getElementById('washinner').checked) {
+                            uploadData.tdl_innerwash = 1;
+                          }
+                          return $.getJSON(location.href, uploadData, function(ret) {
                             alert(ret.msg);
                             if (!ret.code) {
                               return $('#upload').addClass('hide');

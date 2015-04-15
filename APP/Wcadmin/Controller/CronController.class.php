@@ -126,4 +126,84 @@ class CronController extends Controller {
 			}
 		}
 	}
+	
+	/**
+	 * 提醒洗车内
+	 */
+	function washinner() {
+		$wx = new \Com\Qinjq\Wechat\SWechat(C('wx'));
+		$wxuserM = D('Wxuser');
+		$today = strtotime('today');
+		$todoM = D('Todolist');
+		$lists = $todoM->where(array('tdl_ctime'=>$today,'apm_id'=>0))->select();
+		if (!$lists) {
+			return;
+		}
+		foreach ($lists as $v){
+			$lastWash = $todoM->where(array('car_id'=>$v['car_id'],'tdl_ctime'=>array('gt',$today)))->order('tdl_id DESC')->find();
+			if ($lastWash and 0==$lastWash['tdl_innerwash']) {
+				//TODO 上次也没有洗车内，提醒洗车内;
+				$uid = D('Car')->where("car_id={$v['car_id']}")->getField('usr_id');
+				$openId = $wxuserM->where("usr_id={$uid}")->getField('wx_id');
+				$result = $wx->sendTemplateMessage(array(
+					'template_id'=>'VLPCdrIqtXlL9iEOCDxkQ8VLTzqPPt2BJ54k85-EOiE',
+					'touser'=>$openId,
+					'url'=>'http://'.$_SERVER['HTTP_HOST'].U('Wc/Index/view',array('id'=>$v['tdl_id'])),
+					'topcolor'=>'#FF0000',
+					'data'=>array(
+						'name'=>array(
+							'value'=>'张某',
+							'color'=>'#173177'
+						),
+					),
+				));
+				
+			}
+		}
+	}
+	
+	/**
+	 * 提醒续费
+	 */
+	function rebuy() {
+		$today = strtotime('today');
+		$wx = new \Com\Qinjq\Wechat\SWechat(C('wx'));
+		$wxuserM = D('Wxuser');
+		$lists = D('Car')->where(array('car_endtime'=>$today+3600*24*3))->select();
+		if (!$lists) {
+			return;
+		}
+		foreach ($lists as $v){
+			$openId = $wxuserM->where("usr_id={$v['usr_id']}")->getField('wx_id');
+			$result = $wx->sendTemplateMessage(array(
+				'template_id'=>'VLPCdrIqtXlL9iEOCDxkQ8VLTzqPPt2BJ54k85-EOiE',
+				'touser'=>$openId,
+				'url'=>'http://'.C('HOST').U('Wc/Index/view',array('id'=>$v['tdl_id'])),
+				'topcolor'=>'#FF0000',
+				'data'=>array(
+					'name'=>array(
+						'value'=>'张某',
+						'color'=>'#173177'
+					),
+				),
+			));
+			
+		}
+	}
+	
+	function menu() {
+		$wx = new \Com\Qinjq\Wechat\SWechat(C('wx'));
+		return;
+		$data = array(
+			'button'=>array(
+				array(
+					'type'=>'view',
+					'name'=>'我要洗车',
+					'url'=>'http://'.C('HOST').U('Wc/Index/index'),
+				),
+			),
+		);
+		$wx->createMenu($data);
+		;
+	}
 }

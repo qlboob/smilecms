@@ -26,6 +26,10 @@ return array(
 	'wxpay'=>array(
 		'mchid'=>'1236124302',
 		'paykey'=>'d9804c3d60061e3ab68eb403516c3920',
+		'ip'=>'121.43.148.253',
+		'sslcert'=>'/data/cert/apiclient_cert.pem',
+		'sslkey'=>'/data/cert/apiclient_key.pem',
 	),
 	'LOG_LEVEL'=>'DEBUG',
+	'HOST'=>'w.cdwashcar.com',
 );

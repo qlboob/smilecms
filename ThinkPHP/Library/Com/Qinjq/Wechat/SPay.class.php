@@ -9,8 +9,9 @@ class SPay {
 	private $mchid;//商户号
 	private $paykey;//支付密钥
 	//证书路径
-	private $sslCert;
-	private $sslKey;
+	private $sslcert;
+	private $sslkey;
+	private $ip;
 	
 	private $curlTimeout=10;
 	
@@ -50,19 +51,29 @@ class SPay {
 		return (array)simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
 	}
 	
-	public function postXML($url,$xml) {
+	public function postXML($url,$xml,$cert=FALSE) {
 		if (is_array($xml)) {
 			$xml=$this->arrayToXml($xml);
 		}
 		$ch = curl_init($url);
-		curl_setopt_array($ch, array(
+		$curlOption = array(
 			CURLOPT_SSL_VERIFYPEER=>FALSE,
 			CURLOPT_SSL_VERIFYHOST=>FALSE,
 			CURLOPT_HEADER=>FALSE,
 			CURLOPT_RETURNTRANSFER=>TRUE,
 			CURLOPT_POST=>TRUE,
 			CURLOPT_POSTFIELDS=>$xml,
-		));
+		);
+		if ($cert) {
+			$certInfo = array(
+				CURLOPT_SSLCERTTYPE=>'PEM',
+				CURLOPT_SSLCERT=>$this->sslcert,
+				CURLOPT_SSLKEYTYPE=>'PEM',
+				CURLOPT_SSLKEY=>$this->sslkey,
+			);
+			curl_setopt_array($ch, $certInfo);
+		}
+		curl_setopt_array($ch, $curlOption);
 		$resp= curl_exec($ch);
 		$errno = curl_errno($ch);
 		if ($errno) {
@@ -90,9 +101,9 @@ class SPay {
 			}
 		}
 		$str = implode('&',$arr);
-		Log::record('str:'.$str,'DEBUG');
+		//Log::record('str:'.$str,'DEBUG');
 		$ret = strtoupper(md5($str));
-		Log::record('md5:'.$ret,'DEBUG');
+		//Log::record('md5:'.$ret,'DEBUG');
 		
 		return $ret;
 	}
@@ -188,5 +199,35 @@ class SPay {
 			return $this->xmlToArr($resp);
 		}
 		return FALSE;
+	}
+	
+	/**
+	 * 发现金红包
+	 * @param array $param
+	 * @see http://pay.weixin.qq.com/wiki/doc/api/cash_coupon.php?chapter=13_5;
+	 * @return boolean
+	 */
+	function luckmoney($param) {
+		$param = array_merge($param,array(
+			'wxappid'=>$this->appid,
+			'mch_id'=>$this->mchid,
+			'nonce_str'=>$this->generateNonceStr(),
+			'client_ip'=>$this->ip,
+		));
+		if (28!=strlen($param['mch_billno'].'')) {
+			$newBillNo = $this->mchid.date('Ymd');
+			$param['mch_billno'] = $newBillNo.str_pad($param['mch_billno'], 28-strlen($newBillNo),'0',STR_PAD_LEFT);
+		}
+		$param['sign'] = $this->sign($param);
+		$resp = $this->postXML('https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack', $param,TRUE);
+		if ($resp) {
+			$arr = $this->xmlToArr($resp);
+			if($arr && 'SUCCESS'==$arr['return_code'] && 'SUCCESS'==$arr['result_code']){
+				return TRUE;
+			}else {
+				Log::record('luckmoney failed ,return is '.var_export($arr,TRUE));
+			}
+		}
+		return false;
 	}
 }

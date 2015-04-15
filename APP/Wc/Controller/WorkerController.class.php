@@ -59,10 +59,14 @@ class WorkerController extends WcpageController {
 					'tdi_id'=>$_REQUEST['tdi_id'],
 					'tdl_id'=>$id,
 			));
-			$success2= $todoM->save(array(
-					'tdl_id'=>$id,
-					'tdl_state'=>1,
-			));
+			$washContent = array(
+				'tdl_id'=>$id,
+				'tdl_state'=>1,
+			);
+			if (empty($_REQUEST['tdl_innerwash'])) {
+				$washContent['tdl_innerwash']=1;
+			}
+			$success2= $todoM->save($washContent);
 			if (!$success or !$success2) {
 				$ret['code']=1;
 				$ret['msg']='保存失败';

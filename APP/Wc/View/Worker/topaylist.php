@@ -16,11 +16,6 @@
 	<body>
 		
 	<div class="container-fluid">
-		<form method="get">
-			<select name="vlg_id"><option value="">选择小区</option><?php foreach($vlgOption as $key=>$val){?><?php if(isset($vlg_id)&&($vlg_id==$key||(is_array($vlg_id)&&in_array($key,$vlg_id)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
-			<input name="search" placeholder="手机号/车牌号/姓名搜索" type="text" id="search" value="<?php if(isset($search)) echo htmlspecialchars($search);?>" />
-			<button class="btn btn-primary" type="submit">搜索</button>
-		</form>
 		<?php if(empty($lists)){?>
 			<p>没有待付款订单</p>
 		<?php }else{ ?>

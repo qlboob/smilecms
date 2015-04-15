@@ -44,6 +44,8 @@ block body
 					.col-xs-9 清洁车内
 		#imgshow.row.thumbnail
 		.row.text-center
+			label
+				input#washinner isset($apm_washinner)&&$apm_washinner>0checked=checked type=checkbox 清洁车内
 			button#upload.btn.btn-primary type=button 清洗完成上传照片
 			a.btn.btn-default href={:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index')} 返回
 block closure

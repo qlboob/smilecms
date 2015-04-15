@@ -84,6 +84,9 @@
 		<?php }?>
 		<div id="imgshow" class="row thumbnail"></div>
 		<div class="row text-center">
+			<label>
+				<input id="washinner" />isset($apm_washinner)&&$apm_washinner>0checked=checked type=checkbox 清洁车内
+			</label>
 			<button id="upload" class="btn btn-primary" type="button">清洗完成上传照片</button>
 			<a class="btn btn-default" href="<?php echo U(MODULE_NAME.'/'.CONTROLLER_NAME.'/index');?>">返回</a>
 		</div>

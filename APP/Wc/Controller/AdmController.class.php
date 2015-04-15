@@ -30,6 +30,7 @@ class AdmController extends Controller {
 			$wxUserInfo['wx_nick'] = $userInfo['nickname'];
 			$wxuserM->save($wxUserInfo);
 			$this->success('增加信息成功');
+			Log::record($openid);
 		}else {
 			$jumpUrl = $wx->getOauthRedirect('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],'','snsapi_userinfo');
 			header("Location: $jumpUrl");
@@ -70,5 +71,23 @@ class AdmController extends Controller {
 	}
 	function log() {
 		Log::record('hello');
+	}
+	
+	function lukemoney() {
+		$arr = array(
+			'mch_billno'=>date('His'),
+			'nick_name'=>'成都马儿来到家洗车',
+			'send_name'=>'成都马儿来到家洗车',
+			're_openid'=>'oSE0xs5Iml5aYQjbqJ9C_pkYzeMA',
+			'total_amount'=>100,
+			'min_value'=>100,
+			'max_value'=>100,
+			'total_num'=>1,
+			'wishing'=>'推荐有礼',
+			'act_name'=>'推荐有礼',
+			'remark'=>'推荐有礼',
+		);
+		$wxPay = new \Com\Qinjq\Wechat\SPay(array_merge(C('wx'),C('wxpay')));
+		echo $wxPay->luckmoney($arr);
 	}
 }
