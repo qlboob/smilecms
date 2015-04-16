@@ -165,7 +165,7 @@
 				<div class="inner">
 					<h3>￥<?php echo $sum/100;?></h3>
 					<p>总订单数<?php echo $orderCnt;?>
-						<a href="<?php echo U(MODULE_NAME.'/Order/index',array('ord_state'=>0,'ord_mtime_between_'=>$today.','.($today+24*3600)));?>">未支付<?php echo $noPayCnt;?></a></p>
+						<a href="<?php echo U(MODULE_NAME.'/Order/index',array('ord_state'=>0,'ord_mtime_gt_'=>date('Y-m-d'));?>">未支付<?php echo $noPayCnt;?></a></p>
 				</div>
 				<div class="icon">
 					<i class="ion ion-bag"></i>

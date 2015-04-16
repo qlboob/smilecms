@@ -86,6 +86,37 @@ class WorkerController extends WcpageController {
 		}
 	}
 	
+	function detail() {
+		$id = intval($_GET['id']);
+		$todoM = D('Todolist');
+		if (IS_AJAX) {
+			$ret = array('code'=>0,'msg'=>'完成');
+			$washContent = array(
+				'tdl_id'=>$id,
+				'tdl_state'=>1,
+			);
+			if (empty($_REQUEST['tdl_innerwash'])) {
+				$washContent['tdl_innerwash']=1;
+			}
+			if (!$todoM->save($washContent)) {
+				$ret['code']=1;
+				$ret['msg']='保存失败';
+			}
+			echo(json_encode($ret));
+		}elseif (IS_GET) {
+			$todoInfo = $todoM->find($id);
+			$carInfo = D('Car')->find($todoInfo['car_id']);
+			if ( $todoInfo['apm_id']>0 ) {
+				$appointInfo = D('Appointment')->find($todoInfo['apm_id']);
+				$this->assign($appointInfo);
+			}
+			$this->assign($todoInfo);
+			$this->assign($carInfo);
+// 			$this->setJsSign();
+			$this->display( );
+		}
+	}
+	
 	/**
 	 * 未付款列表
 	 */

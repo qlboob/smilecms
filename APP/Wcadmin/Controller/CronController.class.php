@@ -126,6 +126,40 @@ class CronController extends Controller {
 			}
 		}
 	}
+
+	/**
+	 * 发送洗车完成的消息（无图片）
+	 */
+	function sendWashComplete(){
+		$today = strtotime('today');
+		$lists = D('Todolist')->where("tdl_state=1 AND tdl_ctime>=$today ")->select();
+		$wx = new \Com\Qinjq\Wechat\SWechat(C('wx'));
+		$wxuserM = D('Wxuser');
+		$carM = D('Car');
+		if (!$lists) {
+			return FALSE;
+		}
+		foreach ($lists as $v){
+			$uid = $carM->where("car_id={$v['car_id']}")->getField('usr_id');
+			$openId = $wxuserM->where("usr_id={$uid}")->getField('wx_id');
+			#发送微信模板消息;
+			$result = $wx->sendTemplateMessage(array(
+				'template_id'=>'VLPCdrIqtXlL9iEOCDxkQ8VLTzqPPt2BJ54k85-EOiE',
+				'touser'=>$openId,
+				//'url'=>'http://'.C('host').U('Wc/Index/view',array('id'=>$v['tdl_id'])),
+				'topcolor'=>'#FF0000',
+				'data'=>array(
+					'name'=>array(
+						'value'=>'张某',
+						'color'=>'#173177'
+					),
+				),
+			));
+			if ($result) {
+				D('Todolist')->where('tdl_id='.$v['tdl_id'])->save(array('tdl_state'=>2));
+			}
+		}
+	}
 	
 	/**
 	 * 提醒洗车内

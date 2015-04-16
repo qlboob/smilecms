@@ -13,7 +13,7 @@ block content
 				.inner
 					h3 ￥{$sum/100}
 					p 总订单数{$orderCnt}
-						a href={:U(MODULE_NAME.'/Order/index',array('ord_state'=>0,'ord_mtime_between_'=>$today.','.($today+24*3600)))} 未支付{$noPayCnt}
+						a href={:U(MODULE_NAME.'/Order/index',array('ord_state'=>0,'ord_mtime_gt_'=>date('Y-m-d'))} 未支付{$noPayCnt}
 				.icon
 					i.ion.ion-bag
 				a.small-box-footer href={:U(MODULE_NAME.'/Order/index')} 详情

@@ -89,7 +89,7 @@
 					<div class="form-group">
 						<label class="control-label col-xs-3">停车区域</label>
 						<div class="col-xs-9">
-							<select class="form-control" name="car_location" required="required"><option value="">请选择</option><?php foreach($loctionOption as $key=>$val){?><?php if(isset($car_location)&&($car_location==$key||(is_array($car_location)&&in_array($key,$car_location)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
+							<select class="form-control" name="car_location" required="required"><?php foreach($loctionOption as $key=>$val){?><?php if(isset($car_location)&&($car_location==$key||(is_array($car_location)&&in_array($key,$car_location)))){?><option selected="selected" value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($val);?></option><?php }else{?><option value="<?php echo htmlspecialchars($key);?>"><?php echo htmlspecialchars($val);?></option><?php }?><?php }?></select>
 						</div>
 					</div>
 					<div class="form-group">

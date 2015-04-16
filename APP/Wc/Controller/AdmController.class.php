@@ -74,11 +74,12 @@ class AdmController extends Controller {
 	}
 	
 	function lukemoney() {
+		return;
 		$arr = array(
 			'mch_billno'=>date('His'),
 			'nick_name'=>'成都马儿来到家洗车',
 			'send_name'=>'成都马儿来到家洗车',
-			're_openid'=>'oSE0xs5Iml5aYQjbqJ9C_pkYzeMA',
+			're_openid'=>'oSE0xswRFQFf9V7JQ3Eff24ZQkuI',
 			'total_amount'=>100,
 			'min_value'=>100,
 			'max_value'=>100,

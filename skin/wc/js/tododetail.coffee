@@ -32,10 +32,6 @@ wx.ready ->
 											isShowProgressTips:1
 											success:(uploadRes)->
 												serverId = uploadRes.serverId
-												uploadData={tdi_id:serverId}
-												if document.getElementById('washinner').checked
-													uploadData.tdl_innerwash=1
-												$.getJSON location.href,uploadData,(ret)->
 													alert ret.msg
 													unless ret.code
 														$('#upload').addClass 'hide'

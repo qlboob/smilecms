@@ -47,7 +47,7 @@
 					<?php foreach($lists as $k=>$v){?>
 						<tr>
 							<td>
-								<a href="<?php echo U(MODULE_NAME.'/Worker/tododetail',array('id'=>$v['tdl_id']));?>"><?php echo htmlspecialchars(mb_substr($v["car_no"],2,10,'utf-8'));?></a>
+								<a href="<?php echo U(MODULE_NAME.'/Worker/detail',array('id'=>$v['tdl_id']));?>"><?php echo htmlspecialchars(mb_substr($v["car_no"],2,10,'utf-8'));?></a>
 							</td>
 							<td><?php echo htmlspecialchars($v["car_color"]);?></td>
 							<td><?php echo htmlspecialchars($v["car_model"]);?></td>
